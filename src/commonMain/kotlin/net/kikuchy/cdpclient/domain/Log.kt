@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -25,17 +26,24 @@ public val CDPClient.log: Log
 public class Log(
   private val client: CDPClient
 ) : Domain {
-  public val entryAdded: Flow<EntryAddedParameter> = client.events.filter {
-          it.method == "entryAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val entryAdded: Flow<EntryAddedParameter> = client
+          .events
+          .filter {
+              it.method == "entryAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Clears the log.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clear(): Unit {
     val parameter = null
     client.callCommand("Log.clear", parameter)
@@ -44,6 +52,7 @@ public class Log(
   /**
    * Disables log domain, prevents further log entries from being reported to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Log.disable", parameter)
@@ -53,6 +62,7 @@ public class Log(
    * Enables log domain, sends the entries collected so far to the client by means of the
    * `entryAdded` notification.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Log.enable", parameter)
@@ -61,8 +71,9 @@ public class Log(
   /**
    * start violation reporting.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startViolationsReport(args: StartViolationsReportParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Log.startViolationsReport", parameter)
   }
 
@@ -74,6 +85,7 @@ public class Log(
   /**
    * Stop violation reporting.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopViolationsReport(): Unit {
     val parameter = null
     client.callCommand("Log.stopViolationsReport", parameter)
@@ -144,7 +156,7 @@ public class Log(
   /**
    * Issued when new message was logged.
    */
-  public class EntryAddedParameter(
+  public data class EntryAddedParameter(
     /**
      * The entry.
      */

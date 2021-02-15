@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 import kotlin.collections.Map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -29,6 +30,7 @@ public class SystemInfo(
   /**
    * Returns information about the system.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getInfo(): GetInfoReturn {
     val parameter = null
     val result = client.callCommand("SystemInfo.getInfo", parameter)
@@ -38,6 +40,7 @@ public class SystemInfo(
   /**
    * Returns information about all running processes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getProcessInfo(): GetProcessInfoReturn {
     val parameter = null
     val result = client.callCommand("SystemInfo.getProcessInfo", parameter)

@@ -5,6 +5,7 @@ import kotlin.Double
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -26,28 +27,40 @@ public val CDPClient.backgroundService: BackgroundService
 public class BackgroundService(
   private val client: CDPClient
 ) : Domain {
-  public val recordingStateChanged: Flow<RecordingStateChangedParameter> = client.events.filter {
-          it.method == "recordingStateChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val recordingStateChanged: Flow<RecordingStateChangedParameter> = client
+          .events
+          .filter {
+              it.method == "recordingStateChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val backgroundServiceEventReceived: Flow<BackgroundServiceEventReceivedParameter> =
-      client.events.filter {
-          it.method == "backgroundServiceEventReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val backgroundServiceEventReceived: Flow<BackgroundServiceEventReceivedParameter> = client
+          .events
+          .filter {
+              it.method == "backgroundServiceEventReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Enables event updates for the service.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startObserving(args: StartObservingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.startObserving", parameter)
   }
 
@@ -59,8 +72,9 @@ public class BackgroundService(
   /**
    * Disables event updates for the service.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopObserving(args: StopObservingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.stopObserving", parameter)
   }
 
@@ -72,8 +86,9 @@ public class BackgroundService(
   /**
    * Set the recording state for the service.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setRecording(args: SetRecordingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.setRecording", parameter)
   }
 
@@ -85,8 +100,9 @@ public class BackgroundService(
   /**
    * Clears all stored data for the service.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearEvents(args: ClearEventsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.clearEvents", parameter)
   }
 
@@ -160,7 +176,7 @@ public class BackgroundService(
   /**
    * Called when the recording state for the service has been updated.
    */
-  public class RecordingStateChangedParameter(
+  public data class RecordingStateChangedParameter(
     public val isRecording: Boolean,
     public val service: ServiceName
   )
@@ -169,7 +185,7 @@ public class BackgroundService(
    * Called with all existing backgroundServiceEvents when enabled, and all new
    * events afterwards if enabled and recording.
    */
-  public class BackgroundServiceEventReceivedParameter(
+  public data class BackgroundServiceEventReceivedParameter(
     public val backgroundServiceEvent: BackgroundServiceEvent
   )
 

@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -27,21 +28,28 @@ public val CDPClient.audits: Audits
 public class Audits(
   private val client: CDPClient
 ) : Domain {
-  public val issueAdded: Flow<IssueAddedParameter> = client.events.filter {
-          it.method == "issueAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val issueAdded: Flow<IssueAddedParameter> = client
+          .events
+          .filter {
+              it.method == "issueAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Returns the response body and size if it were re-encoded with the specified settings. Only
    * applies to images.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getEncodedResponse(args: GetEncodedResponseParameter):
       GetEncodedResponseReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Audits.getEncodedResponse", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -60,6 +68,7 @@ public class Audits(
   /**
    * Disables issues domain, prevents further issues from being reported to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Audits.disable", parameter)
@@ -69,6 +78,7 @@ public class Audits(
    * Enables issues domain, sends the issues collected so far to the client by means of the
    * `issueAdded` event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Audits.enable", parameter)
@@ -78,6 +88,7 @@ public class Audits(
    * Runs the contrast check for the target page. Found issues are reported
    * using Audits.issueAdded event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun checkContrast(): Unit {
     val parameter = null
     client.callCommand("Audits.checkContrast", parameter)
@@ -505,7 +516,7 @@ public class Audits(
     public val details: InspectorIssueDetails
   )
 
-  public class IssueAddedParameter(
+  public data class IssueAddedParameter(
     public val issue: InspectorIssue
   )
 
@@ -522,11 +533,11 @@ public class Audits(
     /**
      * The quality of the encoding (0-1). (defaults to 1)
      */
-    public val quality: Double?,
+    public val quality: Double? = null,
     /**
      * Whether to only return the size information (defaults to false).
      */
-    public val sizeOnly: Boolean?
+    public val sizeOnly: Boolean? = null
   )
 
   @Serializable

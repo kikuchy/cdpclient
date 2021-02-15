@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -32,52 +33,83 @@ public val CDPClient.css: CSS
 public class CSS(
   private val client: CDPClient
 ) : Domain {
-  public val fontsUpdated: Flow<FontsUpdatedParameter> = client.events.filter {
-          it.method == "fontsUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val fontsUpdated: Flow<FontsUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "fontsUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val mediaQueryResultChanged: Flow<Unit> = client.events.filter {
-          it.method == "mediaQueryResultChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val mediaQueryResultChanged: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "mediaQueryResultChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val styleSheetAdded: Flow<StyleSheetAddedParameter> = client.events.filter {
-          it.method == "styleSheetAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val styleSheetAdded: Flow<StyleSheetAddedParameter> = client
+          .events
+          .filter {
+              it.method == "styleSheetAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val styleSheetChanged: Flow<StyleSheetChangedParameter> = client.events.filter {
-          it.method == "styleSheetChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val styleSheetChanged: Flow<StyleSheetChangedParameter> = client
+          .events
+          .filter {
+              it.method == "styleSheetChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val styleSheetRemoved: Flow<StyleSheetRemovedParameter> = client.events.filter {
-          it.method == "styleSheetRemoved"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val styleSheetRemoved: Flow<StyleSheetRemovedParameter> = client
+          .events
+          .filter {
+              it.method == "styleSheetRemoved"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
    * position specified by `location`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun addRule(args: AddRuleParameter): AddRuleReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.addRule", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -95,8 +127,9 @@ public class CSS(
   /**
    * Returns all class names from specified stylesheet.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun collectClassNames(args: CollectClassNamesParameter): CollectClassNamesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.collectClassNames", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -109,8 +142,9 @@ public class CSS(
   /**
    * Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun createStyleSheet(args: CreateStyleSheetParameter): CreateStyleSheetReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.createStyleSheet", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -123,6 +157,7 @@ public class CSS(
   /**
    * Disables the CSS agent for the given page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("CSS.disable", parameter)
@@ -132,6 +167,7 @@ public class CSS(
    * Enables the CSS agent for the given page. Clients should not assume that the CSS agent has been
    * enabled until the result of this command is received.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("CSS.enable", parameter)
@@ -142,8 +178,9 @@ public class CSS(
    * by
    * the browser.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun forcePseudoState(args: ForcePseudoStateParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CSS.forcePseudoState", parameter)
   }
 
@@ -153,9 +190,10 @@ public class CSS(
     forcePseudoState(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getBackgroundColors(args: GetBackgroundColorsParameter):
       GetBackgroundColorsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.getBackgroundColors", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -168,9 +206,10 @@ public class CSS(
   /**
    * Returns the computed style for a DOM node identified by `nodeId`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getComputedStyleForNode(args: GetComputedStyleForNodeParameter):
       GetComputedStyleForNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.getComputedStyleForNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -185,9 +224,10 @@ public class CSS(
    * DOM
    * attributes) for a DOM node identified by `nodeId`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getInlineStylesForNode(args: GetInlineStylesForNodeParameter):
       GetInlineStylesForNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.getInlineStylesForNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -200,9 +240,10 @@ public class CSS(
   /**
    * Returns requested styles for a DOM node identified by `nodeId`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getMatchedStylesForNode(args: GetMatchedStylesForNodeParameter):
       GetMatchedStylesForNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.getMatchedStylesForNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -215,6 +256,7 @@ public class CSS(
   /**
    * Returns all media queries parsed by the rendering engine.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getMediaQueries(): GetMediaQueriesReturn {
     val parameter = null
     val result = client.callCommand("CSS.getMediaQueries", parameter)
@@ -225,9 +267,10 @@ public class CSS(
    * Requests information about platform fonts which we used to render child TextNodes in the given
    * node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getPlatformFontsForNode(args: GetPlatformFontsForNodeParameter):
       GetPlatformFontsForNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.getPlatformFontsForNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -240,8 +283,9 @@ public class CSS(
   /**
    * Returns the current textual content for a stylesheet.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getStyleSheetText(args: GetStyleSheetTextParameter): GetStyleSheetTextReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.getStyleSheetText", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -259,8 +303,9 @@ public class CSS(
    * by the DOM agent. If no changes to the tracked properties occur after the node has been pushed
    * to the front-end, no updates will be issued for the node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun trackComputedStyleUpdates(args: TrackComputedStyleUpdatesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CSS.trackComputedStyleUpdates", parameter)
   }
 
@@ -273,6 +318,7 @@ public class CSS(
   /**
    * Polls the next batch of computed style updates.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun takeComputedStyleUpdates(): TakeComputedStyleUpdatesReturn {
     val parameter = null
     val result = client.callCommand("CSS.takeComputedStyleUpdates", parameter)
@@ -283,9 +329,10 @@ public class CSS(
    * Find a rule with the given active property for the given node and set the new value for this
    * property
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun setEffectivePropertyValueForNode(args: SetEffectivePropertyValueForNodeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CSS.setEffectivePropertyValueForNode", parameter)
   }
 
@@ -302,8 +349,9 @@ public class CSS(
   /**
    * Modifies the keyframe rule key text.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setKeyframeKey(args: SetKeyframeKeyParameter): SetKeyframeKeyReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.setKeyframeKey", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -321,8 +369,9 @@ public class CSS(
   /**
    * Modifies the rule selector.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setMediaText(args: SetMediaTextParameter): SetMediaTextReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.setMediaText", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -339,8 +388,9 @@ public class CSS(
   /**
    * Modifies the rule selector.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setRuleSelector(args: SetRuleSelectorParameter): SetRuleSelectorReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.setRuleSelector", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -358,8 +408,9 @@ public class CSS(
   /**
    * Sets the new stylesheet text.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setStyleSheetText(args: SetStyleSheetTextParameter): SetStyleSheetTextReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.setStyleSheetText", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -373,8 +424,9 @@ public class CSS(
   /**
    * Applies specified style edits one after another in the given order.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setStyleTexts(args: SetStyleTextsParameter): SetStyleTextsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CSS.setStyleTexts", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -387,6 +439,7 @@ public class CSS(
   /**
    * Enables the selector recording.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startRuleUsageTracking(): Unit {
     val parameter = null
     client.callCommand("CSS.startRuleUsageTracking", parameter)
@@ -396,6 +449,7 @@ public class CSS(
    * Stop tracking rule usage and return the list of rules that were used since last call to
    * `takeCoverageDelta` (or since start of coverage instrumentation)
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopRuleUsageTracking(): StopRuleUsageTrackingReturn {
     val parameter = null
     val result = client.callCommand("CSS.stopRuleUsageTracking", parameter)
@@ -407,6 +461,7 @@ public class CSS(
    * coverage
    * instrumentation)
    */
+  @ExperimentalCoroutinesApi
   public suspend fun takeCoverageDelta(): TakeCoverageDeltaReturn {
     val parameter = null
     val result = client.callCommand("CSS.takeCoverageDelta", parameter)
@@ -416,8 +471,9 @@ public class CSS(
   /**
    * Enables/disables rendering of local CSS fonts (enabled by default).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setLocalFontsEnabled(args: SetLocalFontsEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CSS.setLocalFontsEnabled", parameter)
   }
 
@@ -999,7 +1055,7 @@ public class CSS(
    * loaded
    * web font
    */
-  public class FontsUpdatedParameter(
+  public data class FontsUpdatedParameter(
     /**
      * The web font that has loaded.
      */
@@ -1009,7 +1065,7 @@ public class CSS(
   /**
    * Fired whenever an active document stylesheet is added.
    */
-  public class StyleSheetAddedParameter(
+  public data class StyleSheetAddedParameter(
     /**
      * Added stylesheet metainfo.
      */
@@ -1019,14 +1075,14 @@ public class CSS(
   /**
    * Fired whenever a stylesheet is changed as a result of the client operation.
    */
-  public class StyleSheetChangedParameter(
+  public data class StyleSheetChangedParameter(
     public val styleSheetId: String
   )
 
   /**
    * Fired whenever an active document stylesheet is removed.
    */
-  public class StyleSheetRemovedParameter(
+  public data class StyleSheetRemovedParameter(
     /**
      * Identifier of the removed stylesheet.
      */

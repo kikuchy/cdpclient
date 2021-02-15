@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -23,12 +24,14 @@ public val CDPClient.memory: Memory
 public class Memory(
   private val client: CDPClient
 ) : Domain {
+  @ExperimentalCoroutinesApi
   public suspend fun getDOMCounters(): GetDOMCountersReturn {
     val parameter = null
     val result = client.callCommand("Memory.getDOMCounters", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun prepareForLeakDetection(): Unit {
     val parameter = null
     client.callCommand("Memory.prepareForLeakDetection", parameter)
@@ -37,6 +40,7 @@ public class Memory(
   /**
    * Simulate OomIntervention by purging V8 memory.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun forciblyPurgeJavaScriptMemory(): Unit {
     val parameter = null
     client.callCommand("Memory.forciblyPurgeJavaScriptMemory", parameter)
@@ -45,10 +49,11 @@ public class Memory(
   /**
    * Enable/disable suppressing memory pressure notifications in all processes.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun setPressureNotificationsSuppressed(args: SetPressureNotificationsSuppressedParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Memory.setPressureNotificationsSuppressed", parameter)
   }
 
@@ -60,9 +65,10 @@ public class Memory(
   /**
    * Simulate a memory pressure notification in all processes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun simulatePressureNotification(args: SimulatePressureNotificationParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Memory.simulatePressureNotification", parameter)
   }
 
@@ -74,8 +80,9 @@ public class Memory(
   /**
    * Start collecting native memory profile.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startSampling(args: StartSamplingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Memory.startSampling", parameter)
   }
 
@@ -89,6 +96,7 @@ public class Memory(
   /**
    * Stop collecting native memory profile.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopSampling(): Unit {
     val parameter = null
     client.callCommand("Memory.stopSampling", parameter)
@@ -98,6 +106,7 @@ public class Memory(
    * Retrieve native memory allocations profile
    * collected since renderer process startup.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getAllTimeSamplingProfile(): GetAllTimeSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("Memory.getAllTimeSamplingProfile", parameter)
@@ -108,6 +117,7 @@ public class Memory(
    * Retrieve native memory allocations profile
    * collected since browser process startup.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getBrowserSamplingProfile(): GetBrowserSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("Memory.getBrowserSamplingProfile", parameter)
@@ -118,6 +128,7 @@ public class Memory(
    * Retrieve native memory allocations profile collected since last
    * `startSampling` call.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getSamplingProfile(): GetSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("Memory.getSamplingProfile", parameter)
@@ -215,11 +226,11 @@ public class Memory(
     /**
      * Average number of bytes between samples.
      */
-    public val samplingInterval: Int?,
+    public val samplingInterval: Int? = null,
     /**
      * Do not randomize intervals between samples.
      */
-    public val suppressRandomness: Boolean?
+    public val suppressRandomness: Boolean? = null
   )
 
   @Serializable

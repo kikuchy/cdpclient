@@ -5,6 +5,7 @@ import kotlin.Double
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,46 +24,68 @@ public val CDPClient.storage: Storage
 public class Storage(
   private val client: CDPClient
 ) : Domain {
-  public val cacheStorageContentUpdated: Flow<CacheStorageContentUpdatedParameter> =
-      client.events.filter {
-          it.method == "cacheStorageContentUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val cacheStorageContentUpdated: Flow<CacheStorageContentUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "cacheStorageContentUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val cacheStorageListUpdated: Flow<CacheStorageListUpdatedParameter> = client.events.filter
-      {
-          it.method == "cacheStorageListUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val cacheStorageListUpdated: Flow<CacheStorageListUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "cacheStorageListUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val indexedDBContentUpdated: Flow<IndexedDBContentUpdatedParameter> = client.events.filter
-      {
-          it.method == "indexedDBContentUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val indexedDBContentUpdated: Flow<IndexedDBContentUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "indexedDBContentUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val indexedDBListUpdated: Flow<IndexedDBListUpdatedParameter> = client.events.filter {
-          it.method == "indexedDBListUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val indexedDBListUpdated: Flow<IndexedDBListUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "indexedDBListUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Clears storage for origin.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearDataForOrigin(args: ClearDataForOriginParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.clearDataForOrigin", parameter)
   }
 
@@ -74,8 +97,9 @@ public class Storage(
   /**
    * Returns all browser cookies.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCookies(args: GetCookiesParameter): GetCookiesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Storage.getCookies", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -88,8 +112,9 @@ public class Storage(
   /**
    * Sets given cookies.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setCookies(args: SetCookiesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.setCookies", parameter)
   }
 
@@ -102,8 +127,9 @@ public class Storage(
   /**
    * Clears cookies.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearCookies(args: ClearCookiesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.clearCookies", parameter)
   }
 
@@ -115,8 +141,9 @@ public class Storage(
   /**
    * Returns usage and quota in bytes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getUsageAndQuota(args: GetUsageAndQuotaParameter): GetUsageAndQuotaReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Storage.getUsageAndQuota", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -129,8 +156,9 @@ public class Storage(
   /**
    * Override quota for the specified origin
    */
+  @ExperimentalCoroutinesApi
   public suspend fun overrideQuotaForOrigin(args: OverrideQuotaForOriginParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.overrideQuotaForOrigin", parameter)
   }
 
@@ -142,8 +170,9 @@ public class Storage(
   /**
    * Registers origin to be notified when an update occurs to its cache storage list.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun trackCacheStorageForOrigin(args: TrackCacheStorageForOriginParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.trackCacheStorageForOrigin", parameter)
   }
 
@@ -155,8 +184,9 @@ public class Storage(
   /**
    * Registers origin to be notified when an update occurs to its IndexedDB.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun trackIndexedDBForOrigin(args: TrackIndexedDBForOriginParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.trackIndexedDBForOrigin", parameter)
   }
 
@@ -168,9 +198,10 @@ public class Storage(
   /**
    * Unregisters origin from receiving notifications for cache storage.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun untrackCacheStorageForOrigin(args: UntrackCacheStorageForOriginParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.untrackCacheStorageForOrigin", parameter)
   }
 
@@ -182,8 +213,9 @@ public class Storage(
   /**
    * Unregisters origin from receiving notifications for IndexedDB.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun untrackIndexedDBForOrigin(args: UntrackIndexedDBForOriginParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.untrackIndexedDBForOrigin", parameter)
   }
 
@@ -196,6 +228,7 @@ public class Storage(
    * Returns the number of stored Trust Tokens per issuer for the
    * current browsing context.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getTrustTokens(): GetTrustTokensReturn {
     val parameter = null
     val result = client.callCommand("Storage.getTrustTokens", parameter)
@@ -259,7 +292,7 @@ public class Storage(
   /**
    * A cache's contents have been modified.
    */
-  public class CacheStorageContentUpdatedParameter(
+  public data class CacheStorageContentUpdatedParameter(
     /**
      * Origin to update.
      */
@@ -273,7 +306,7 @@ public class Storage(
   /**
    * A cache has been added/deleted.
    */
-  public class CacheStorageListUpdatedParameter(
+  public data class CacheStorageListUpdatedParameter(
     /**
      * Origin to update.
      */
@@ -283,7 +316,7 @@ public class Storage(
   /**
    * The origin's IndexedDB object store has been modified.
    */
-  public class IndexedDBContentUpdatedParameter(
+  public data class IndexedDBContentUpdatedParameter(
     /**
      * Origin to update.
      */
@@ -301,7 +334,7 @@ public class Storage(
   /**
    * The origin's IndexedDB database list has been modified.
    */
-  public class IndexedDBListUpdatedParameter(
+  public data class IndexedDBListUpdatedParameter(
     /**
      * Origin to update.
      */
@@ -325,7 +358,7 @@ public class Storage(
     /**
      * Browser context to use when called on the browser endpoint.
      */
-    public val browserContextId: String?
+    public val browserContextId: String? = null
   )
 
   @Serializable
@@ -345,7 +378,7 @@ public class Storage(
     /**
      * Browser context to use when called on the browser endpoint.
      */
-    public val browserContextId: String?
+    public val browserContextId: String? = null
   )
 
   @Serializable
@@ -353,7 +386,7 @@ public class Storage(
     /**
      * Browser context to use when called on the browser endpoint.
      */
-    public val browserContextId: String?
+    public val browserContextId: String? = null
   )
 
   @Serializable
@@ -399,7 +432,7 @@ public class Storage(
      * origins, the override will be maintained for each origin until it is
      * disabled (called without a quotaSize).
      */
-    public val quotaSize: Double?
+    public val quotaSize: Double? = null
   )
 
   @Serializable

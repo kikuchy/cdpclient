@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -26,25 +27,38 @@ public val CDPClient.fetch: Fetch
 public class Fetch(
   private val client: CDPClient
 ) : Domain {
-  public val requestPaused: Flow<RequestPausedParameter> = client.events.filter {
-          it.method == "requestPaused"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val requestPaused: Flow<RequestPausedParameter> = client
+          .events
+          .filter {
+              it.method == "requestPaused"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val authRequired: Flow<AuthRequiredParameter> = client.events.filter {
-          it.method == "authRequired"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val authRequired: Flow<AuthRequiredParameter> = client
+          .events
+          .filter {
+              it.method == "authRequired"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Disables the fetch domain.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Fetch.disable", parameter)
@@ -54,8 +68,9 @@ public class Fetch(
    * Enables issuing of requestPaused events. A request will be paused until client
    * calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(args: EnableParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Fetch.enable", parameter)
   }
 
@@ -68,8 +83,9 @@ public class Fetch(
   /**
    * Causes the request to fail with specified reason.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun failRequest(args: FailRequestParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Fetch.failRequest", parameter)
   }
 
@@ -81,8 +97,9 @@ public class Fetch(
   /**
    * Provides response to the request.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun fulfillRequest(args: FulfillRequestParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Fetch.fulfillRequest", parameter)
   }
 
@@ -103,8 +120,9 @@ public class Fetch(
   /**
    * Continues the request, optionally modifying some of its parameters.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun continueRequest(args: ContinueRequestParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Fetch.continueRequest", parameter)
   }
 
@@ -123,8 +141,9 @@ public class Fetch(
   /**
    * Continues a request supplying authChallengeResponse following authRequired event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun continueWithAuth(args: ContinueWithAuthParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Fetch.continueWithAuth", parameter)
   }
 
@@ -143,8 +162,9 @@ public class Fetch(
    * affect the request or disabling fetch domain before body is received
    * results in an undefined behavior.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getResponseBody(args: GetResponseBodyParameter): GetResponseBodyReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Fetch.getResponseBody", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -166,9 +186,10 @@ public class Fetch(
    * Calling other methods that affect the request or disabling fetch
    * domain before body is received results in an undefined behavior.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun takeResponseBodyAsStream(args: TakeResponseBodyAsStreamParameter):
       TakeResponseBodyAsStreamReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Fetch.takeResponseBodyAsStream", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -271,7 +292,7 @@ public class Fetch(
    * and responseStatusCode -- the request is at the response stage if either
    * of these fields is present and in the request stage otherwise.
    */
-  public class RequestPausedParameter(
+  public data class RequestPausedParameter(
     /**
      * Each request the page makes will have a unique id.
      */
@@ -311,7 +332,7 @@ public class Fetch(
    * Issued when the domain is enabled with handleAuthRequests set to true.
    * The request is paused until client responds with continueWithAuth.
    */
-  public class AuthRequiredParameter(
+  public data class AuthRequiredParameter(
     /**
      * Each request the page makes will have a unique id.
      */
@@ -343,12 +364,12 @@ public class Fetch(
      * fetchRequested event and will be paused until clients response. If not set,
      * all requests will be affected.
      */
-    public val patterns: List<RequestPattern>?,
+    public val patterns: List<RequestPattern>? = null,
     /**
      * If true, authRequired events will be issued and requests will be paused
      * expecting a call to continueWithAuth.
      */
-    public val handleAuthRequests: Boolean?
+    public val handleAuthRequests: Boolean? = null
   )
 
   @Serializable
@@ -376,23 +397,23 @@ public class Fetch(
     /**
      * Response headers.
      */
-    public val responseHeaders: List<HeaderEntry>?,
+    public val responseHeaders: List<HeaderEntry>? = null,
     /**
      * Alternative way of specifying response headers as a \0-separated
      * series of name: value pairs. Prefer the above method unless you
      * need to represent some non-UTF8 values that can't be transmitted
      * over the protocol as text. (Encoded as a base64 string when passed over JSON)
      */
-    public val binaryResponseHeaders: String?,
+    public val binaryResponseHeaders: String? = null,
     /**
      * A response body. (Encoded as a base64 string when passed over JSON)
      */
-    public val body: String?,
+    public val body: String? = null,
     /**
      * A textual representation of responseCode.
      * If absent, a standard phrase matching responseCode is used.
      */
-    public val responsePhrase: String?
+    public val responsePhrase: String? = null
   )
 
   @Serializable
@@ -404,20 +425,20 @@ public class Fetch(
     /**
      * If set, the request url will be modified in a way that's not observable by page.
      */
-    public val url: String?,
+    public val url: String? = null,
     /**
      * If set, the request method is overridden.
      */
-    public val method: String?,
+    public val method: String? = null,
     /**
      * If set, overrides the post data in the request. (Encoded as a base64 string when passed over
      * JSON)
      */
-    public val postData: String?,
+    public val postData: String? = null,
     /**
      * If set, overrides the request headers.
      */
-    public val headers: List<HeaderEntry>?
+    public val headers: List<HeaderEntry>? = null
   )
 
   @Serializable

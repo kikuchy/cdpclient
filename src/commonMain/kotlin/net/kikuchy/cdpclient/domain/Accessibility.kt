@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -26,6 +27,7 @@ public class Accessibility(
   /**
    * Disables the accessibility domain.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Accessibility.disable", parameter)
@@ -37,6 +39,7 @@ public class Accessibility(
    * This turns on accessibility for the page, which can impact performance until accessibility is
    * disabled.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Accessibility.enable", parameter)
@@ -45,8 +48,9 @@ public class Accessibility(
   /**
    * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getPartialAXTree(args: GetPartialAXTreeParameter): GetPartialAXTreeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.getPartialAXTree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -65,8 +69,9 @@ public class Accessibility(
   /**
    * Fetches the entire accessibility tree for the root Document
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getFullAXTree(args: GetFullAXTreeParameter): GetFullAXTreeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.getFullAXTree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -80,8 +85,9 @@ public class Accessibility(
    * Fetches a particular accessibility node by AXNodeId.
    * Requires `enable()` to have been called previously.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getChildAXNodes(args: GetChildAXNodesParameter): GetChildAXNodesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.getChildAXNodes", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -98,8 +104,9 @@ public class Accessibility(
    * node is specified, or the DOM node does not exist, the command returns an error. If neither
    * `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun queryAXTree(args: QueryAXTreeParameter): QueryAXTreeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.queryAXTree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -438,19 +445,19 @@ public class Accessibility(
     /**
      * Identifier of the node to get the partial accessibility tree for.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node to get the partial accessibility tree for.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper to get the partial accessibility tree for.
      */
-    public val objectId: String?,
+    public val objectId: String? = null,
     /**
      * Whether to fetch this nodes ancestors, siblings and children. Defaults to true.
      */
-    public val fetchRelatives: Boolean?
+    public val fetchRelatives: Boolean? = null
   )
 
   @Serializable
@@ -468,7 +475,7 @@ public class Accessibility(
      * The maximum depth at which descendants of the root node should be retrieved.
      * If omitted, the full tree is returned.
      */
-    public val max_depth: Int?
+    public val max_depth: Int? = null
   )
 
   @Serializable
@@ -491,23 +498,23 @@ public class Accessibility(
     /**
      * Identifier of the node for the root to query.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node for the root to query.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper for the root to query.
      */
-    public val objectId: String?,
+    public val objectId: String? = null,
     /**
      * Find nodes with this computed name.
      */
-    public val accessibleName: String?,
+    public val accessibleName: String? = null,
     /**
      * Find nodes with this computed role.
      */
-    public val role: String?
+    public val role: String? = null
   )
 
   @Serializable

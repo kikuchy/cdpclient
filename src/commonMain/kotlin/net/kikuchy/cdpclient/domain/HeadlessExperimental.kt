@@ -5,6 +5,7 @@ import kotlin.Double
 import kotlin.Int
 import kotlin.String
 import kotlin.Unit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -25,14 +26,19 @@ public val CDPClient.headlessExperimental: HeadlessExperimental
 public class HeadlessExperimental(
   private val client: CDPClient
 ) : Domain {
-  public val needsBeginFramesChanged: Flow<NeedsBeginFramesChangedParameter> = client.events.filter
-      {
-          it.method == "needsBeginFramesChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val needsBeginFramesChanged: Flow<NeedsBeginFramesChangedParameter> = client
+          .events
+          .filter {
+              it.method == "needsBeginFramesChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures
@@ -41,8 +47,9 @@ public class HeadlessExperimental(
    * BeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also
    * https://goo.gl/3zHXhB for more background.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun beginFrame(args: BeginFrameParameter): BeginFrameReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("HeadlessExperimental.beginFrame", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -61,6 +68,7 @@ public class HeadlessExperimental(
   /**
    * Disables headless events for the target.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("HeadlessExperimental.disable", parameter)
@@ -69,6 +77,7 @@ public class HeadlessExperimental(
   /**
    * Enables headless events for the target.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("HeadlessExperimental.enable", parameter)
@@ -94,7 +103,7 @@ public class HeadlessExperimental(
    * Deprecated. Issue beginFrame unconditionally instead and use result from
    * beginFrame to detect whether the frames were suppressed.
    */
-  public class NeedsBeginFramesChangedParameter(
+  public data class NeedsBeginFramesChangedParameter(
     /**
      * True if BeginFrames are needed, false otherwise.
      */
@@ -107,24 +116,24 @@ public class HeadlessExperimental(
      * Timestamp of this BeginFrame in Renderer TimeTicks (milliseconds of uptime). If not set,
      * the current time will be used.
      */
-    public val frameTimeTicks: Double?,
+    public val frameTimeTicks: Double? = null,
     /**
      * The interval between BeginFrames that is reported to the compositor, in milliseconds.
      * Defaults to a 60 frames/second interval, i.e. about 16.666 milliseconds.
      */
-    public val interval: Double?,
+    public val interval: Double? = null,
     /**
      * Whether updates should not be committed and drawn onto the display. False by default. If
      * true, only side effects of the BeginFrame will be run, such as layout and animations, but
      * any visual updates may not be visible on the display or in screenshots.
      */
-    public val noDisplayUpdates: Boolean?,
+    public val noDisplayUpdates: Boolean? = null,
     /**
      * If set, a screenshot of the frame will be captured and returned in the response. Otherwise,
      * no screenshot will be captured. Note that capturing a screenshot can fail, for example,
      * during renderer initialization. In such a case, no screenshot data will be returned.
      */
-    public val screenshot: ScreenshotParams?
+    public val screenshot: ScreenshotParams? = null
   )
 
   @Serializable

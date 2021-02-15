@@ -4,11 +4,13 @@ import kotlin.Double
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import net.kikuchy.cdpclient.CDPClient
@@ -23,50 +25,80 @@ public val CDPClient.media: Media
 public class Media(
   private val client: CDPClient
 ) : Domain {
-  public val playerPropertiesChanged: Flow<PlayerPropertiesChangedParameter> = client.events.filter
-      {
-          it.method == "playerPropertiesChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val playerPropertiesChanged: Flow<PlayerPropertiesChangedParameter> = client
+          .events
+          .filter {
+              it.method == "playerPropertiesChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val playerEventsAdded: Flow<PlayerEventsAddedParameter> = client.events.filter {
-          it.method == "playerEventsAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val playerEventsAdded: Flow<PlayerEventsAddedParameter> = client
+          .events
+          .filter {
+              it.method == "playerEventsAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val playerMessagesLogged: Flow<PlayerMessagesLoggedParameter> = client.events.filter {
-          it.method == "playerMessagesLogged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val playerMessagesLogged: Flow<PlayerMessagesLoggedParameter> = client
+          .events
+          .filter {
+              it.method == "playerMessagesLogged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val playerErrorsRaised: Flow<PlayerErrorsRaisedParameter> = client.events.filter {
-          it.method == "playerErrorsRaised"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val playerErrorsRaised: Flow<PlayerErrorsRaisedParameter> = client
+          .events
+          .filter {
+              it.method == "playerErrorsRaised"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val playersCreated: Flow<PlayersCreatedParameter> = client.events.filter {
-          it.method == "playersCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val playersCreated: Flow<PlayersCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "playersCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Enables the Media domain
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Media.enable", parameter)
@@ -75,6 +107,7 @@ public class Media(
   /**
    * Disables the Media domain.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Media.disable", parameter)
@@ -139,7 +172,7 @@ public class Media(
    * This can be called multiple times, and can be used to set / override /
    * remove player properties. A null propValue indicates removal.
    */
-  public class PlayerPropertiesChangedParameter(
+  public data class PlayerPropertiesChangedParameter(
     public val playerId: String,
     public val properties: List<PlayerProperty>
   )
@@ -148,7 +181,7 @@ public class Media(
    * Send events as a list, allowing them to be batched on the browser for less
    * congestion. If batched, events must ALWAYS be in chronological order.
    */
-  public class PlayerEventsAddedParameter(
+  public data class PlayerEventsAddedParameter(
     public val playerId: String,
     public val events: List<PlayerEvent>
   )
@@ -156,7 +189,7 @@ public class Media(
   /**
    * Send a list of any messages that need to be delivered.
    */
-  public class PlayerMessagesLoggedParameter(
+  public data class PlayerMessagesLoggedParameter(
     public val playerId: String,
     public val messages: List<PlayerMessage>
   )
@@ -164,7 +197,7 @@ public class Media(
   /**
    * Send a list of any errors that need to be delivered.
    */
-  public class PlayerErrorsRaisedParameter(
+  public data class PlayerErrorsRaisedParameter(
     public val playerId: String,
     public val errors: List<PlayerError>
   )
@@ -174,7 +207,7 @@ public class Media(
    * a list of active players. If an agent is restored, it will recieve the full
    * list of player ids and all events again.
    */
-  public class PlayersCreatedParameter(
+  public data class PlayersCreatedParameter(
     public val players: List<String>
   )
 }

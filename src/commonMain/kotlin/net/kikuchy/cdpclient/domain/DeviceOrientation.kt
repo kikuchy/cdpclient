@@ -2,6 +2,7 @@ package net.kikuchy.cdpclient.domain
 
 import kotlin.Double
 import kotlin.Unit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -21,6 +22,7 @@ public class DeviceOrientation(
   /**
    * Clears the overridden Device Orientation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearDeviceOrientationOverride(): Unit {
     val parameter = null
     client.callCommand("DeviceOrientation.clearDeviceOrientationOverride", parameter)
@@ -29,9 +31,10 @@ public class DeviceOrientation(
   /**
    * Overrides the Device Orientation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDeviceOrientationOverride(args: SetDeviceOrientationOverrideParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DeviceOrientation.setDeviceOrientationOverride", parameter)
   }
 

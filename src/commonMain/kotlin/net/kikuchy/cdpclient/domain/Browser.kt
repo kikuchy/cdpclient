@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -28,8 +29,9 @@ public class Browser(
   /**
    * Set permission settings for given origin.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setPermission(args: SetPermissionParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.setPermission", parameter)
   }
 
@@ -47,8 +49,9 @@ public class Browser(
   /**
    * Grant specific permissions to the given origin and reject all others.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun grantPermissions(args: GrantPermissionsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.grantPermissions", parameter)
   }
 
@@ -65,8 +68,9 @@ public class Browser(
   /**
    * Reset all permission management for all origins.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resetPermissions(args: ResetPermissionsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.resetPermissions", parameter)
   }
 
@@ -78,8 +82,9 @@ public class Browser(
   /**
    * Set the behavior when downloading a file.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDownloadBehavior(args: SetDownloadBehaviorParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.setDownloadBehavior", parameter)
   }
 
@@ -96,6 +101,7 @@ public class Browser(
   /**
    * Close browser gracefully.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun close(): Unit {
     val parameter = null
     client.callCommand("Browser.close", parameter)
@@ -104,6 +110,7 @@ public class Browser(
   /**
    * Crashes browser on the main thread.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun crash(): Unit {
     val parameter = null
     client.callCommand("Browser.crash", parameter)
@@ -112,6 +119,7 @@ public class Browser(
   /**
    * Crashes GPU process.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun crashGpuProcess(): Unit {
     val parameter = null
     client.callCommand("Browser.crashGpuProcess", parameter)
@@ -120,6 +128,7 @@ public class Browser(
   /**
    * Returns version information.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getVersion(): GetVersionReturn {
     val parameter = null
     val result = client.callCommand("Browser.getVersion", parameter)
@@ -130,6 +139,7 @@ public class Browser(
    * Returns the command line switches for the browser process if, and only if
    * --enable-automation is on the commandline.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getBrowserCommandLine(): GetBrowserCommandLineReturn {
     val parameter = null
     val result = client.callCommand("Browser.getBrowserCommandLine", parameter)
@@ -139,8 +149,9 @@ public class Browser(
   /**
    * Get Chrome histograms.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getHistograms(args: GetHistogramsParameter): GetHistogramsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Browser.getHistograms", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -154,8 +165,9 @@ public class Browser(
   /**
    * Get a Chrome histogram by name.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getHistogram(args: GetHistogramParameter): GetHistogramReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Browser.getHistogram", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -168,8 +180,9 @@ public class Browser(
   /**
    * Get position and size of the browser window.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getWindowBounds(args: GetWindowBoundsParameter): GetWindowBoundsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Browser.getWindowBounds", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -182,9 +195,10 @@ public class Browser(
   /**
    * Get the browser window that contains the devtools target.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getWindowForTarget(args: GetWindowForTargetParameter):
       GetWindowForTargetReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Browser.getWindowForTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -197,8 +211,9 @@ public class Browser(
   /**
    * Set position and/or size of the browser window.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setWindowBounds(args: SetWindowBoundsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.setWindowBounds", parameter)
   }
 
@@ -210,8 +225,9 @@ public class Browser(
   /**
    * Set dock tile details, platform-specific.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDockTile(args: SetDockTileParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.setDockTile", parameter)
   }
 
@@ -223,8 +239,9 @@ public class Browser(
   /**
    * Invoke custom browser commands used by telemetry.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun executeBrowserCommand(args: ExecuteBrowserCommandParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Browser.executeBrowserCommand", parameter)
   }
 
@@ -433,11 +450,11 @@ public class Browser(
     /**
      * Origin the permission applies to, all origins if not specified.
      */
-    public val origin: String?,
+    public val origin: String? = null,
     /**
      * Context to override. When omitted, default browser context is used.
      */
-    public val browserContextId: String?
+    public val browserContextId: String? = null
   )
 
   @Serializable
@@ -446,11 +463,11 @@ public class Browser(
     /**
      * Origin the permission applies to, all origins if not specified.
      */
-    public val origin: String?,
+    public val origin: String? = null,
     /**
      * BrowserContext to override permissions. When omitted, default browser context is used.
      */
-    public val browserContextId: String?
+    public val browserContextId: String? = null
   )
 
   @Serializable
@@ -458,7 +475,7 @@ public class Browser(
     /**
      * BrowserContext to reset permissions. When omitted, default browser context is used.
      */
-    public val browserContextId: String?
+    public val browserContextId: String? = null
   )
 
   @Serializable
@@ -472,12 +489,12 @@ public class Browser(
     /**
      * BrowserContext to set download behavior. When omitted, default browser context is used.
      */
-    public val browserContextId: String?,
+    public val browserContextId: String? = null,
     /**
      * The default path to save downloaded files to. This is requred if behavior is set to 'allow'
      * or 'allowAndName'.
      */
-    public val downloadPath: String?
+    public val downloadPath: String? = null
   )
 
   @Serializable
@@ -519,11 +536,11 @@ public class Browser(
      * substring in their name are extracted. An empty or absent query returns
      * all histograms.
      */
-    public val query: String?,
+    public val query: String? = null,
     /**
      * If true, retrieve delta since last call.
      */
-    public val delta: Boolean?
+    public val delta: Boolean? = null
   )
 
   @Serializable
@@ -543,7 +560,7 @@ public class Browser(
     /**
      * If true, retrieve delta since last call.
      */
-    public val delta: Boolean?
+    public val delta: Boolean? = null
   )
 
   @Serializable
@@ -576,7 +593,7 @@ public class Browser(
     /**
      * Devtools agent host id. If called as a part of the session, associated targetId is used.
      */
-    public val targetId: String?
+    public val targetId: String? = null
   )
 
   @Serializable
@@ -607,11 +624,11 @@ public class Browser(
 
   @Serializable
   public data class SetDockTileParameter(
-    public val badgeLabel: String?,
+    public val badgeLabel: String? = null,
     /**
      * Png encoded image. (Encoded as a base64 string when passed over JSON)
      */
-    public val image: String?
+    public val image: String? = null
   )
 
   @Serializable

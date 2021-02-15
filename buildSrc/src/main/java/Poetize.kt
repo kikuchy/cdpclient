@@ -10,6 +10,7 @@ val JSON = ClassName("kotlinx.serialization.json", "Json")
 val SERIALIZABLE = ClassName("kotlinx.serialization", "Serializable")
 val SERIALNAME = ClassName("kotlinx.serialization", "SerialName")
 val JSONELEMENT = ClassName("kotlinx.serialization.json", "JsonElement")
+val EXPERIMENTAL_COROUTINE_API = ClassName("kotlinx.coroutines", "ExperimentalCoroutinesApi")
 
 fun Domain.generateClassFile(domains: List<Domain>): FileSpec {
     val domainClass = TypeSpec.classBuilder(domain).apply {
@@ -205,15 +206,21 @@ fun Domain.TypeOrReference.resolveType(parentDomain: Domain, domains: List<Domai
 
 fun Domain.Event.generateEventChanel(parentDomain: Domain, domains: List<Domain>): PropertySpec {
     return PropertySpec.builder(name, FLOW.parameterizedBy(parameterTypeName))
+        .addAnnotation(EXPERIMENTAL_COROUTINE_API)
         .initializer("""
-            client.events.filter {
-                it.method == %S
-            }.map {
-                it.params
-            }.filterNotNull().map {
-                Json.decodeFromJsonElement(it)
-            }
-        """.trimIndent(), name)
+            client
+                .events
+                .filter {
+                    it.method == %S
+                }
+                .map {
+                    it.params
+                }
+                .filterNotNull()
+                .map {
+                    %T.decodeFromJsonElement(it)
+                }
+        """.trimIndent(), name, JSON)
         .build()
 }
 
@@ -221,6 +228,7 @@ fun Domain.Event.generateEventParameter(parentDomain: Domain, domains: List<Doma
     return if (parameters.isNotEmpty()) {
         TypeSpec.classBuilder(parameterRawTypeName).apply {
             description?.let { addKdoc(it) }
+            addModifiers(KModifier.DATA)
             primaryConstructor(FunSpec.constructorBuilder().apply {
                 this@generateEventParameter.parameters.forEach {
                     addParameter(ParameterSpec.builder(it.name, it.resolveType(parentDomain, domains))
@@ -258,6 +266,7 @@ val Domain.Event.parameterTypeName: TypeName
 
 fun Domain.Command.generateMethod(parentDomain: Domain, domains: List<Domain>): FunSpec {
     return FunSpec.builder(name)
+        .addAnnotation(EXPERIMENTAL_COROUTINE_API)
         .addModifiers(KModifier.SUSPEND).apply {
             description?.let { addKdoc(it) }
             if (deprecated) {
@@ -287,7 +296,7 @@ fun Domain.Command.generateMethod(parentDomain: Domain, domains: List<Domain>): 
                 if (this@generateMethod.parameters.isEmpty()) {
                     addStatement("val parameter = null")
                 } else {
-                    addStatement("val parameter = %T.encodeToJsonElement(args)", JSON)
+                    addStatement("val parameter = %T { encodeDefaults = false }.encodeToJsonElement(args)", JSON)
                 }
                 if (this@generateMethod.returns.isEmpty()) {
                     addStatement("client.callCommand(\"${parentDomain.domain}.$name\", parameter)")
@@ -354,7 +363,13 @@ fun Domain.Command.generateParameterClass(parentDomain: Domain, domains: List<Do
             .primaryConstructor(FunSpec.constructorBuilder()
                 .apply {
                     this@generateParameterClass.parameters.forEach {
-                        addParameter(it.name, it.resolveType(parentDomain, domains))
+                        addParameter(ParameterSpec.builder(it.name, it.resolveType(parentDomain, domains))
+                            .apply {
+                                if (it.optional) {
+                                    defaultValue("null")
+                                }
+                            }
+                            .build())
                     }
                 }
                 .build())

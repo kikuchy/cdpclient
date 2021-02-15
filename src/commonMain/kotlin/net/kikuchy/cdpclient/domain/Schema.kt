@@ -2,6 +2,7 @@ package net.kikuchy.cdpclient.domain
 
 import kotlin.String
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -24,6 +25,7 @@ public class Schema(
   /**
    * Returns supported domains.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getDomains(): GetDomainsReturn {
     val parameter = null
     val result = client.callCommand("Schema.getDomains", parameter)

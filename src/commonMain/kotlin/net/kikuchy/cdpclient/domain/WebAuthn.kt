@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -30,6 +31,7 @@ public class WebAuthn(
    * Enable the WebAuthn domain and start intercepting credential storage and
    * retrieval with a virtual authenticator.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("WebAuthn.enable", parameter)
@@ -38,6 +40,7 @@ public class WebAuthn(
   /**
    * Disable the WebAuthn domain.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("WebAuthn.disable", parameter)
@@ -46,9 +49,10 @@ public class WebAuthn(
   /**
    * Creates and adds a virtual authenticator.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun addVirtualAuthenticator(args: AddVirtualAuthenticatorParameter):
       AddVirtualAuthenticatorReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("WebAuthn.addVirtualAuthenticator", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -62,8 +66,9 @@ public class WebAuthn(
   /**
    * Removes the given authenticator.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeVirtualAuthenticator(args: RemoveVirtualAuthenticatorParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("WebAuthn.removeVirtualAuthenticator", parameter)
   }
 
@@ -75,8 +80,9 @@ public class WebAuthn(
   /**
    * Adds the credential to the specified authenticator.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun addCredential(args: AddCredentialParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("WebAuthn.addCredential", parameter)
   }
 
@@ -90,8 +96,9 @@ public class WebAuthn(
    * Returns a single credential stored in the given virtual authenticator that
    * matches the credential ID.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCredential(args: GetCredentialParameter): GetCredentialReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("WebAuthn.getCredential", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -106,8 +113,9 @@ public class WebAuthn(
   /**
    * Returns all the credentials stored in the given virtual authenticator.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCredentials(args: GetCredentialsParameter): GetCredentialsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("WebAuthn.getCredentials", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -120,8 +128,9 @@ public class WebAuthn(
   /**
    * Removes a credential from the authenticator.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeCredential(args: RemoveCredentialParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("WebAuthn.removeCredential", parameter)
   }
 
@@ -134,8 +143,9 @@ public class WebAuthn(
   /**
    * Clears all the credentials from the specified device.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearCredentials(args: ClearCredentialsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("WebAuthn.clearCredentials", parameter)
   }
 
@@ -148,8 +158,9 @@ public class WebAuthn(
    * Sets whether User Verification succeeds or fails for an authenticator.
    * The default is true.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setUserVerified(args: SetUserVerifiedParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("WebAuthn.setUserVerified", parameter)
   }
 
@@ -164,9 +175,10 @@ public class WebAuthn(
    * false) for an authenticator.
    * The default is true.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAutomaticPresenceSimulation(args: SetAutomaticPresenceSimulationParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("WebAuthn.setAutomaticPresenceSimulation", parameter)
   }
 

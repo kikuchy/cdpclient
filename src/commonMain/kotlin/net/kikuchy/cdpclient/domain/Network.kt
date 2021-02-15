@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -29,201 +30,335 @@ public val CDPClient.network: Network
 public class Network(
   private val client: CDPClient
 ) : Domain {
-  public val dataReceived: Flow<DataReceivedParameter> = client.events.filter {
-          it.method == "dataReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val dataReceived: Flow<DataReceivedParameter> = client
+          .events
+          .filter {
+              it.method == "dataReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val eventSourceMessageReceived: Flow<EventSourceMessageReceivedParameter> =
-      client.events.filter {
-          it.method == "eventSourceMessageReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val eventSourceMessageReceived: Flow<EventSourceMessageReceivedParameter> = client
+          .events
+          .filter {
+              it.method == "eventSourceMessageReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val loadingFailed: Flow<LoadingFailedParameter> = client.events.filter {
-          it.method == "loadingFailed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val loadingFailed: Flow<LoadingFailedParameter> = client
+          .events
+          .filter {
+              it.method == "loadingFailed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val loadingFinished: Flow<LoadingFinishedParameter> = client.events.filter {
-          it.method == "loadingFinished"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val loadingFinished: Flow<LoadingFinishedParameter> = client
+          .events
+          .filter {
+              it.method == "loadingFinished"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val requestIntercepted: Flow<RequestInterceptedParameter> = client.events.filter {
-          it.method == "requestIntercepted"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val requestIntercepted: Flow<RequestInterceptedParameter> = client
+          .events
+          .filter {
+              it.method == "requestIntercepted"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val requestServedFromCache: Flow<RequestServedFromCacheParameter> = client.events.filter {
-          it.method == "requestServedFromCache"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val requestServedFromCache: Flow<RequestServedFromCacheParameter> = client
+          .events
+          .filter {
+              it.method == "requestServedFromCache"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val requestWillBeSent: Flow<RequestWillBeSentParameter> = client.events.filter {
-          it.method == "requestWillBeSent"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val requestWillBeSent: Flow<RequestWillBeSentParameter> = client
+          .events
+          .filter {
+              it.method == "requestWillBeSent"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val resourceChangedPriority: Flow<ResourceChangedPriorityParameter> = client.events.filter
-      {
-          it.method == "resourceChangedPriority"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val resourceChangedPriority: Flow<ResourceChangedPriorityParameter> = client
+          .events
+          .filter {
+              it.method == "resourceChangedPriority"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val signedExchangeReceived: Flow<SignedExchangeReceivedParameter> = client.events.filter {
-          it.method == "signedExchangeReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val signedExchangeReceived: Flow<SignedExchangeReceivedParameter> = client
+          .events
+          .filter {
+              it.method == "signedExchangeReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val responseReceived: Flow<ResponseReceivedParameter> = client.events.filter {
-          it.method == "responseReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val responseReceived: Flow<ResponseReceivedParameter> = client
+          .events
+          .filter {
+              it.method == "responseReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webSocketClosed: Flow<WebSocketClosedParameter> = client.events.filter {
-          it.method == "webSocketClosed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webSocketClosed: Flow<WebSocketClosedParameter> = client
+          .events
+          .filter {
+              it.method == "webSocketClosed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webSocketCreated: Flow<WebSocketCreatedParameter> = client.events.filter {
-          it.method == "webSocketCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webSocketCreated: Flow<WebSocketCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "webSocketCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webSocketFrameError: Flow<WebSocketFrameErrorParameter> = client.events.filter {
-          it.method == "webSocketFrameError"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webSocketFrameError: Flow<WebSocketFrameErrorParameter> = client
+          .events
+          .filter {
+              it.method == "webSocketFrameError"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webSocketFrameReceived: Flow<WebSocketFrameReceivedParameter> = client.events.filter {
-          it.method == "webSocketFrameReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webSocketFrameReceived: Flow<WebSocketFrameReceivedParameter> = client
+          .events
+          .filter {
+              it.method == "webSocketFrameReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webSocketFrameSent: Flow<WebSocketFrameSentParameter> = client.events.filter {
-          it.method == "webSocketFrameSent"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webSocketFrameSent: Flow<WebSocketFrameSentParameter> = client
+          .events
+          .filter {
+              it.method == "webSocketFrameSent"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public val webSocketHandshakeResponseReceived: Flow<WebSocketHandshakeResponseReceivedParameter> =
-      client.events.filter {
-          it.method == "webSocketHandshakeResponseReceived"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+      client
+          .events
+          .filter {
+              it.method == "webSocketHandshakeResponseReceived"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public val webSocketWillSendHandshakeRequest: Flow<WebSocketWillSendHandshakeRequestParameter> =
-      client.events.filter {
-          it.method == "webSocketWillSendHandshakeRequest"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+      client
+          .events
+          .filter {
+              it.method == "webSocketWillSendHandshakeRequest"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webTransportCreated: Flow<WebTransportCreatedParameter> = client.events.filter {
-          it.method == "webTransportCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webTransportCreated: Flow<WebTransportCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "webTransportCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public val webTransportConnectionEstablished: Flow<WebTransportConnectionEstablishedParameter> =
-      client.events.filter {
-          it.method == "webTransportConnectionEstablished"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+      client
+          .events
+          .filter {
+              it.method == "webTransportConnectionEstablished"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val webTransportClosed: Flow<WebTransportClosedParameter> = client.events.filter {
-          it.method == "webTransportClosed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val webTransportClosed: Flow<WebTransportClosedParameter> = client
+          .events
+          .filter {
+              it.method == "webTransportClosed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val requestWillBeSentExtraInfo: Flow<RequestWillBeSentExtraInfoParameter> =
-      client.events.filter {
-          it.method == "requestWillBeSentExtraInfo"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val requestWillBeSentExtraInfo: Flow<RequestWillBeSentExtraInfoParameter> = client
+          .events
+          .filter {
+              it.method == "requestWillBeSentExtraInfo"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val responseReceivedExtraInfo: Flow<ResponseReceivedExtraInfoParameter> =
-      client.events.filter {
-          it.method == "responseReceivedExtraInfo"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val responseReceivedExtraInfo: Flow<ResponseReceivedExtraInfoParameter> = client
+          .events
+          .filter {
+              it.method == "responseReceivedExtraInfo"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val trustTokenOperationDone: Flow<TrustTokenOperationDoneParameter> = client.events.filter
-      {
-          it.method == "trustTokenOperationDone"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val trustTokenOperationDone: Flow<TrustTokenOperationDoneParameter> = client
+          .events
+          .filter {
+              it.method == "trustTokenOperationDone"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Tells whether clearing browser cache is supported.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun canClearBrowserCache(): CanClearBrowserCacheReturn {
     val parameter = null
@@ -234,6 +369,7 @@ public class Network(
   /**
    * Tells whether clearing browser cookies is supported.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun canClearBrowserCookies(): CanClearBrowserCookiesReturn {
     val parameter = null
@@ -244,6 +380,7 @@ public class Network(
   /**
    * Tells whether emulation of network conditions is supported.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun canEmulateNetworkConditions(): CanEmulateNetworkConditionsReturn {
     val parameter = null
@@ -254,6 +391,7 @@ public class Network(
   /**
    * Clears browser cache.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearBrowserCache(): Unit {
     val parameter = null
     client.callCommand("Network.clearBrowserCache", parameter)
@@ -262,6 +400,7 @@ public class Network(
   /**
    * Clears browser cookies.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearBrowserCookies(): Unit {
     val parameter = null
     client.callCommand("Network.clearBrowserCookies", parameter)
@@ -274,9 +413,10 @@ public class Network(
    * event will be sent with the same InterceptionId.
    * Deprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun continueInterceptedRequest(args: ContinueInterceptedRequestParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.continueInterceptedRequest", parameter)
   }
 
@@ -299,8 +439,9 @@ public class Network(
   /**
    * Deletes browser cookies with matching name and url or domain/path pair.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun deleteCookies(args: DeleteCookiesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.deleteCookies", parameter)
   }
 
@@ -317,6 +458,7 @@ public class Network(
   /**
    * Disables network tracking, prevents network events from being sent to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Network.disable", parameter)
@@ -325,8 +467,9 @@ public class Network(
   /**
    * Activates emulation of network conditions.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun emulateNetworkConditions(args: EmulateNetworkConditionsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.emulateNetworkConditions", parameter)
   }
 
@@ -346,8 +489,9 @@ public class Network(
   /**
    * Enables network tracking, network events will now be delivered to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(args: EnableParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.enable", parameter)
   }
 
@@ -365,6 +509,7 @@ public class Network(
    * Returns all browser cookies. Depending on the backend support, will return detailed cookie
    * information in the `cookies` field.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getAllCookies(): GetAllCookiesReturn {
     val parameter = null
     val result = client.callCommand("Network.getAllCookies", parameter)
@@ -374,8 +519,9 @@ public class Network(
   /**
    * Returns the DER-encoded certificate.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCertificate(args: GetCertificateParameter): GetCertificateReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.getCertificate", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -389,8 +535,9 @@ public class Network(
    * Returns all browser cookies for the current URL. Depending on the backend support, will return
    * detailed cookie information in the `cookies` field.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCookies(args: GetCookiesParameter): GetCookiesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.getCookies", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -403,8 +550,9 @@ public class Network(
   /**
    * Returns content served for the given request.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getResponseBody(args: GetResponseBodyParameter): GetResponseBodyReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.getResponseBody", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -418,9 +566,10 @@ public class Network(
    * Returns post data sent with the request. Returns an error when no data was sent with the
    * request.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getRequestPostData(args: GetRequestPostDataParameter):
       GetRequestPostDataReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.getRequestPostData", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -433,9 +582,10 @@ public class Network(
   /**
    * Returns content served for the given currently intercepted request.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getResponseBodyForInterception(args: GetResponseBodyForInterceptionParameter):
       GetResponseBodyForInterceptionReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.getResponseBodyForInterception", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -452,10 +602,11 @@ public class Network(
    * the response body. The stream only supports sequential read, IO.read will fail if the position
    * is specified.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun takeResponseBodyForInterceptionAsStream(args: TakeResponseBodyForInterceptionAsStreamParameter):
       TakeResponseBodyForInterceptionAsStreamReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.takeResponseBodyForInterceptionAsStream", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -473,8 +624,9 @@ public class Network(
    * withCredentials
    * attribute, user, password.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun replayXHR(args: ReplayXHRParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.replayXHR", parameter)
   }
 
@@ -486,9 +638,10 @@ public class Network(
   /**
    * Searches for given string in response content.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun searchInResponseBody(args: SearchInResponseBodyParameter):
       SearchInResponseBodyReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.searchInResponseBody", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -507,8 +660,9 @@ public class Network(
   /**
    * Blocks URLs from loading.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBlockedURLs(args: SetBlockedURLsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setBlockedURLs", parameter)
   }
 
@@ -520,8 +674,9 @@ public class Network(
   /**
    * Toggles ignoring of service worker for each request.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBypassServiceWorker(args: SetBypassServiceWorkerParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setBypassServiceWorker", parameter)
   }
 
@@ -533,8 +688,9 @@ public class Network(
   /**
    * Toggles ignoring cache for each request. If `true`, cache will not be used.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setCacheDisabled(args: SetCacheDisabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setCacheDisabled", parameter)
   }
 
@@ -546,8 +702,9 @@ public class Network(
   /**
    * Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setCookie(args: SetCookieParameter): SetCookieReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.setCookie", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -573,8 +730,9 @@ public class Network(
   /**
    * Sets given cookies.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setCookies(args: SetCookiesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setCookies", parameter)
   }
 
@@ -586,8 +744,9 @@ public class Network(
   /**
    * For testing.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDataSizeLimitsForTest(args: SetDataSizeLimitsForTestParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setDataSizeLimitsForTest", parameter)
   }
 
@@ -600,8 +759,9 @@ public class Network(
   /**
    * Specifies whether to always send extra HTTP headers with the requests from this page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setExtraHTTPHeaders(args: SetExtraHTTPHeadersParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setExtraHTTPHeaders", parameter)
   }
 
@@ -613,8 +773,9 @@ public class Network(
   /**
    * Specifies whether to attach a page script stack id in requests
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAttachDebugStack(args: SetAttachDebugStackParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setAttachDebugStack", parameter)
   }
 
@@ -627,9 +788,10 @@ public class Network(
    * Sets the requests to intercept that match the provided patterns and optionally resource types.
    * Deprecated, please use Fetch.enable instead.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setRequestInterception(args: SetRequestInterceptionParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setRequestInterception", parameter)
   }
 
@@ -641,8 +803,9 @@ public class Network(
   /**
    * Allows overriding user agent with the given string.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setUserAgentOverride(args: SetUserAgentOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Network.setUserAgentOverride", parameter)
   }
 
@@ -660,9 +823,10 @@ public class Network(
   /**
    * Returns information about the COEP/COOP isolation status.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getSecurityIsolationStatus(args: GetSecurityIsolationStatusParameter):
       GetSecurityIsolationStatusReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.getSecurityIsolationStatus", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -676,9 +840,10 @@ public class Network(
   /**
    * Fetches the resource and returns the content.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun loadNetworkResource(args: LoadNetworkResourceParameter):
       LoadNetworkResourceReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Network.loadNetworkResource", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -1992,7 +2157,7 @@ public class Network(
   /**
    * Fired when data chunk was received over the network.
    */
-  public class DataReceivedParameter(
+  public data class DataReceivedParameter(
     /**
      * Request identifier.
      */
@@ -2014,7 +2179,7 @@ public class Network(
   /**
    * Fired when EventSource message is received.
    */
-  public class EventSourceMessageReceivedParameter(
+  public data class EventSourceMessageReceivedParameter(
     /**
      * Request identifier.
      */
@@ -2040,7 +2205,7 @@ public class Network(
   /**
    * Fired when HTTP request has failed to load.
    */
-  public class LoadingFailedParameter(
+  public data class LoadingFailedParameter(
     /**
      * Request identifier.
      */
@@ -2074,7 +2239,7 @@ public class Network(
   /**
    * Fired when HTTP request has finished loading.
    */
-  public class LoadingFinishedParameter(
+  public data class LoadingFinishedParameter(
     /**
      * Request identifier.
      */
@@ -2099,7 +2264,7 @@ public class Network(
    * mocked.
    * Deprecated, use Fetch.requestPaused instead.
    */
-  public class RequestInterceptedParameter(
+  public data class RequestInterceptedParameter(
     /**
      * Each request the page makes will have a unique id, however if any redirects are encountered
      * while processing that fetch, they will be reported with the same id as the original fetch.
@@ -2158,7 +2323,7 @@ public class Network(
   /**
    * Fired if request ended up loading from cache.
    */
-  public class RequestServedFromCacheParameter(
+  public data class RequestServedFromCacheParameter(
     /**
      * Request identifier.
      */
@@ -2168,7 +2333,7 @@ public class Network(
   /**
    * Fired when page is about to send HTTP request.
    */
-  public class RequestWillBeSentParameter(
+  public data class RequestWillBeSentParameter(
     /**
      * Request identifier.
      */
@@ -2218,7 +2383,7 @@ public class Network(
   /**
    * Fired when resource loading priority is changed
    */
-  public class ResourceChangedPriorityParameter(
+  public data class ResourceChangedPriorityParameter(
     /**
      * Request identifier.
      */
@@ -2236,7 +2401,7 @@ public class Network(
   /**
    * Fired when a signed exchange was received over the network
    */
-  public class SignedExchangeReceivedParameter(
+  public data class SignedExchangeReceivedParameter(
     /**
      * Request identifier.
      */
@@ -2250,7 +2415,7 @@ public class Network(
   /**
    * Fired when HTTP response is available.
    */
-  public class ResponseReceivedParameter(
+  public data class ResponseReceivedParameter(
     /**
      * Request identifier.
      */
@@ -2280,7 +2445,7 @@ public class Network(
   /**
    * Fired when WebSocket is closed.
    */
-  public class WebSocketClosedParameter(
+  public data class WebSocketClosedParameter(
     /**
      * Request identifier.
      */
@@ -2294,7 +2459,7 @@ public class Network(
   /**
    * Fired upon WebSocket creation.
    */
-  public class WebSocketCreatedParameter(
+  public data class WebSocketCreatedParameter(
     /**
      * Request identifier.
      */
@@ -2312,7 +2477,7 @@ public class Network(
   /**
    * Fired when WebSocket message error occurs.
    */
-  public class WebSocketFrameErrorParameter(
+  public data class WebSocketFrameErrorParameter(
     /**
      * Request identifier.
      */
@@ -2330,7 +2495,7 @@ public class Network(
   /**
    * Fired when WebSocket message is received.
    */
-  public class WebSocketFrameReceivedParameter(
+  public data class WebSocketFrameReceivedParameter(
     /**
      * Request identifier.
      */
@@ -2348,7 +2513,7 @@ public class Network(
   /**
    * Fired when WebSocket message is sent.
    */
-  public class WebSocketFrameSentParameter(
+  public data class WebSocketFrameSentParameter(
     /**
      * Request identifier.
      */
@@ -2366,7 +2531,7 @@ public class Network(
   /**
    * Fired when WebSocket handshake response becomes available.
    */
-  public class WebSocketHandshakeResponseReceivedParameter(
+  public data class WebSocketHandshakeResponseReceivedParameter(
     /**
      * Request identifier.
      */
@@ -2384,7 +2549,7 @@ public class Network(
   /**
    * Fired when WebSocket is about to initiate handshake.
    */
-  public class WebSocketWillSendHandshakeRequestParameter(
+  public data class WebSocketWillSendHandshakeRequestParameter(
     /**
      * Request identifier.
      */
@@ -2406,7 +2571,7 @@ public class Network(
   /**
    * Fired upon WebTransport creation.
    */
-  public class WebTransportCreatedParameter(
+  public data class WebTransportCreatedParameter(
     /**
      * WebTransport identifier.
      */
@@ -2428,7 +2593,7 @@ public class Network(
   /**
    * Fired when WebTransport handshake is finished.
    */
-  public class WebTransportConnectionEstablishedParameter(
+  public data class WebTransportConnectionEstablishedParameter(
     /**
      * WebTransport identifier.
      */
@@ -2442,7 +2607,7 @@ public class Network(
   /**
    * Fired when WebTransport is disposed.
    */
-  public class WebTransportClosedParameter(
+  public data class WebTransportClosedParameter(
     /**
      * WebTransport identifier.
      */
@@ -2459,7 +2624,7 @@ public class Network(
    * requestWillBeSentExtraInfo fired for it, and there is no guarantee whether requestWillBeSent
    * or requestWillBeSentExtraInfo will be fired first for the same request.
    */
-  public class RequestWillBeSentExtraInfoParameter(
+  public data class RequestWillBeSentExtraInfoParameter(
     /**
      * Request identifier. Used to match this information to an existing requestWillBeSent event.
      */
@@ -2486,7 +2651,7 @@ public class Network(
    * stack. Not every responseReceived event will have an additional responseReceivedExtraInfo for
    * it, and responseReceivedExtraInfo may be fired before or after responseReceived.
    */
-  public class ResponseReceivedExtraInfoParameter(
+  public data class ResponseReceivedExtraInfoParameter(
     /**
      * Request identifier. Used to match this information to another responseReceived event.
      */
@@ -2520,7 +2685,7 @@ public class Network(
    * failed, the event is fired before the corresponding request was sent
    * or after the response was received.
    */
-  public class TrustTokenOperationDoneParameter(
+  public data class TrustTokenOperationDoneParameter(
     /**
      * Detailed success or error status of the operation.
      * 'AlreadyExists' also signifies a successful operation, as the result
@@ -2576,36 +2741,36 @@ public class Network(
      * marked with `isNavigationRequest` also cancels the navigation. Must not be set in response
      * to an authChallenge.
      */
-    public val errorReason: ErrorReason?,
+    public val errorReason: ErrorReason? = null,
     /**
      * If set the requests completes using with the provided base64 encoded raw response, including
      * HTTP status line and headers etc... Must not be set in response to an authChallenge. (Encoded
      * as a base64 string when passed over JSON)
      */
-    public val rawResponse: String?,
+    public val rawResponse: String? = null,
     /**
      * If set the request url will be modified in a way that's not observable by page. Must not be
      * set in response to an authChallenge.
      */
-    public val url: String?,
+    public val url: String? = null,
     /**
      * If set this allows the request method to be overridden. Must not be set in response to an
      * authChallenge.
      */
-    public val method: String?,
+    public val method: String? = null,
     /**
      * If set this allows postData to be set. Must not be set in response to an authChallenge.
      */
-    public val postData: String?,
+    public val postData: String? = null,
     /**
      * If set this allows the request headers to be changed. Must not be set in response to an
      * authChallenge.
      */
-    public val headers: Headers?,
+    public val headers: Headers? = null,
     /**
      * Response to a requestIntercepted with an authChallenge. Must not be set otherwise.
      */
-    public val authChallengeResponse: AuthChallengeResponse?
+    public val authChallengeResponse: AuthChallengeResponse? = null
   )
 
   @Serializable
@@ -2618,15 +2783,15 @@ public class Network(
      * If specified, deletes all the cookies with the given name where domain and path match
      * provided URL.
      */
-    public val url: String?,
+    public val url: String? = null,
     /**
      * If specified, deletes only cookies with the exact domain.
      */
-    public val domain: String?,
+    public val domain: String? = null,
     /**
      * If specified, deletes only cookies with the exact path.
      */
-    public val path: String?
+    public val path: String? = null
   )
 
   @Serializable
@@ -2650,7 +2815,7 @@ public class Network(
     /**
      * Connection type if known.
      */
-    public val connectionType: ConnectionType?
+    public val connectionType: ConnectionType? = null
   )
 
   @Serializable
@@ -2658,15 +2823,15 @@ public class Network(
     /**
      * Buffer size in bytes to use when preserving network payloads (XHRs, etc).
      */
-    public val maxTotalBufferSize: Int?,
+    public val maxTotalBufferSize: Int? = null,
     /**
      * Per-resource buffer size in bytes to use when preserving network payloads (XHRs, etc).
      */
-    public val maxResourceBufferSize: Int?,
+    public val maxResourceBufferSize: Int? = null,
     /**
      * Longest post body size (in bytes) that would be included in requestWillBeSent notification
      */
-    public val maxPostDataSize: Int?
+    public val maxPostDataSize: Int? = null
   )
 
   @Serializable
@@ -2697,7 +2862,7 @@ public class Network(
      * If not specified, it's assumed to be set to the list containing
      * the URLs of the page and all of its subframes.
      */
-    public val urls: String?
+    public val urls: String? = null
   )
 
   @Serializable
@@ -2795,11 +2960,11 @@ public class Network(
     /**
      * If true, search is case sensitive.
      */
-    public val caseSensitive: Boolean?,
+    public val caseSensitive: Boolean? = null,
     /**
      * If true, treats string parameter as regex.
      */
-    public val isRegex: Boolean?
+    public val isRegex: Boolean? = null
   )
 
   @Serializable
@@ -2848,35 +3013,35 @@ public class Network(
      * The request-URI to associate with the setting of the cookie. This value can affect the
      * default domain and path values of the created cookie.
      */
-    public val url: String?,
+    public val url: String? = null,
     /**
      * Cookie domain.
      */
-    public val domain: String?,
+    public val domain: String? = null,
     /**
      * Cookie path.
      */
-    public val path: String?,
+    public val path: String? = null,
     /**
      * True if cookie is secure.
      */
-    public val secure: Boolean?,
+    public val secure: Boolean? = null,
     /**
      * True if cookie is http-only.
      */
-    public val httpOnly: Boolean?,
+    public val httpOnly: Boolean? = null,
     /**
      * Cookie SameSite type.
      */
-    public val sameSite: CookieSameSite?,
+    public val sameSite: CookieSameSite? = null,
     /**
      * Cookie expiration date, session cookie if not set
      */
-    public val expires: Double?,
+    public val expires: Double? = null,
     /**
      * Cookie Priority type.
      */
-    public val priority: CookiePriority?
+    public val priority: CookiePriority? = null
   )
 
   @Serializable
@@ -2941,15 +3106,15 @@ public class Network(
     /**
      * Browser langugage to emulate.
      */
-    public val acceptLanguage: String?,
+    public val acceptLanguage: String? = null,
     /**
      * The platform navigator.platform should return.
      */
-    public val platform: String?,
+    public val platform: String? = null,
     /**
      * To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
      */
-    public val userAgentMetadata: Emulation.UserAgentMetadata?
+    public val userAgentMetadata: Emulation.UserAgentMetadata? = null
   )
 
   @Serializable
@@ -2957,7 +3122,7 @@ public class Network(
     /**
      * If no frameId is provided, the status of the target is provided.
      */
-    public val frameId: String?
+    public val frameId: String? = null
   )
 
   @Serializable

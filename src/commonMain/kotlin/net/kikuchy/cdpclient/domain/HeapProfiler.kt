@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,54 +24,84 @@ public val CDPClient.heapProfiler: HeapProfiler
 public class HeapProfiler(
   private val client: CDPClient
 ) : Domain {
-  public val addHeapSnapshotChunk: Flow<AddHeapSnapshotChunkParameter> = client.events.filter {
-          it.method == "addHeapSnapshotChunk"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val addHeapSnapshotChunk: Flow<AddHeapSnapshotChunkParameter> = client
+          .events
+          .filter {
+              it.method == "addHeapSnapshotChunk"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val heapStatsUpdate: Flow<HeapStatsUpdateParameter> = client.events.filter {
-          it.method == "heapStatsUpdate"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val heapStatsUpdate: Flow<HeapStatsUpdateParameter> = client
+          .events
+          .filter {
+              it.method == "heapStatsUpdate"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val lastSeenObjectId: Flow<LastSeenObjectIdParameter> = client.events.filter {
-          it.method == "lastSeenObjectId"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val lastSeenObjectId: Flow<LastSeenObjectIdParameter> = client
+          .events
+          .filter {
+              it.method == "lastSeenObjectId"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val reportHeapSnapshotProgress: Flow<ReportHeapSnapshotProgressParameter> =
-      client.events.filter {
-          it.method == "reportHeapSnapshotProgress"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val reportHeapSnapshotProgress: Flow<ReportHeapSnapshotProgressParameter> = client
+          .events
+          .filter {
+              it.method == "reportHeapSnapshotProgress"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val resetProfiles: Flow<Unit> = client.events.filter {
-          it.method == "resetProfiles"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val resetProfiles: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "resetProfiles"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Enables console to refer to the node with given id via $x (see Command Line API for more
    * details
    * $x functions).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun addInspectedHeapObject(args: AddInspectedHeapObjectParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.addInspectedHeapObject", parameter)
   }
 
@@ -79,23 +110,27 @@ public class HeapProfiler(
     addInspectedHeapObject(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun collectGarbage(): Unit {
     val parameter = null
     client.callCommand("HeapProfiler.collectGarbage", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("HeapProfiler.disable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("HeapProfiler.enable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getHeapObjectId(args: GetHeapObjectIdParameter): GetHeapObjectIdReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("HeapProfiler.getHeapObjectId", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -105,9 +140,10 @@ public class HeapProfiler(
     return getHeapObjectId(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getObjectByHeapObjectId(args: GetObjectByHeapObjectIdParameter):
       GetObjectByHeapObjectIdReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("HeapProfiler.getObjectByHeapObjectId", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -118,14 +154,16 @@ public class HeapProfiler(
     return getObjectByHeapObjectId(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getSamplingProfile(): GetSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("HeapProfiler.getSamplingProfile", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun startSampling(args: StartSamplingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.startSampling", parameter)
   }
 
@@ -134,8 +172,9 @@ public class HeapProfiler(
     startSampling(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun startTrackingHeapObjects(args: StartTrackingHeapObjectsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.startTrackingHeapObjects", parameter)
   }
 
@@ -144,14 +183,16 @@ public class HeapProfiler(
     startTrackingHeapObjects(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun stopSampling(): StopSamplingReturn {
     val parameter = null
     val result = client.callCommand("HeapProfiler.stopSampling", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun stopTrackingHeapObjects(args: StopTrackingHeapObjectsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.stopTrackingHeapObjects", parameter)
   }
 
@@ -162,8 +203,9 @@ public class HeapProfiler(
     stopTrackingHeapObjects(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun takeHeapSnapshot(args: TakeHeapSnapshotParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.takeHeapSnapshot", parameter)
   }
 
@@ -226,7 +268,7 @@ public class HeapProfiler(
     public val samples: List<SamplingHeapProfileSample>
   )
 
-  public class AddHeapSnapshotChunkParameter(
+  public data class AddHeapSnapshotChunkParameter(
     public val chunk: String
   )
 
@@ -234,7 +276,7 @@ public class HeapProfiler(
    * If heap objects tracking has been started then backend may send update for one or more
    * fragments
    */
-  public class HeapStatsUpdateParameter(
+  public data class HeapStatsUpdateParameter(
     /**
      * An array of triplets. Each triplet describes a fragment. The first integer is the fragment
      * index, the second integer is a total count of objects for the fragment, the third integer is
@@ -248,12 +290,12 @@ public class HeapProfiler(
    * seen object id and corresponding timestamp. If the were changes in the heap since last event
    * then one or more heapStatsUpdate events will be sent before a new lastSeenObjectId event.
    */
-  public class LastSeenObjectIdParameter(
+  public data class LastSeenObjectIdParameter(
     public val lastSeenObjectId: Int,
     public val timestamp: Double
   )
 
-  public class ReportHeapSnapshotProgressParameter(
+  public data class ReportHeapSnapshotProgressParameter(
     public val done: Int,
     public val total: Int,
     public val finished: Boolean? = null
@@ -289,7 +331,7 @@ public class HeapProfiler(
     /**
      * Symbolic group name that can be used to release multiple objects.
      */
-    public val objectGroup: String?
+    public val objectGroup: String? = null
   )
 
   @Serializable
@@ -314,12 +356,12 @@ public class HeapProfiler(
      * Average sample interval in bytes. Poisson distribution is used for the intervals. The
      * default value is 32768 bytes.
      */
-    public val samplingInterval: Double?
+    public val samplingInterval: Double? = null
   )
 
   @Serializable
   public data class StartTrackingHeapObjectsParameter(
-    public val trackAllocations: Boolean?
+    public val trackAllocations: Boolean? = null
   )
 
   @Serializable
@@ -336,8 +378,8 @@ public class HeapProfiler(
      * If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
      * when the tracking is stopped.
      */
-    public val reportProgress: Boolean?,
-    public val treatGlobalObjectsAsRoots: Boolean?
+    public val reportProgress: Boolean? = null,
+    public val treatGlobalObjectsAsRoots: Boolean? = null
   )
 
   @Serializable
@@ -345,10 +387,10 @@ public class HeapProfiler(
     /**
      * If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
      */
-    public val reportProgress: Boolean?,
+    public val reportProgress: Boolean? = null,
     /**
      * If true, a raw snapshot without artifical roots will be generated
      */
-    public val treatGlobalObjectsAsRoots: Boolean?
+    public val treatGlobalObjectsAsRoots: Boolean? = null
   )
 }

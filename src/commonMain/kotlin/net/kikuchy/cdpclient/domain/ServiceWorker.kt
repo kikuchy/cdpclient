@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -24,33 +25,51 @@ public val CDPClient.serviceWorker: ServiceWorker
 public class ServiceWorker(
   private val client: CDPClient
 ) : Domain {
-  public val workerErrorReported: Flow<WorkerErrorReportedParameter> = client.events.filter {
-          it.method == "workerErrorReported"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val workerErrorReported: Flow<WorkerErrorReportedParameter> = client
+          .events
+          .filter {
+              it.method == "workerErrorReported"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val workerRegistrationUpdated: Flow<WorkerRegistrationUpdatedParameter> =
-      client.events.filter {
-          it.method == "workerRegistrationUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val workerRegistrationUpdated: Flow<WorkerRegistrationUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "workerRegistrationUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val workerVersionUpdated: Flow<WorkerVersionUpdatedParameter> = client.events.filter {
-          it.method == "workerVersionUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val workerVersionUpdated: Flow<WorkerVersionUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "workerVersionUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public suspend fun deliverPushMessage(args: DeliverPushMessageParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.deliverPushMessage", parameter)
   }
 
@@ -64,13 +83,15 @@ public class ServiceWorker(
     deliverPushMessage(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("ServiceWorker.disable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun dispatchSyncEvent(args: DispatchSyncEventParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.dispatchSyncEvent", parameter)
   }
 
@@ -85,8 +106,9 @@ public class ServiceWorker(
     dispatchSyncEvent(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun dispatchPeriodicSyncEvent(args: DispatchPeriodicSyncEventParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.dispatchPeriodicSyncEvent", parameter)
   }
 
@@ -100,13 +122,15 @@ public class ServiceWorker(
     dispatchPeriodicSyncEvent(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("ServiceWorker.enable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun inspectWorker(args: InspectWorkerParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.inspectWorker", parameter)
   }
 
@@ -115,8 +139,9 @@ public class ServiceWorker(
     inspectWorker(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setForceUpdateOnPageLoad(args: SetForceUpdateOnPageLoadParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.setForceUpdateOnPageLoad", parameter)
   }
 
@@ -125,8 +150,9 @@ public class ServiceWorker(
     setForceUpdateOnPageLoad(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun skipWaiting(args: SkipWaitingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.skipWaiting", parameter)
   }
 
@@ -135,8 +161,9 @@ public class ServiceWorker(
     skipWaiting(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun startWorker(args: StartWorkerParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.startWorker", parameter)
   }
 
@@ -145,13 +172,15 @@ public class ServiceWorker(
     startWorker(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun stopAllWorkers(): Unit {
     val parameter = null
     client.callCommand("ServiceWorker.stopAllWorkers", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun stopWorker(args: StopWorkerParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.stopWorker", parameter)
   }
 
@@ -160,8 +189,9 @@ public class ServiceWorker(
     stopWorker(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun unregister(args: UnregisterParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.unregister", parameter)
   }
 
@@ -170,8 +200,9 @@ public class ServiceWorker(
     unregister(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun updateRegistration(args: UpdateRegistrationParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.updateRegistration", parameter)
   }
 
@@ -254,15 +285,15 @@ public class ServiceWorker(
     public val columnNumber: Int
   )
 
-  public class WorkerErrorReportedParameter(
+  public data class WorkerErrorReportedParameter(
     public val errorMessage: ServiceWorkerErrorMessage
   )
 
-  public class WorkerRegistrationUpdatedParameter(
+  public data class WorkerRegistrationUpdatedParameter(
     public val registrations: List<ServiceWorkerRegistration>
   )
 
-  public class WorkerVersionUpdatedParameter(
+  public data class WorkerVersionUpdatedParameter(
     public val versions: List<ServiceWorkerVersion>
   )
 

@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -37,125 +38,209 @@ public val CDPClient.dom: DOM
 public class DOM(
   private val client: CDPClient
 ) : Domain {
-  public val attributeModified: Flow<AttributeModifiedParameter> = client.events.filter {
-          it.method == "attributeModified"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val attributeModified: Flow<AttributeModifiedParameter> = client
+          .events
+          .filter {
+              it.method == "attributeModified"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val attributeRemoved: Flow<AttributeRemovedParameter> = client.events.filter {
-          it.method == "attributeRemoved"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val attributeRemoved: Flow<AttributeRemovedParameter> = client
+          .events
+          .filter {
+              it.method == "attributeRemoved"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val characterDataModified: Flow<CharacterDataModifiedParameter> = client.events.filter {
-          it.method == "characterDataModified"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val characterDataModified: Flow<CharacterDataModifiedParameter> = client
+          .events
+          .filter {
+              it.method == "characterDataModified"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val childNodeCountUpdated: Flow<ChildNodeCountUpdatedParameter> = client.events.filter {
-          it.method == "childNodeCountUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val childNodeCountUpdated: Flow<ChildNodeCountUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "childNodeCountUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val childNodeInserted: Flow<ChildNodeInsertedParameter> = client.events.filter {
-          it.method == "childNodeInserted"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val childNodeInserted: Flow<ChildNodeInsertedParameter> = client
+          .events
+          .filter {
+              it.method == "childNodeInserted"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val childNodeRemoved: Flow<ChildNodeRemovedParameter> = client.events.filter {
-          it.method == "childNodeRemoved"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val childNodeRemoved: Flow<ChildNodeRemovedParameter> = client
+          .events
+          .filter {
+              it.method == "childNodeRemoved"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val distributedNodesUpdated: Flow<DistributedNodesUpdatedParameter> = client.events.filter
-      {
-          it.method == "distributedNodesUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val distributedNodesUpdated: Flow<DistributedNodesUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "distributedNodesUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val documentUpdated: Flow<Unit> = client.events.filter {
-          it.method == "documentUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val documentUpdated: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "documentUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val inlineStyleInvalidated: Flow<InlineStyleInvalidatedParameter> = client.events.filter {
-          it.method == "inlineStyleInvalidated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val inlineStyleInvalidated: Flow<InlineStyleInvalidatedParameter> = client
+          .events
+          .filter {
+              it.method == "inlineStyleInvalidated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val pseudoElementAdded: Flow<PseudoElementAddedParameter> = client.events.filter {
-          it.method == "pseudoElementAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val pseudoElementAdded: Flow<PseudoElementAddedParameter> = client
+          .events
+          .filter {
+              it.method == "pseudoElementAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val pseudoElementRemoved: Flow<PseudoElementRemovedParameter> = client.events.filter {
-          it.method == "pseudoElementRemoved"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val pseudoElementRemoved: Flow<PseudoElementRemovedParameter> = client
+          .events
+          .filter {
+              it.method == "pseudoElementRemoved"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val setChildNodes: Flow<SetChildNodesParameter> = client.events.filter {
-          it.method == "setChildNodes"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val setChildNodes: Flow<SetChildNodesParameter> = client
+          .events
+          .filter {
+              it.method == "setChildNodes"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val shadowRootPopped: Flow<ShadowRootPoppedParameter> = client.events.filter {
-          it.method == "shadowRootPopped"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val shadowRootPopped: Flow<ShadowRootPoppedParameter> = client
+          .events
+          .filter {
+              it.method == "shadowRootPopped"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val shadowRootPushed: Flow<ShadowRootPushedParameter> = client.events.filter {
-          it.method == "shadowRootPushed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val shadowRootPushed: Flow<ShadowRootPushedParameter> = client
+          .events
+          .filter {
+              it.method == "shadowRootPushed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Collects class names for the node with given id and all of it's child nodes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun collectClassNamesFromSubtree(args: CollectClassNamesFromSubtreeParameter):
       CollectClassNamesFromSubtreeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.collectClassNamesFromSubtree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -169,8 +254,9 @@ public class DOM(
    * Creates a deep copy of the specified node and places it into the target container before the
    * given anchor.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun copyTo(args: CopyToParameter): CopyToReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.copyTo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -189,8 +275,9 @@ public class DOM(
    * Describes node given its id, does not require domain to be enabled. Does not start tracking any
    * objects, can be used for automation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun describeNode(args: DescribeNodeParameter): DescribeNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.describeNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -212,8 +299,9 @@ public class DOM(
    * Note: exactly one between nodeId, backendNodeId and objectId should be passed
    * to identify the node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun scrollIntoViewIfNeeded(args: ScrollIntoViewIfNeededParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.scrollIntoViewIfNeeded", parameter)
   }
 
@@ -231,6 +319,7 @@ public class DOM(
   /**
    * Disables DOM agent for the given page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("DOM.disable", parameter)
@@ -240,8 +329,9 @@ public class DOM(
    * Discards search results from the session with the given id. `getSearchResults` should no longer
    * be called for that search.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun discardSearchResults(args: DiscardSearchResultsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.discardSearchResults", parameter)
   }
 
@@ -253,6 +343,7 @@ public class DOM(
   /**
    * Enables DOM agent for the given page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("DOM.enable", parameter)
@@ -261,8 +352,9 @@ public class DOM(
   /**
    * Focuses the given element.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun focus(args: FocusParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.focus", parameter)
   }
 
@@ -279,8 +371,9 @@ public class DOM(
   /**
    * Returns attributes for the specified node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getAttributes(args: GetAttributesParameter): GetAttributesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getAttributes", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -293,8 +386,9 @@ public class DOM(
   /**
    * Returns boxes for the given node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getBoxModel(args: GetBoxModelParameter): GetBoxModelReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getBoxModel", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -313,8 +407,9 @@ public class DOM(
    * Returns quads that describe node position on the page. This method
    * might return multiple quads for inline nodes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getContentQuads(args: GetContentQuadsParameter): GetContentQuadsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getContentQuads", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -332,8 +427,9 @@ public class DOM(
   /**
    * Returns the root DOM node (and optionally the subtree) to the caller.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getDocument(args: GetDocumentParameter): GetDocumentReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getDocument", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -348,10 +444,11 @@ public class DOM(
    * Deprecated, as it is not designed to work well with the rest of the DOM agent.
    * Use DOMSnapshot.captureSnapshot instead.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun getFlattenedDocument(args: GetFlattenedDocumentParameter):
       GetFlattenedDocumentReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getFlattenedDocument", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -365,9 +462,10 @@ public class DOM(
   /**
    * Finds nodes with a given computed style in a subtree.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getNodesForSubtreeByStyle(args: GetNodesForSubtreeByStyleParameter):
       GetNodesForSubtreeByStyleReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getNodesForSubtreeByStyle", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -386,9 +484,10 @@ public class DOM(
    * Returns node id at given location. Depending on whether DOM domain is enabled, nodeId is
    * either returned or not.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getNodeForLocation(args: GetNodeForLocationParameter):
       GetNodeForLocationReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getNodeForLocation", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -407,8 +506,9 @@ public class DOM(
   /**
    * Returns node's HTML markup.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getOuterHTML(args: GetOuterHTMLParameter): GetOuterHTMLReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getOuterHTML", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -426,9 +526,10 @@ public class DOM(
   /**
    * Returns the id of the nearest ancestor that is a relayout boundary.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getRelayoutBoundary(args: GetRelayoutBoundaryParameter):
       GetRelayoutBoundaryReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getRelayoutBoundary", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -442,8 +543,9 @@ public class DOM(
    * Returns search results from given `fromIndex` to given `toIndex` from the search with the given
    * identifier.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getSearchResults(args: GetSearchResultsParameter): GetSearchResultsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getSearchResults", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -461,6 +563,7 @@ public class DOM(
   /**
    * Hides any highlight.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun hideHighlight(): Unit {
     val parameter = null
     client.callCommand("DOM.hideHighlight", parameter)
@@ -469,6 +572,7 @@ public class DOM(
   /**
    * Highlights DOM node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightNode(): Unit {
     val parameter = null
     client.callCommand("DOM.highlightNode", parameter)
@@ -477,6 +581,7 @@ public class DOM(
   /**
    * Highlights given rectangle.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightRect(): Unit {
     val parameter = null
     client.callCommand("DOM.highlightRect", parameter)
@@ -485,6 +590,7 @@ public class DOM(
   /**
    * Marks last undoable state.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun markUndoableState(): Unit {
     val parameter = null
     client.callCommand("DOM.markUndoableState", parameter)
@@ -493,8 +599,9 @@ public class DOM(
   /**
    * Moves node into the new container, places it before the given anchor.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun moveTo(args: MoveToParameter): MoveToReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.moveTo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -513,8 +620,9 @@ public class DOM(
    * Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or
    * `cancelSearch` to end this search session.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun performSearch(args: PerformSearchParameter): PerformSearchReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.performSearch", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -529,9 +637,10 @@ public class DOM(
   /**
    * Requests that the node is sent to the caller given its path. // FIXME, use XPath
    */
+  @ExperimentalCoroutinesApi
   public suspend fun pushNodeByPathToFrontend(args: PushNodeByPathToFrontendParameter):
       PushNodeByPathToFrontendReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.pushNodeByPathToFrontend", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -544,10 +653,11 @@ public class DOM(
   /**
    * Requests that a batch of nodes is sent to the caller given their backend node ids.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun pushNodesByBackendIdsToFrontend(args: PushNodesByBackendIdsToFrontendParameter):
       PushNodesByBackendIdsToFrontendReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.pushNodesByBackendIdsToFrontend", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -561,8 +671,9 @@ public class DOM(
   /**
    * Executes `querySelector` on a given node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun querySelector(args: QuerySelectorParameter): QuerySelectorReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.querySelector", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -575,8 +686,9 @@ public class DOM(
   /**
    * Executes `querySelectorAll` on a given node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun querySelectorAll(args: QuerySelectorAllParameter): QuerySelectorAllReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.querySelectorAll", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -589,6 +701,7 @@ public class DOM(
   /**
    * Re-does the last undone action.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun redo(): Unit {
     val parameter = null
     client.callCommand("DOM.redo", parameter)
@@ -597,8 +710,9 @@ public class DOM(
   /**
    * Removes attribute with given name from an element with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeAttribute(args: RemoveAttributeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.removeAttribute", parameter)
   }
 
@@ -610,8 +724,9 @@ public class DOM(
   /**
    * Removes node with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeNode(args: RemoveNodeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.removeNode", parameter)
   }
 
@@ -626,8 +741,9 @@ public class DOM(
    * to
    * the specified depth.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestChildNodes(args: RequestChildNodesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.requestChildNodes", parameter)
   }
 
@@ -645,8 +761,9 @@ public class DOM(
    * nodes that form the path from the node to the root are also sent to the client as a series of
    * `setChildNodes` notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestNode(args: RequestNodeParameter): RequestNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.requestNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -659,8 +776,9 @@ public class DOM(
   /**
    * Resolves the JavaScript node object for a given NodeId or BackendNodeId.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resolveNode(args: ResolveNodeParameter): ResolveNodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.resolveNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -679,8 +797,9 @@ public class DOM(
   /**
    * Sets attribute for an element with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAttributeValue(args: SetAttributeValueParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setAttributeValue", parameter)
   }
 
@@ -697,8 +816,9 @@ public class DOM(
    * Sets attributes on element with given id. This method is useful when user edits some existing
    * attribute value and types in several attribute name/value pairs.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAttributesAsText(args: SetAttributesAsTextParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setAttributesAsText", parameter)
   }
 
@@ -714,8 +834,9 @@ public class DOM(
   /**
    * Sets files for the given file input element.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setFileInputFiles(args: SetFileInputFilesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setFileInputFiles", parameter)
   }
 
@@ -734,8 +855,9 @@ public class DOM(
    * Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is
    * disabled.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setNodeStackTracesEnabled(args: SetNodeStackTracesEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setNodeStackTracesEnabled", parameter)
   }
 
@@ -748,9 +870,10 @@ public class DOM(
    * Gets stack traces associated with a Node. As of now, only provides stack trace for Node
    * creation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getNodeStackTraces(args: GetNodeStackTracesParameter):
       GetNodeStackTracesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getNodeStackTraces", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -764,8 +887,9 @@ public class DOM(
    * Returns file information for the given
    * File wrapper.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getFileInfo(args: GetFileInfoParameter): GetFileInfoReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getFileInfo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -780,8 +904,9 @@ public class DOM(
    * details
    * $x functions).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setInspectedNode(args: SetInspectedNodeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setInspectedNode", parameter)
   }
 
@@ -793,8 +918,9 @@ public class DOM(
   /**
    * Sets node name for a node with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setNodeName(args: SetNodeNameParameter): SetNodeNameReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.setNodeName", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -807,8 +933,9 @@ public class DOM(
   /**
    * Sets node value for a node with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setNodeValue(args: SetNodeValueParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setNodeValue", parameter)
   }
 
@@ -820,8 +947,9 @@ public class DOM(
   /**
    * Sets node HTML markup, returns new node id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setOuterHTML(args: SetOuterHTMLParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setOuterHTML", parameter)
   }
 
@@ -833,6 +961,7 @@ public class DOM(
   /**
    * Undoes the last performed action.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun undo(): Unit {
     val parameter = null
     client.callCommand("DOM.undo", parameter)
@@ -841,8 +970,9 @@ public class DOM(
   /**
    * Returns iframe node that owns iframe with the given domain.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getFrameOwner(args: GetFrameOwnerParameter): GetFrameOwnerReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getFrameOwner", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -1163,7 +1293,7 @@ public class DOM(
   /**
    * Fired when `Element`'s attribute is modified.
    */
-  public class AttributeModifiedParameter(
+  public data class AttributeModifiedParameter(
     /**
      * Id of the node that has changed.
      */
@@ -1181,7 +1311,7 @@ public class DOM(
   /**
    * Fired when `Element`'s attribute is removed.
    */
-  public class AttributeRemovedParameter(
+  public data class AttributeRemovedParameter(
     /**
      * Id of the node that has changed.
      */
@@ -1195,7 +1325,7 @@ public class DOM(
   /**
    * Mirrors `DOMCharacterDataModified` event.
    */
-  public class CharacterDataModifiedParameter(
+  public data class CharacterDataModifiedParameter(
     /**
      * Id of the node that has changed.
      */
@@ -1209,7 +1339,7 @@ public class DOM(
   /**
    * Fired when `Container`'s child node count has changed.
    */
-  public class ChildNodeCountUpdatedParameter(
+  public data class ChildNodeCountUpdatedParameter(
     /**
      * Id of the node that has changed.
      */
@@ -1223,7 +1353,7 @@ public class DOM(
   /**
    * Mirrors `DOMNodeInserted` event.
    */
-  public class ChildNodeInsertedParameter(
+  public data class ChildNodeInsertedParameter(
     /**
      * Id of the node that has changed.
      */
@@ -1241,7 +1371,7 @@ public class DOM(
   /**
    * Mirrors `DOMNodeRemoved` event.
    */
-  public class ChildNodeRemovedParameter(
+  public data class ChildNodeRemovedParameter(
     /**
      * Parent id.
      */
@@ -1255,7 +1385,7 @@ public class DOM(
   /**
    * Called when distrubution is changed.
    */
-  public class DistributedNodesUpdatedParameter(
+  public data class DistributedNodesUpdatedParameter(
     /**
      * Insertion point where distrubuted nodes were updated.
      */
@@ -1269,7 +1399,7 @@ public class DOM(
   /**
    * Fired when `Element`'s inline style is modified via a CSS property modification.
    */
-  public class InlineStyleInvalidatedParameter(
+  public data class InlineStyleInvalidatedParameter(
     /**
      * Ids of the nodes for which the inline styles have been invalidated.
      */
@@ -1279,7 +1409,7 @@ public class DOM(
   /**
    * Called when a pseudo element is added to an element.
    */
-  public class PseudoElementAddedParameter(
+  public data class PseudoElementAddedParameter(
     /**
      * Pseudo element's parent element id.
      */
@@ -1293,7 +1423,7 @@ public class DOM(
   /**
    * Called when a pseudo element is removed from an element.
    */
-  public class PseudoElementRemovedParameter(
+  public data class PseudoElementRemovedParameter(
     /**
      * Pseudo element's parent element id.
      */
@@ -1308,7 +1438,7 @@ public class DOM(
    * Fired when backend wants to provide client with the missing DOM structure. This happens upon
    * most of the calls requesting node ids.
    */
-  public class SetChildNodesParameter(
+  public data class SetChildNodesParameter(
     /**
      * Parent node id to populate with children.
      */
@@ -1322,7 +1452,7 @@ public class DOM(
   /**
    * Called when shadow root is popped from the element.
    */
-  public class ShadowRootPoppedParameter(
+  public data class ShadowRootPoppedParameter(
     /**
      * Host element id.
      */
@@ -1336,7 +1466,7 @@ public class DOM(
   /**
    * Called when shadow root is pushed into the element.
    */
-  public class ShadowRootPushedParameter(
+  public data class ShadowRootPushedParameter(
     /**
      * Host element id.
      */
@@ -1377,7 +1507,7 @@ public class DOM(
      * Drop the copy before this node (if absent, the copy becomes the last child of
      * `targetNodeId`).
      */
-    public val insertBeforeNodeId: Int?
+    public val insertBeforeNodeId: Int? = null
   )
 
   @Serializable
@@ -1393,25 +1523,25 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?,
+    public val objectId: String? = null,
     /**
      * The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
      */
-    public val depth: Int?,
+    public val depth: Int? = null,
     /**
      * Whether or not iframes and shadow roots should be traversed when returning the subtree
      * (default is false).
      */
-    public val pierce: Boolean?
+    public val pierce: Boolean? = null
   )
 
   @Serializable
@@ -1427,20 +1557,20 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?,
+    public val objectId: String? = null,
     /**
      * The rect to be scrolled into view, relative to the node's border box, in CSS pixels.
      * When omitted, center of the node will be used, similar to Element.scrollIntoView.
      */
-    public val rect: Rect?
+    public val rect: Rect? = null
   )
 
   @Serializable
@@ -1456,15 +1586,15 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?
+    public val objectId: String? = null
   )
 
   @Serializable
@@ -1488,15 +1618,15 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?
+    public val objectId: String? = null
   )
 
   @Serializable
@@ -1512,15 +1642,15 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?
+    public val objectId: String? = null
   )
 
   @Serializable
@@ -1537,12 +1667,12 @@ public class DOM(
      * The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
      */
-    public val depth: Int?,
+    public val depth: Int? = null,
     /**
      * Whether or not iframes and shadow roots should be traversed when returning the subtree
      * (default is false).
      */
-    public val pierce: Boolean?
+    public val pierce: Boolean? = null
   )
 
   @Serializable
@@ -1559,12 +1689,12 @@ public class DOM(
      * The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
      */
-    public val depth: Int?,
+    public val depth: Int? = null,
     /**
      * Whether or not iframes and shadow roots should be traversed when returning the subtree
      * (default is false).
      */
-    public val pierce: Boolean?
+    public val pierce: Boolean? = null
   )
 
   @Serializable
@@ -1590,7 +1720,7 @@ public class DOM(
      * the
      * results (default is false).
      */
-    public val pierce: Boolean?
+    public val pierce: Boolean? = null
   )
 
   @Serializable
@@ -1614,11 +1744,11 @@ public class DOM(
     /**
      * False to skip to the nearest non-UA shadow root ancestor (default: false).
      */
-    public val includeUserAgentShadowDOM: Boolean?,
+    public val includeUserAgentShadowDOM: Boolean? = null,
     /**
      * Whether to ignore pointer-events: none on elements and hit test them.
      */
-    public val ignorePointerEventsNone: Boolean?
+    public val ignorePointerEventsNone: Boolean? = null
   )
 
   @Serializable
@@ -1642,15 +1772,15 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?
+    public val objectId: String? = null
   )
 
   @Serializable
@@ -1715,7 +1845,7 @@ public class DOM(
      * Drop node before this one (if absent, the moved node becomes the last child of
      * `targetNodeId`).
      */
-    public val insertBeforeNodeId: Int?
+    public val insertBeforeNodeId: Int? = null
   )
 
   @Serializable
@@ -1735,7 +1865,7 @@ public class DOM(
     /**
      * True to search in user agent shadow DOM.
      */
-    public val includeUserAgentShadowDOM: Boolean?
+    public val includeUserAgentShadowDOM: Boolean? = null
   )
 
   @Serializable
@@ -1853,12 +1983,12 @@ public class DOM(
      * The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
      */
-    public val depth: Int?,
+    public val depth: Int? = null,
     /**
      * Whether or not iframes and shadow roots should be traversed when returning the sub-tree
      * (default is false).
      */
-    public val pierce: Boolean?
+    public val pierce: Boolean? = null
   )
 
   @Serializable
@@ -1882,19 +2012,19 @@ public class DOM(
     /**
      * Id of the node to resolve.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Backend identifier of the node to resolve.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * Symbolic group name that can be used to release multiple objects.
      */
-    public val objectGroup: String?,
+    public val objectGroup: String? = null,
     /**
      * Execution context in which to resolve the node.
      */
-    public val executionContextId: Int?
+    public val executionContextId: Int? = null
   )
 
   @Serializable
@@ -1935,7 +2065,7 @@ public class DOM(
      * Attribute name to replace with new attributes derived from text in case text parsed
      * successfully.
      */
-    public val name: String?
+    public val name: String? = null
   )
 
   @Serializable
@@ -1947,15 +2077,15 @@ public class DOM(
     /**
      * Identifier of the node.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node wrapper.
      */
-    public val objectId: String?
+    public val objectId: String? = null
   )
 
   @Serializable

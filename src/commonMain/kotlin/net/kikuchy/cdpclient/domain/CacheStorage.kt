@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -25,8 +26,9 @@ public class CacheStorage(
   /**
    * Deletes a cache.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun deleteCache(args: DeleteCacheParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CacheStorage.deleteCache", parameter)
   }
 
@@ -38,8 +40,9 @@ public class CacheStorage(
   /**
    * Deletes a cache entry.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun deleteEntry(args: DeleteEntryParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CacheStorage.deleteEntry", parameter)
   }
 
@@ -51,8 +54,9 @@ public class CacheStorage(
   /**
    * Requests cache names.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestCacheNames(args: RequestCacheNamesParameter): RequestCacheNamesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CacheStorage.requestCacheNames", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -65,9 +69,10 @@ public class CacheStorage(
   /**
    * Fetches cache entry.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestCachedResponse(args: RequestCachedResponseParameter):
       RequestCachedResponseReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CacheStorage.requestCachedResponse", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -85,8 +90,9 @@ public class CacheStorage(
   /**
    * Requests data from cache.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestEntries(args: RequestEntriesParameter): RequestEntriesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CacheStorage.requestEntries", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -265,15 +271,15 @@ public class CacheStorage(
     /**
      * Number of records to skip.
      */
-    public val skipCount: Int?,
+    public val skipCount: Int? = null,
     /**
      * Number of records to fetch.
      */
-    public val pageSize: Int?,
+    public val pageSize: Int? = null,
     /**
      * If present, only return the entries containing this substring in the path
      */
-    public val pathFilter: String?
+    public val pathFilter: String? = null
   )
 
   @Serializable

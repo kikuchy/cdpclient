@@ -3,6 +3,7 @@ package net.kikuchy.cdpclient.domain
 import kotlin.Double
 import kotlin.String
 import kotlin.Unit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -25,116 +26,192 @@ public val CDPClient.webAudio: WebAudio
 public class WebAudio(
   private val client: CDPClient
 ) : Domain {
-  public val contextCreated: Flow<ContextCreatedParameter> = client.events.filter {
-          it.method == "contextCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val contextCreated: Flow<ContextCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "contextCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val contextWillBeDestroyed: Flow<ContextWillBeDestroyedParameter> = client.events.filter {
-          it.method == "contextWillBeDestroyed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val contextWillBeDestroyed: Flow<ContextWillBeDestroyedParameter> = client
+          .events
+          .filter {
+              it.method == "contextWillBeDestroyed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val contextChanged: Flow<ContextChangedParameter> = client.events.filter {
-          it.method == "contextChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val contextChanged: Flow<ContextChangedParameter> = client
+          .events
+          .filter {
+              it.method == "contextChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val audioListenerCreated: Flow<AudioListenerCreatedParameter> = client.events.filter {
-          it.method == "audioListenerCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val audioListenerCreated: Flow<AudioListenerCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "audioListenerCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val audioListenerWillBeDestroyed: Flow<AudioListenerWillBeDestroyedParameter> =
-      client.events.filter {
-          it.method == "audioListenerWillBeDestroyed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val audioListenerWillBeDestroyed: Flow<AudioListenerWillBeDestroyedParameter> = client
+          .events
+          .filter {
+              it.method == "audioListenerWillBeDestroyed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val audioNodeCreated: Flow<AudioNodeCreatedParameter> = client.events.filter {
-          it.method == "audioNodeCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val audioNodeCreated: Flow<AudioNodeCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "audioNodeCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val audioNodeWillBeDestroyed: Flow<AudioNodeWillBeDestroyedParameter> =
-      client.events.filter {
-          it.method == "audioNodeWillBeDestroyed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val audioNodeWillBeDestroyed: Flow<AudioNodeWillBeDestroyedParameter> = client
+          .events
+          .filter {
+              it.method == "audioNodeWillBeDestroyed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val audioParamCreated: Flow<AudioParamCreatedParameter> = client.events.filter {
-          it.method == "audioParamCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val audioParamCreated: Flow<AudioParamCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "audioParamCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val audioParamWillBeDestroyed: Flow<AudioParamWillBeDestroyedParameter> =
-      client.events.filter {
-          it.method == "audioParamWillBeDestroyed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val audioParamWillBeDestroyed: Flow<AudioParamWillBeDestroyedParameter> = client
+          .events
+          .filter {
+              it.method == "audioParamWillBeDestroyed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val nodesConnected: Flow<NodesConnectedParameter> = client.events.filter {
-          it.method == "nodesConnected"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val nodesConnected: Flow<NodesConnectedParameter> = client
+          .events
+          .filter {
+              it.method == "nodesConnected"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val nodesDisconnected: Flow<NodesDisconnectedParameter> = client.events.filter {
-          it.method == "nodesDisconnected"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val nodesDisconnected: Flow<NodesDisconnectedParameter> = client
+          .events
+          .filter {
+              it.method == "nodesDisconnected"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val nodeParamConnected: Flow<NodeParamConnectedParameter> = client.events.filter {
-          it.method == "nodeParamConnected"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val nodeParamConnected: Flow<NodeParamConnectedParameter> = client
+          .events
+          .filter {
+              it.method == "nodeParamConnected"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val nodeParamDisconnected: Flow<NodeParamDisconnectedParameter> = client.events.filter {
-          it.method == "nodeParamDisconnected"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val nodeParamDisconnected: Flow<NodeParamDisconnectedParameter> = client
+          .events
+          .filter {
+              it.method == "nodeParamDisconnected"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Enables the WebAudio domain and starts sending context lifetime events.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("WebAudio.enable", parameter)
@@ -143,6 +220,7 @@ public class WebAudio(
   /**
    * Disables the WebAudio domain.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("WebAudio.disable", parameter)
@@ -151,8 +229,9 @@ public class WebAudio(
   /**
    * Fetch the realtime data from the registered contexts.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getRealtimeData(args: GetRealtimeDataParameter): GetRealtimeDataReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("WebAudio.getRealtimeData", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -311,35 +390,35 @@ public class WebAudio(
   /**
    * Notifies that a new BaseAudioContext has been created.
    */
-  public class ContextCreatedParameter(
+  public data class ContextCreatedParameter(
     public val context: BaseAudioContext
   )
 
   /**
    * Notifies that an existing BaseAudioContext will be destroyed.
    */
-  public class ContextWillBeDestroyedParameter(
+  public data class ContextWillBeDestroyedParameter(
     public val contextId: String
   )
 
   /**
    * Notifies that existing BaseAudioContext has changed some properties (id stays the same)..
    */
-  public class ContextChangedParameter(
+  public data class ContextChangedParameter(
     public val context: BaseAudioContext
   )
 
   /**
    * Notifies that the construction of an AudioListener has finished.
    */
-  public class AudioListenerCreatedParameter(
+  public data class AudioListenerCreatedParameter(
     public val listener: AudioListener
   )
 
   /**
    * Notifies that a new AudioListener has been created.
    */
-  public class AudioListenerWillBeDestroyedParameter(
+  public data class AudioListenerWillBeDestroyedParameter(
     public val contextId: String,
     public val listenerId: String
   )
@@ -347,14 +426,14 @@ public class WebAudio(
   /**
    * Notifies that a new AudioNode has been created.
    */
-  public class AudioNodeCreatedParameter(
+  public data class AudioNodeCreatedParameter(
     public val node: AudioNode
   )
 
   /**
    * Notifies that an existing AudioNode has been destroyed.
    */
-  public class AudioNodeWillBeDestroyedParameter(
+  public data class AudioNodeWillBeDestroyedParameter(
     public val contextId: String,
     public val nodeId: String
   )
@@ -362,14 +441,14 @@ public class WebAudio(
   /**
    * Notifies that a new AudioParam has been created.
    */
-  public class AudioParamCreatedParameter(
+  public data class AudioParamCreatedParameter(
     public val `param`: AudioParam
   )
 
   /**
    * Notifies that an existing AudioParam has been destroyed.
    */
-  public class AudioParamWillBeDestroyedParameter(
+  public data class AudioParamWillBeDestroyedParameter(
     public val contextId: String,
     public val nodeId: String,
     public val paramId: String
@@ -378,7 +457,7 @@ public class WebAudio(
   /**
    * Notifies that two AudioNodes are connected.
    */
-  public class NodesConnectedParameter(
+  public data class NodesConnectedParameter(
     public val contextId: String,
     public val sourceId: String,
     public val destinationId: String,
@@ -390,7 +469,7 @@ public class WebAudio(
    * Notifies that AudioNodes are disconnected. The destination can be null, and it means all the
    * outgoing connections from the source are disconnected.
    */
-  public class NodesDisconnectedParameter(
+  public data class NodesDisconnectedParameter(
     public val contextId: String,
     public val sourceId: String,
     public val destinationId: String,
@@ -401,7 +480,7 @@ public class WebAudio(
   /**
    * Notifies that an AudioNode is connected to an AudioParam.
    */
-  public class NodeParamConnectedParameter(
+  public data class NodeParamConnectedParameter(
     public val contextId: String,
     public val sourceId: String,
     public val destinationId: String,
@@ -411,7 +490,7 @@ public class WebAudio(
   /**
    * Notifies that an AudioNode is disconnected to an AudioParam.
    */
-  public class NodeParamDisconnectedParameter(
+  public data class NodeParamDisconnectedParameter(
     public val contextId: String,
     public val sourceId: String,
     public val destinationId: String,

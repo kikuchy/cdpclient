@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -25,8 +26,9 @@ public class IndexedDB(
   /**
    * Clears all entries from an object store.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearObjectStore(args: ClearObjectStoreParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IndexedDB.clearObjectStore", parameter)
   }
 
@@ -43,8 +45,9 @@ public class IndexedDB(
   /**
    * Deletes a database.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun deleteDatabase(args: DeleteDatabaseParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IndexedDB.deleteDatabase", parameter)
   }
 
@@ -57,8 +60,9 @@ public class IndexedDB(
   /**
    * Delete a range of entries from an object store
    */
+  @ExperimentalCoroutinesApi
   public suspend fun deleteObjectStoreEntries(args: DeleteObjectStoreEntriesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IndexedDB.deleteObjectStoreEntries", parameter)
   }
 
@@ -76,6 +80,7 @@ public class IndexedDB(
   /**
    * Disables events from backend.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("IndexedDB.disable", parameter)
@@ -84,6 +89,7 @@ public class IndexedDB(
   /**
    * Enables events from backend.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("IndexedDB.enable", parameter)
@@ -92,8 +98,9 @@ public class IndexedDB(
   /**
    * Requests data from object store or index.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestData(args: RequestDataParameter): RequestDataReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.requestData", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -116,8 +123,9 @@ public class IndexedDB(
   /**
    * Gets metadata of an object store
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getMetadata(args: GetMetadataParameter): GetMetadataReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.getMetadata", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -135,8 +143,9 @@ public class IndexedDB(
   /**
    * Requests database with given name in given frame.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestDatabase(args: RequestDatabaseParameter): RequestDatabaseReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.requestDatabase", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -151,9 +160,10 @@ public class IndexedDB(
   /**
    * Requests database names for given security origin.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestDatabaseNames(args: RequestDatabaseNamesParameter):
       RequestDatabaseNamesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.requestDatabaseNames", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -385,7 +395,7 @@ public class IndexedDB(
     /**
      * Key range.
      */
-    public val keyRange: KeyRange?
+    public val keyRange: KeyRange? = null
   )
 
   @Serializable

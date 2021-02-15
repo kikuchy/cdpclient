@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,26 +24,38 @@ public val CDPClient.applicationCache: ApplicationCache
 public class ApplicationCache(
   private val client: CDPClient
 ) : Domain {
-  public val applicationCacheStatusUpdated: Flow<ApplicationCacheStatusUpdatedParameter> =
-      client.events.filter {
-          it.method == "applicationCacheStatusUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val applicationCacheStatusUpdated: Flow<ApplicationCacheStatusUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "applicationCacheStatusUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val networkStateUpdated: Flow<NetworkStateUpdatedParameter> = client.events.filter {
-          it.method == "networkStateUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val networkStateUpdated: Flow<NetworkStateUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "networkStateUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Enables application cache domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("ApplicationCache.enable", parameter)
@@ -51,9 +64,10 @@ public class ApplicationCache(
   /**
    * Returns relevant application cache data for the document in given frame.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getApplicationCacheForFrame(args: GetApplicationCacheForFrameParameter):
       GetApplicationCacheForFrameReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("ApplicationCache.getApplicationCacheForFrame", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -68,6 +82,7 @@ public class ApplicationCache(
    * Returns array of frame identifiers with manifest urls for each frame containing a document
    * associated with some application cache.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getFramesWithManifests(): GetFramesWithManifestsReturn {
     val parameter = null
     val result = client.callCommand("ApplicationCache.getFramesWithManifests", parameter)
@@ -77,9 +92,10 @@ public class ApplicationCache(
   /**
    * Returns manifest URL for document in the given frame.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getManifestForFrame(args: GetManifestForFrameParameter):
       GetManifestForFrameReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("ApplicationCache.getManifestForFrame", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -154,7 +170,7 @@ public class ApplicationCache(
     public val status: Int
   )
 
-  public class ApplicationCacheStatusUpdatedParameter(
+  public data class ApplicationCacheStatusUpdatedParameter(
     /**
      * Identifier of the frame containing document whose application cache updated status.
      */
@@ -169,7 +185,7 @@ public class ApplicationCache(
     public val status: Int
   )
 
-  public class NetworkStateUpdatedParameter(
+  public data class NetworkStateUpdatedParameter(
     public val isNowOnline: Boolean
   )
 

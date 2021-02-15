@@ -7,6 +7,7 @@ import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
 import kotlin.collections.Map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -25,28 +26,41 @@ public val CDPClient.layerTree: LayerTree
 public class LayerTree(
   private val client: CDPClient
 ) : Domain {
-  public val layerPainted: Flow<LayerPaintedParameter> = client.events.filter {
-          it.method == "layerPainted"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val layerPainted: Flow<LayerPaintedParameter> = client
+          .events
+          .filter {
+              it.method == "layerPainted"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val layerTreeDidChange: Flow<LayerTreeDidChangeParameter> = client.events.filter {
-          it.method == "layerTreeDidChange"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val layerTreeDidChange: Flow<LayerTreeDidChangeParameter> = client
+          .events
+          .filter {
+              it.method == "layerTreeDidChange"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Provides the reasons why the given layer was composited.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun compositingReasons(args: CompositingReasonsParameter):
       CompositingReasonsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.compositingReasons", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -59,6 +73,7 @@ public class LayerTree(
   /**
    * Disables compositing tree inspection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("LayerTree.disable", parameter)
@@ -67,6 +82,7 @@ public class LayerTree(
   /**
    * Enables compositing tree inspection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("LayerTree.enable", parameter)
@@ -75,8 +91,9 @@ public class LayerTree(
   /**
    * Returns the snapshot identifier.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun loadSnapshot(args: LoadSnapshotParameter): LoadSnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.loadSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -89,8 +106,9 @@ public class LayerTree(
   /**
    * Returns the layer snapshot identifier.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun makeSnapshot(args: MakeSnapshotParameter): MakeSnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.makeSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -100,8 +118,9 @@ public class LayerTree(
     return makeSnapshot(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun profileSnapshot(args: ProfileSnapshotParameter): ProfileSnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.profileSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -120,8 +139,9 @@ public class LayerTree(
   /**
    * Releases layer snapshot captured by the back-end.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun releaseSnapshot(args: ReleaseSnapshotParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("LayerTree.releaseSnapshot", parameter)
   }
 
@@ -133,8 +153,9 @@ public class LayerTree(
   /**
    * Replays the layer snapshot and returns the resulting bitmap.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun replaySnapshot(args: ReplaySnapshotParameter): ReplaySnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.replaySnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -153,9 +174,10 @@ public class LayerTree(
   /**
    * Replays the layer snapshot and returns canvas log.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun snapshotCommandLog(args: SnapshotCommandLogParameter):
       SnapshotCommandLogReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.snapshotCommandLog", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -294,7 +316,7 @@ public class LayerTree(
     public val stickyPositionConstraint: StickyPositionConstraint? = null
   )
 
-  public class LayerPaintedParameter(
+  public data class LayerPaintedParameter(
     /**
      * The id of the painted layer.
      */
@@ -305,7 +327,7 @@ public class LayerTree(
     public val clip: DOM.Rect
   )
 
-  public class LayerTreeDidChangeParameter(
+  public data class LayerTreeDidChangeParameter(
     /**
      * Layer tree, absent if not in the comspositing mode.
      */
@@ -373,15 +395,15 @@ public class LayerTree(
     /**
      * The maximum number of times to replay the snapshot (1, if not specified).
      */
-    public val minRepeatCount: Int?,
+    public val minRepeatCount: Int? = null,
     /**
      * The minimum duration (in seconds) to replay the snapshot.
      */
-    public val minDuration: Double?,
+    public val minDuration: Double? = null,
     /**
      * The clip rectangle to apply when replaying the snapshot.
      */
-    public val clipRect: DOM.Rect?
+    public val clipRect: DOM.Rect? = null
   )
 
   @Serializable
@@ -409,15 +431,15 @@ public class LayerTree(
     /**
      * The first step to replay from (replay from the very start if not specified).
      */
-    public val fromStep: Int?,
+    public val fromStep: Int? = null,
     /**
      * The last step to replay to (replay till the end if not specified).
      */
-    public val toStep: Int?,
+    public val toStep: Int? = null,
     /**
      * The scale to apply while replaying (defaults to 1).
      */
-    public val scale: Double?
+    public val scale: Double? = null
   )
 
   @Serializable

@@ -5,6 +5,7 @@ import kotlin.Double
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -25,40 +26,65 @@ public val CDPClient.dOMStorage: DOMStorage
 public class DOMStorage(
   private val client: CDPClient
 ) : Domain {
-  public val domStorageItemAdded: Flow<DomStorageItemAddedParameter> = client.events.filter {
-          it.method == "domStorageItemAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val domStorageItemAdded: Flow<DomStorageItemAddedParameter> = client
+          .events
+          .filter {
+              it.method == "domStorageItemAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val domStorageItemRemoved: Flow<DomStorageItemRemovedParameter> = client.events.filter {
-          it.method == "domStorageItemRemoved"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val domStorageItemRemoved: Flow<DomStorageItemRemovedParameter> = client
+          .events
+          .filter {
+              it.method == "domStorageItemRemoved"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val domStorageItemUpdated: Flow<DomStorageItemUpdatedParameter> = client.events.filter {
-          it.method == "domStorageItemUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val domStorageItemUpdated: Flow<DomStorageItemUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "domStorageItemUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val domStorageItemsCleared: Flow<DomStorageItemsClearedParameter> = client.events.filter {
-          it.method == "domStorageItemsCleared"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val domStorageItemsCleared: Flow<DomStorageItemsClearedParameter> = client
+          .events
+          .filter {
+              it.method == "domStorageItemsCleared"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public suspend fun clear(args: ClearParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMStorage.clear", parameter)
   }
 
@@ -70,6 +96,7 @@ public class DOMStorage(
   /**
    * Disables storage tracking, prevents storage events from being sent to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("DOMStorage.disable", parameter)
@@ -78,14 +105,16 @@ public class DOMStorage(
   /**
    * Enables storage tracking, storage events will now be delivered to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("DOMStorage.enable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getDOMStorageItems(args: GetDOMStorageItemsParameter):
       GetDOMStorageItemsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOMStorage.getDOMStorageItems", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -95,8 +124,9 @@ public class DOMStorage(
     return getDOMStorageItems(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun removeDOMStorageItem(args: RemoveDOMStorageItemParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMStorage.removeDOMStorageItem", parameter)
   }
 
@@ -105,8 +135,9 @@ public class DOMStorage(
     removeDOMStorageItem(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setDOMStorageItem(args: SetDOMStorageItemParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMStorage.setDOMStorageItem", parameter)
   }
 
@@ -134,25 +165,25 @@ public class DOMStorage(
     public val isLocalStorage: Boolean
   )
 
-  public class DomStorageItemAddedParameter(
+  public data class DomStorageItemAddedParameter(
     public val storageId: StorageId,
     public val key: String,
     public val newValue: String
   )
 
-  public class DomStorageItemRemovedParameter(
+  public data class DomStorageItemRemovedParameter(
     public val storageId: StorageId,
     public val key: String
   )
 
-  public class DomStorageItemUpdatedParameter(
+  public data class DomStorageItemUpdatedParameter(
     public val storageId: StorageId,
     public val key: String,
     public val oldValue: String,
     public val newValue: String
   )
 
-  public class DomStorageItemsClearedParameter(
+  public data class DomStorageItemsClearedParameter(
     public val storageId: StorageId
   )
 

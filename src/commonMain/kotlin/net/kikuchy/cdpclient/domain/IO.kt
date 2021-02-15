@@ -4,6 +4,7 @@ import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 import kotlin.Unit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -26,8 +27,9 @@ public class IO(
   /**
    * Close the stream, discard any temporary backing storage.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun close(args: CloseParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IO.close", parameter)
   }
 
@@ -39,8 +41,9 @@ public class IO(
   /**
    * Read a chunk of the stream
    */
+  @ExperimentalCoroutinesApi
   public suspend fun read(args: ReadParameter): ReadReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IO.read", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -57,8 +60,9 @@ public class IO(
   /**
    * Return UUID of Blob object specified by a remote object id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resolveBlob(args: ResolveBlobParameter): ResolveBlobReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IO.resolveBlob", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -86,11 +90,11 @@ public class IO(
      * Seek to the specified offset before reading (if not specificed, proceed with offset
      * following the last read). Some types of streams may only support sequential reads.
      */
-    public val offset: Int?,
+    public val offset: Int? = null,
     /**
      * Maximum number of bytes to read (left upon the agent discretion if not specified).
      */
-    public val size: Int?
+    public val size: Int? = null
   )
 
   @Serializable

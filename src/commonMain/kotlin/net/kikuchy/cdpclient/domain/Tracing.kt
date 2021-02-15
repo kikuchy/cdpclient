@@ -5,6 +5,7 @@ import kotlin.Double
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.Map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -24,33 +25,52 @@ public val CDPClient.tracing: Tracing
 public class Tracing(
   private val client: CDPClient
 ) : Domain {
-  public val bufferUsage: Flow<BufferUsageParameter> = client.events.filter {
-          it.method == "bufferUsage"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val bufferUsage: Flow<BufferUsageParameter> = client
+          .events
+          .filter {
+              it.method == "bufferUsage"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val dataCollected: Flow<DataCollectedParameter> = client.events.filter {
-          it.method == "dataCollected"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val dataCollected: Flow<DataCollectedParameter> = client
+          .events
+          .filter {
+              it.method == "dataCollected"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val tracingComplete: Flow<TracingCompleteParameter> = client.events.filter {
-          it.method == "tracingComplete"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val tracingComplete: Flow<TracingCompleteParameter> = client
+          .events
+          .filter {
+              it.method == "tracingComplete"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Stop trace events collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun end(): Unit {
     val parameter = null
     client.callCommand("Tracing.end", parameter)
@@ -59,6 +79,7 @@ public class Tracing(
   /**
    * Gets supported tracing categories.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCategories(): GetCategoriesReturn {
     val parameter = null
     val result = client.callCommand("Tracing.getCategories", parameter)
@@ -68,8 +89,9 @@ public class Tracing(
   /**
    * Record a clock sync marker in the trace.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun recordClockSyncMarker(args: RecordClockSyncMarkerParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tracing.recordClockSyncMarker", parameter)
   }
 
@@ -81,8 +103,9 @@ public class Tracing(
   /**
    * Request a global memory dump.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun requestMemoryDump(args: RequestMemoryDumpParameter): RequestMemoryDumpReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Tracing.requestMemoryDump", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -97,8 +120,9 @@ public class Tracing(
   /**
    * Start trace events collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun start(args: StartParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tracing.start", parameter)
   }
 
@@ -199,7 +223,7 @@ public class Tracing(
     DETAILED,
   }
 
-  public class BufferUsageParameter(
+  public data class BufferUsageParameter(
     /**
      * A number in range [0..1] that indicates the used size of event buffer as a fraction of its
      * total size.
@@ -220,7 +244,7 @@ public class Tracing(
    * Contains an bucket of collected trace events. When tracing is stopped collected events will be
    * send as a sequence of dataCollected events followed by tracingComplete event.
    */
-  public class DataCollectedParameter(
+  public data class DataCollectedParameter(
     public val value: Map<String, JsonElement>
   )
 
@@ -228,7 +252,7 @@ public class Tracing(
    * Signals that tracing is stopped and there is no trace buffers pending flush, all data were
    * delivered via dataCollected events.
    */
-  public class TracingCompleteParameter(
+  public data class TracingCompleteParameter(
     /**
      * Indicates whether some trace data is known to have been lost, e.g. because the trace ring
      * buffer wrapped around.
@@ -269,11 +293,11 @@ public class Tracing(
     /**
      * Enables more deterministic results by forcing garbage collection
      */
-    public val deterministic: Boolean?,
+    public val deterministic: Boolean? = null,
     /**
      * Specifies level of details in memory dump. Defaults to "detailed".
      */
-    public val levelOfDetail: MemoryDumpLevelOfDetail?
+    public val levelOfDetail: MemoryDumpLevelOfDetail? = null
   )
 
   @Serializable
@@ -293,36 +317,36 @@ public class Tracing(
     /**
      * Category/tag filter
      */
-    public val categories: String?,
+    public val categories: String? = null,
     /**
      * Tracing options
      */
-    public val options: String?,
+    public val options: String? = null,
     /**
      * If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
      */
-    public val bufferUsageReportingInterval: Double?,
+    public val bufferUsageReportingInterval: Double? = null,
     /**
      * Whether to report trace events as series of dataCollected events or to save trace to a
      * stream (defaults to `ReportEvents`).
      */
-    public val transferMode: String?,
+    public val transferMode: String? = null,
     /**
      * Trace data format to use. This only applies when using `ReturnAsStream`
      * transfer mode (defaults to `json`).
      */
-    public val streamFormat: StreamFormat?,
+    public val streamFormat: StreamFormat? = null,
     /**
      * Compression format to use. This only applies when using `ReturnAsStream`
      * transfer mode (defaults to `none`)
      */
-    public val streamCompression: StreamCompression?,
-    public val traceConfig: TraceConfig?,
+    public val streamCompression: StreamCompression? = null,
+    public val traceConfig: TraceConfig? = null,
     /**
      * Base64-encoded serialized perfetto.protos.TraceConfig protobuf message
      * When specified, the parameters `categories`, `options`, `traceConfig`
      * are ignored. (Encoded as a base64 string when passed over JSON)
      */
-    public val perfettoConfig: String?
+    public val perfettoConfig: String? = null
   )
 }

@@ -8,6 +8,7 @@ import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
 import kotlin.collections.Map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -31,51 +32,82 @@ public val CDPClient.debugger: Debugger
 public class Debugger(
   private val client: CDPClient
 ) : Domain {
-  public val breakpointResolved: Flow<BreakpointResolvedParameter> = client.events.filter {
-          it.method == "breakpointResolved"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val breakpointResolved: Flow<BreakpointResolvedParameter> = client
+          .events
+          .filter {
+              it.method == "breakpointResolved"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val paused: Flow<PausedParameter> = client.events.filter {
-          it.method == "paused"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val paused: Flow<PausedParameter> = client
+          .events
+          .filter {
+              it.method == "paused"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val resumed: Flow<Unit> = client.events.filter {
-          it.method == "resumed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val resumed: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "resumed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val scriptFailedToParse: Flow<ScriptFailedToParseParameter> = client.events.filter {
-          it.method == "scriptFailedToParse"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val scriptFailedToParse: Flow<ScriptFailedToParseParameter> = client
+          .events
+          .filter {
+              it.method == "scriptFailedToParse"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val scriptParsed: Flow<ScriptParsedParameter> = client.events.filter {
-          it.method == "scriptParsed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val scriptParsed: Flow<ScriptParsedParameter> = client
+          .events
+          .filter {
+              it.method == "scriptParsed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Continues execution until specific location is reached.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun continueToLocation(args: ContinueToLocationParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.continueToLocation", parameter)
   }
 
@@ -89,6 +121,7 @@ public class Debugger(
   /**
    * Disables debugger for given page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Debugger.disable", parameter)
@@ -98,8 +131,9 @@ public class Debugger(
    * Enables debugger for the given page. Clients should not assume that the debugging has been
    * enabled until the result for this command is received.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(args: EnableParameter): EnableReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.enable", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -112,9 +146,10 @@ public class Debugger(
   /**
    * Evaluates expression on a given call frame.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun evaluateOnCallFrame(args: EvaluateOnCallFrameParameter):
       EvaluateOnCallFrameReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.evaluateOnCallFrame", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -140,9 +175,10 @@ public class Debugger(
   /**
    * Execute a Wasm Evaluator module on a given call frame.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun executeWasmEvaluator(args: ExecuteWasmEvaluatorParameter):
       ExecuteWasmEvaluatorReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.executeWasmEvaluator", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -161,9 +197,10 @@ public class Debugger(
    * Returns possible locations for breakpoint. scriptId in start and end range locations should be
    * the same.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getPossibleBreakpoints(args: GetPossibleBreakpointsParameter):
       GetPossibleBreakpointsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.getPossibleBreakpoints", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -181,8 +218,9 @@ public class Debugger(
   /**
    * Returns source for the script with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getScriptSource(args: GetScriptSourceParameter): GetScriptSourceReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.getScriptSource", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -195,9 +233,10 @@ public class Debugger(
   /**
    * This command is deprecated. Use getScriptSource instead.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun getWasmBytecode(args: GetWasmBytecodeParameter): GetWasmBytecodeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.getWasmBytecode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -210,8 +249,9 @@ public class Debugger(
   /**
    * Returns stack trace with given `stackTraceId`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getStackTrace(args: GetStackTraceParameter): GetStackTraceReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.getStackTrace", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -224,14 +264,16 @@ public class Debugger(
   /**
    * Stops on the next JavaScript statement.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun pause(): Unit {
     val parameter = null
     client.callCommand("Debugger.pause", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun pauseOnAsyncCall(args: PauseOnAsyncCallParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.pauseOnAsyncCall", parameter)
   }
 
@@ -243,8 +285,9 @@ public class Debugger(
   /**
    * Removes JavaScript breakpoint.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeBreakpoint(args: RemoveBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.removeBreakpoint", parameter)
   }
 
@@ -256,8 +299,9 @@ public class Debugger(
   /**
    * Restarts particular call frame from the beginning.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun restartFrame(args: RestartFrameParameter): RestartFrameReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.restartFrame", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -270,8 +314,9 @@ public class Debugger(
   /**
    * Resumes JavaScript execution.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resume(args: ResumeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.resume", parameter)
   }
 
@@ -283,8 +328,9 @@ public class Debugger(
   /**
    * Searches for given string in script content.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun searchInContent(args: SearchInContentParameter): SearchInContentReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.searchInContent", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -303,8 +349,9 @@ public class Debugger(
   /**
    * Enables or disables async call stacks tracking.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAsyncCallStackDepth(args: SetAsyncCallStackDepthParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setAsyncCallStackDepth", parameter)
   }
 
@@ -318,8 +365,9 @@ public class Debugger(
    * scripts with url matching one of the patterns. VM will try to leave blackboxed script by
    * performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBlackboxPatterns(args: SetBlackboxPatternsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setBlackboxPatterns", parameter)
   }
 
@@ -334,8 +382,9 @@ public class Debugger(
    * Positions array contains positions where blackbox state is changed. First interval isn't
    * blackboxed. Array should be sorted.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBlackboxedRanges(args: SetBlackboxedRangesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setBlackboxedRanges", parameter)
   }
 
@@ -347,8 +396,9 @@ public class Debugger(
   /**
    * Sets JavaScript breakpoint at a given location.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBreakpoint(args: SetBreakpointParameter): SetBreakpointReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.setBreakpoint", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -362,9 +412,10 @@ public class Debugger(
   /**
    * Sets instrumentation breakpoint.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setInstrumentationBreakpoint(args: SetInstrumentationBreakpointParameter):
       SetInstrumentationBreakpointReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.setInstrumentationBreakpoint", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -381,9 +432,10 @@ public class Debugger(
    * `locations` property. Further matching script parsing will result in subsequent
    * `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBreakpointByUrl(args: SetBreakpointByUrlParameter):
       SetBreakpointByUrlReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.setBreakpointByUrl", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -406,9 +458,10 @@ public class Debugger(
    * If another function was created from the same source as a given one,
    * calling it will also trigger the breakpoint.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBreakpointOnFunctionCall(args: SetBreakpointOnFunctionCallParameter):
       SetBreakpointOnFunctionCallReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.setBreakpointOnFunctionCall", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -422,8 +475,9 @@ public class Debugger(
   /**
    * Activates / deactivates all breakpoints on the page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBreakpointsActive(args: SetBreakpointsActiveParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setBreakpointsActive", parameter)
   }
 
@@ -436,8 +490,9 @@ public class Debugger(
    * Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or
    * no exceptions. Initial pause on exceptions state is `none`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setPauseOnExceptions(args: SetPauseOnExceptionsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setPauseOnExceptions", parameter)
   }
 
@@ -449,8 +504,9 @@ public class Debugger(
   /**
    * Changes return value in top frame. Available only at return break position.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setReturnValue(args: SetReturnValueParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setReturnValue", parameter)
   }
 
@@ -462,8 +518,9 @@ public class Debugger(
   /**
    * Edits JavaScript source live.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setScriptSource(args: SetScriptSourceParameter): SetScriptSourceReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Debugger.setScriptSource", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -481,8 +538,9 @@ public class Debugger(
   /**
    * Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setSkipAllPauses(args: SetSkipAllPausesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setSkipAllPauses", parameter)
   }
 
@@ -495,8 +553,9 @@ public class Debugger(
    * Changes value of variable in a callframe. Object-based scopes are not supported and must be
    * mutated manually.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setVariableValue(args: SetVariableValueParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.setVariableValue", parameter)
   }
 
@@ -514,8 +573,9 @@ public class Debugger(
   /**
    * Steps into the function call.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stepInto(args: StepIntoParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.stepInto", parameter)
   }
 
@@ -528,6 +588,7 @@ public class Debugger(
   /**
    * Steps out of the function call.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stepOut(): Unit {
     val parameter = null
     client.callCommand("Debugger.stepOut", parameter)
@@ -536,8 +597,9 @@ public class Debugger(
   /**
    * Steps over the statement.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stepOver(args: StepOverParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Debugger.stepOver", parameter)
   }
 
@@ -710,7 +772,7 @@ public class Debugger(
   /**
    * Fired when breakpoint is resolved to an actual script and location.
    */
-  public class BreakpointResolvedParameter(
+  public data class BreakpointResolvedParameter(
     /**
      * Breakpoint unique identifier.
      */
@@ -724,7 +786,7 @@ public class Debugger(
   /**
    * Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
    */
-  public class PausedParameter(
+  public data class PausedParameter(
     /**
      * Call stack the virtual machine stopped on.
      */
@@ -758,7 +820,7 @@ public class Debugger(
   /**
    * Fired when virtual machine fails to parse the script.
    */
-  public class ScriptFailedToParseParameter(
+  public data class ScriptFailedToParseParameter(
     /**
      * Identifier of the script parsed.
      */
@@ -834,7 +896,7 @@ public class Debugger(
    * uncollected
    * scripts upon enabling debugger.
    */
-  public class ScriptParsedParameter(
+  public data class ScriptParsedParameter(
     /**
      * Identifier of the script parsed.
      */
@@ -919,7 +981,7 @@ public class Debugger(
      * Location to continue to.
      */
     public val location: Location,
-    public val targetCallFrames: String?
+    public val targetCallFrames: String? = null
   )
 
   @Serializable
@@ -928,7 +990,7 @@ public class Debugger(
      * The maximum size in bytes of collected scripts (not referenced by other heap objects)
      * the debugger can hold. Puts no limit if paramter is omitted.
      */
-    public val maxScriptsCacheSize: Double?
+    public val maxScriptsCacheSize: Double? = null
   )
 
   @Serializable
@@ -953,33 +1015,33 @@ public class Debugger(
      * String object group name to put result into (allows rapid releasing resulting object handles
      * using `releaseObjectGroup`).
      */
-    public val objectGroup: String?,
+    public val objectGroup: String? = null,
     /**
      * Specifies whether command line API should be available to the evaluated expression, defaults
      * to false.
      */
-    public val includeCommandLineAPI: Boolean?,
+    public val includeCommandLineAPI: Boolean? = null,
     /**
      * In silent mode exceptions thrown during evaluation are not reported and do not pause
      * execution. Overrides `setPauseOnException` state.
      */
-    public val silent: Boolean?,
+    public val silent: Boolean? = null,
     /**
      * Whether the result is expected to be a JSON object that should be sent by value.
      */
-    public val returnByValue: Boolean?,
+    public val returnByValue: Boolean? = null,
     /**
      * Whether preview should be generated for the result.
      */
-    public val generatePreview: Boolean?,
+    public val generatePreview: Boolean? = null,
     /**
      * Whether to throw an exception if side effect cannot be ruled out during evaluation.
      */
-    public val throwOnSideEffect: Boolean?,
+    public val throwOnSideEffect: Boolean? = null,
     /**
      * Terminate execution after timing out (number of milliseconds).
      */
-    public val timeout: Double?
+    public val timeout: Double? = null
   )
 
   @Serializable
@@ -1007,7 +1069,7 @@ public class Debugger(
     /**
      * Terminate execution after timing out (number of milliseconds).
      */
-    public val timeout: Double?
+    public val timeout: Double? = null
   )
 
   @Serializable
@@ -1032,11 +1094,11 @@ public class Debugger(
      * End of range to search possible breakpoint locations in (excluding). When not specified, end
      * of scripts is used as end of range.
      */
-    public val end: Location?,
+    public val end: Location? = null,
     /**
      * Only consider locations which are in the same (non-nested) function as start.
      */
-    public val restrictToFunction: Boolean?
+    public val restrictToFunction: Boolean? = null
   )
 
   @Serializable
@@ -1139,7 +1201,7 @@ public class Debugger(
      * is actually resumed, at which point termination is triggered.
      * If execution is currently not paused, this parameter has no effect.
      */
-    public val terminateOnResume: Boolean?
+    public val terminateOnResume: Boolean? = null
   )
 
   @Serializable
@@ -1155,11 +1217,11 @@ public class Debugger(
     /**
      * If true, search is case sensitive.
      */
-    public val caseSensitive: Boolean?,
+    public val caseSensitive: Boolean? = null,
     /**
      * If true, treats string parameter as regex.
      */
-    public val isRegex: Boolean?
+    public val isRegex: Boolean? = null
   )
 
   @Serializable
@@ -1206,7 +1268,7 @@ public class Debugger(
      * Expression to use as a breakpoint condition. When specified, debugger will only stop on the
      * breakpoint if this expression evaluates to true.
      */
-    public val condition: String?
+    public val condition: String? = null
   )
 
   @Serializable
@@ -1246,25 +1308,25 @@ public class Debugger(
     /**
      * URL of the resources to set breakpoint on.
      */
-    public val url: String?,
+    public val url: String? = null,
     /**
      * Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or
      * `urlRegex` must be specified.
      */
-    public val urlRegex: String?,
+    public val urlRegex: String? = null,
     /**
      * Script hash of the resources to set breakpoint on.
      */
-    public val scriptHash: String?,
+    public val scriptHash: String? = null,
     /**
      * Offset in the line to set breakpoint at.
      */
-    public val columnNumber: Int?,
+    public val columnNumber: Int? = null,
     /**
      * Expression to use as a breakpoint condition. When specified, debugger will only stop on the
      * breakpoint if this expression evaluates to true.
      */
-    public val condition: String?
+    public val condition: String? = null
   )
 
   @Serializable
@@ -1289,7 +1351,7 @@ public class Debugger(
      * Expression to use as a breakpoint condition. When specified, debugger will
      * stop on the breakpoint if this expression evaluates to true.
      */
-    public val condition: String?
+    public val condition: String? = null
   )
 
   @Serializable
@@ -1338,7 +1400,7 @@ public class Debugger(
      * If true the change will not actually be applied. Dry run may be used to get result
      * description without actually modifying the code.
      */
-    public val dryRun: Boolean?
+    public val dryRun: Boolean? = null
   )
 
   @Serializable
@@ -1400,11 +1462,11 @@ public class Debugger(
      * Debugger will pause on the execution of the first async task which was scheduled
      * before next pause.
      */
-    public val breakOnAsyncCall: Boolean?,
+    public val breakOnAsyncCall: Boolean? = null,
     /**
      * The skipList specifies location ranges that should be skipped on step into.
      */
-    public val skipList: List<LocationRange>?
+    public val skipList: List<LocationRange>? = null
   )
 
   @Serializable
@@ -1412,6 +1474,6 @@ public class Debugger(
     /**
      * The skipList specifies location ranges that should be skipped on step over.
      */
-    public val skipList: List<LocationRange>?
+    public val skipList: List<LocationRange>? = null
   )
 }

@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,17 +29,24 @@ public val CDPClient.emulation: Emulation
 public class Emulation(
   private val client: CDPClient
 ) : Domain {
-  public val virtualTimeBudgetExpired: Flow<Unit> = client.events.filter {
-          it.method == "virtualTimeBudgetExpired"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val virtualTimeBudgetExpired: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "virtualTimeBudgetExpired"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Tells whether emulation is supported.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun canEmulate(): CanEmulateReturn {
     val parameter = null
     val result = client.callCommand("Emulation.canEmulate", parameter)
@@ -48,6 +56,7 @@ public class Emulation(
   /**
    * Clears the overriden device metrics.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearDeviceMetricsOverride(): Unit {
     val parameter = null
     client.callCommand("Emulation.clearDeviceMetricsOverride", parameter)
@@ -56,6 +65,7 @@ public class Emulation(
   /**
    * Clears the overriden Geolocation Position and Error.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearGeolocationOverride(): Unit {
     val parameter = null
     client.callCommand("Emulation.clearGeolocationOverride", parameter)
@@ -64,6 +74,7 @@ public class Emulation(
   /**
    * Requests that page scale factor is reset to initial values.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resetPageScaleFactor(): Unit {
     val parameter = null
     client.callCommand("Emulation.resetPageScaleFactor", parameter)
@@ -72,8 +83,9 @@ public class Emulation(
   /**
    * Enables or disables simulating a focused and active page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setFocusEmulationEnabled(args: SetFocusEmulationEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setFocusEmulationEnabled", parameter)
   }
 
@@ -85,8 +97,9 @@ public class Emulation(
   /**
    * Enables CPU throttling to emulate slow CPUs.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setCPUThrottlingRate(args: SetCPUThrottlingRateParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setCPUThrottlingRate", parameter)
   }
 
@@ -99,10 +112,11 @@ public class Emulation(
    * Sets or clears an override of the default background color of the frame. This override is used
    * if the content does not specify one.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun setDefaultBackgroundColorOverride(args: SetDefaultBackgroundColorOverrideParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setDefaultBackgroundColorOverride", parameter)
   }
 
@@ -116,8 +130,9 @@ public class Emulation(
    * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
    * query results).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDeviceMetricsOverride(args: SetDeviceMetricsOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setDeviceMetricsOverride", parameter)
   }
 
@@ -144,8 +159,9 @@ public class Emulation(
     setDeviceMetricsOverride(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setScrollbarsHidden(args: SetScrollbarsHiddenParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setScrollbarsHidden", parameter)
   }
 
@@ -154,8 +170,9 @@ public class Emulation(
     setScrollbarsHidden(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setDocumentCookieDisabled(args: SetDocumentCookieDisabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setDocumentCookieDisabled", parameter)
   }
 
@@ -164,8 +181,9 @@ public class Emulation(
     setDocumentCookieDisabled(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setEmitTouchEventsForMouse(args: SetEmitTouchEventsForMouseParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setEmitTouchEventsForMouse", parameter)
   }
 
@@ -179,8 +197,9 @@ public class Emulation(
   /**
    * Emulates the given media type or media feature for CSS media queries.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setEmulatedMedia(args: SetEmulatedMediaParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setEmulatedMedia", parameter)
   }
 
@@ -193,8 +212,9 @@ public class Emulation(
   /**
    * Emulates the given vision deficiency.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setEmulatedVisionDeficiency(args: SetEmulatedVisionDeficiencyParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setEmulatedVisionDeficiency", parameter)
   }
 
@@ -207,8 +227,9 @@ public class Emulation(
    * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
    * unavailable.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setGeolocationOverride(args: SetGeolocationOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setGeolocationOverride", parameter)
   }
 
@@ -225,8 +246,9 @@ public class Emulation(
   /**
    * Overrides the Idle state.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setIdleOverride(args: SetIdleOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setIdleOverride", parameter)
   }
 
@@ -239,6 +261,7 @@ public class Emulation(
   /**
    * Clears Idle state overrides.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearIdleOverride(): Unit {
     val parameter = null
     client.callCommand("Emulation.clearIdleOverride", parameter)
@@ -247,9 +270,10 @@ public class Emulation(
   /**
    * Overrides value returned by the javascript navigator object.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setNavigatorOverrides(args: SetNavigatorOverridesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setNavigatorOverrides", parameter)
   }
 
@@ -261,8 +285,9 @@ public class Emulation(
   /**
    * Sets a specified page scale factor.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setPageScaleFactor(args: SetPageScaleFactorParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setPageScaleFactor", parameter)
   }
 
@@ -274,8 +299,9 @@ public class Emulation(
   /**
    * Switches script execution in the page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setScriptExecutionDisabled(args: SetScriptExecutionDisabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setScriptExecutionDisabled", parameter)
   }
 
@@ -287,8 +313,9 @@ public class Emulation(
   /**
    * Enables touch on platforms which do not support them.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setTouchEmulationEnabled(args: SetTouchEmulationEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setTouchEmulationEnabled", parameter)
   }
 
@@ -303,9 +330,10 @@ public class Emulation(
    * sets
    * the current virtual time policy.  Note this supersedes any previous time budget.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setVirtualTimePolicy(args: SetVirtualTimePolicyParameter):
       SetVirtualTimePolicyReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Emulation.setVirtualTimePolicy", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -327,8 +355,9 @@ public class Emulation(
   /**
    * Overrides default host system locale with the specified one.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setLocaleOverride(args: SetLocaleOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setLocaleOverride", parameter)
   }
 
@@ -340,8 +369,9 @@ public class Emulation(
   /**
    * Overrides default host system timezone with the specified one.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setTimezoneOverride(args: SetTimezoneOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setTimezoneOverride", parameter)
   }
 
@@ -355,9 +385,10 @@ public class Emulation(
    * (e.g. browser window). Can be used to produce screenshots of the specified size. Not supported
    * on Android.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setVisibleSize(args: SetVisibleSizeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setVisibleSize", parameter)
   }
 
@@ -366,8 +397,9 @@ public class Emulation(
     setVisibleSize(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setDisabledImageTypes(args: SetDisabledImageTypesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setDisabledImageTypes", parameter)
   }
 
@@ -379,8 +411,9 @@ public class Emulation(
   /**
    * Allows overriding user agent with the given string.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setUserAgentOverride(args: SetUserAgentOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Emulation.setUserAgentOverride", parameter)
   }
 
@@ -516,7 +549,7 @@ public class Emulation(
      * RGBA of the default background color. If not specified, any existing override will be
      * cleared.
      */
-    public val color: DOM.RGBA?
+    public val color: DOM.RGBA? = null
   )
 
   @Serializable
@@ -541,41 +574,41 @@ public class Emulation(
     /**
      * Scale to apply to resulting view image.
      */
-    public val scale: Double?,
+    public val scale: Double? = null,
     /**
      * Overriding screen width value in pixels (minimum 0, maximum 10000000).
      */
-    public val screenWidth: Int?,
+    public val screenWidth: Int? = null,
     /**
      * Overriding screen height value in pixels (minimum 0, maximum 10000000).
      */
-    public val screenHeight: Int?,
+    public val screenHeight: Int? = null,
     /**
      * Overriding view X position on screen in pixels (minimum 0, maximum 10000000).
      */
-    public val positionX: Int?,
+    public val positionX: Int? = null,
     /**
      * Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).
      */
-    public val positionY: Int?,
+    public val positionY: Int? = null,
     /**
      * Do not set visible view size, rely upon explicit setVisibleSize call.
      */
-    public val dontSetVisibleSize: Boolean?,
+    public val dontSetVisibleSize: Boolean? = null,
     /**
      * Screen orientation override.
      */
-    public val screenOrientation: ScreenOrientation?,
+    public val screenOrientation: ScreenOrientation? = null,
     /**
      * If set, the visible area of the page will be overridden to this viewport. This viewport
      * change is not observed by the page, e.g. viewport-relative elements do not change positions.
      */
-    public val viewport: Page.Viewport?,
+    public val viewport: Page.Viewport? = null,
     /**
      * If set, the display feature of a multi-segment screen. If not set, multi-segment support
      * is turned-off.
      */
-    public val displayFeature: DisplayFeature?
+    public val displayFeature: DisplayFeature? = null
   )
 
   @Serializable
@@ -603,7 +636,7 @@ public class Emulation(
     /**
      * Touch/gesture events configuration. Default: current platform.
      */
-    public val configuration: String?
+    public val configuration: String? = null
   )
 
   @Serializable
@@ -611,11 +644,11 @@ public class Emulation(
     /**
      * Media type to emulate. Empty string disables the override.
      */
-    public val media: String?,
+    public val media: String? = null,
     /**
      * Media features to emulate.
      */
-    public val features: List<MediaFeature>?
+    public val features: List<MediaFeature>? = null
   )
 
   @Serializable
@@ -631,15 +664,15 @@ public class Emulation(
     /**
      * Mock latitude
      */
-    public val latitude: Double?,
+    public val latitude: Double? = null,
     /**
      * Mock longitude
      */
-    public val longitude: Double?,
+    public val longitude: Double? = null,
     /**
      * Mock accuracy
      */
-    public val accuracy: Double?
+    public val accuracy: Double? = null
   )
 
   @Serializable
@@ -687,7 +720,7 @@ public class Emulation(
     /**
      * Maximum touch points supported. Defaults to one.
      */
-    public val maxTouchPoints: Int?
+    public val maxTouchPoints: Int? = null
   )
 
   @Serializable
@@ -697,21 +730,21 @@ public class Emulation(
      * If set, after this many virtual milliseconds have elapsed virtual time will be paused and a
      * virtualTimeBudgetExpired event is sent.
      */
-    public val budget: Double?,
+    public val budget: Double? = null,
     /**
      * If set this specifies the maximum number of tasks that can be run before virtual is forced
      * forwards to prevent deadlock.
      */
-    public val maxVirtualTimeTaskStarvationCount: Int?,
+    public val maxVirtualTimeTaskStarvationCount: Int? = null,
     /**
      * If set the virtual time policy change should be deferred until any frame starts navigating.
      * Note any previous deferred policy change is superseded.
      */
-    public val waitForNavigation: Boolean?,
+    public val waitForNavigation: Boolean? = null,
     /**
      * If set, base::Time::Now will be overriden to initially return this value.
      */
-    public val initialVirtualTime: Double?
+    public val initialVirtualTime: Double? = null
   )
 
   @Serializable
@@ -728,7 +761,7 @@ public class Emulation(
      * ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
      * restores default host system locale.
      */
-    public val locale: String?
+    public val locale: String? = null
   )
 
   @Serializable
@@ -769,14 +802,14 @@ public class Emulation(
     /**
      * Browser langugage to emulate.
      */
-    public val acceptLanguage: String?,
+    public val acceptLanguage: String? = null,
     /**
      * The platform navigator.platform should return.
      */
-    public val platform: String?,
+    public val platform: String? = null,
     /**
      * To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
      */
-    public val userAgentMetadata: UserAgentMetadata?
+    public val userAgentMetadata: UserAgentMetadata? = null
   )
 }

@@ -6,15 +6,24 @@ import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.*
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.*
 import kotlin.reflect.KClass
 
+/**
+ * Thin wrapper of Chrome DevTools Protocol.
+ */
 class CDPClient(private val wsSession: ClientWebSocketSession) {
     companion object {
+        /**
+         * Generate [CDPClient] with HTTP client.
+         *
+         * It always try to connect to peer with ws:// scheme.
+         */
         suspend fun create(host: String, port: Int, path: String): CDPClient {
             val client = HttpClient {
                 install(WebSockets)
@@ -28,6 +37,12 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
                 }
             })
         }
+
+        suspend fun use(host: String, port: Int, path: String, block: suspend CDPClient.() -> Unit) {
+            val client = create(host, port, path)
+            client.block()
+            client.close()
+        }
     }
 
     private var currentID = 0
@@ -40,7 +55,11 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         }
         channel.offer(received)
     }
+
+    @ExperimentalCoroutinesApi
     internal val events: Flow<Message.Event> = allMessages.filterIsInstance()
+
+    @ExperimentalCoroutinesApi
     private val responses: Flow<Message.Response> = allMessages.filterIsInstance()
 
     private val generatedDomains: MutableMap<KClass<out Domain>, Domain> = mutableMapOf()
@@ -54,6 +73,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         return domain
     }
 
+    @ExperimentalCoroutinesApi
     internal suspend fun callCommand(method: String, parameter: JsonElement?): JsonElement? {
         val requestID = currentID++
         val jsonString = Json.encodeToString(Request(requestID, method, parameter))
@@ -71,7 +91,8 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
     @Serializable
     private class Request(val id: Int, val method: String, val params: JsonElement?)
 
-    @Serializable
+    @ExperimentalSerializationApi
+    @Serializable(with = MessageSerializer::class)
     internal sealed class Message {
         @Serializable
         class Response(
@@ -87,18 +108,44 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         ) : Message()
     }
 
+    @ExperimentalSerializationApi
+    @Serializer(forClass = Message::class)
+    private object MessageSerializer: KSerializer<Message> {
+        override fun deserialize(decoder: Decoder): Message {
+            require(decoder is JsonDecoder)
+            val element = decoder.decodeJsonElement()
+            require(element is JsonObject)
+            return if (element.containsKey("id")) {
+                val r: Message.Response = Json.decodeFromJsonElement(Message.Response.serializer(), element)
+                r
+            } else {
+                val e: Message.Event = Json.decodeFromJsonElement(element)
+                e
+            }
+        }
+
+        override val descriptor: SerialDescriptor
+            get() = TODO("Not yet implemented")
+
+        override fun serialize(encoder: Encoder, value: Message) {
+            TODO("Not yet implemented")
+        }
+    }
+
     @Serializable
     internal class ResponseError(
         val code: Int,
         val message: String,
+        val data: String?
     ) {
         fun throwAsException() {
-            throw CDPErrorException(code, message)
+            throw CDPErrorException(code, message, data)
         }
     }
 
     class CDPErrorException(
         val code: Int,
         val originalMessage: String,
-    ) : Exception("Error while calling a command: $originalMessage (code: $code)")
+        val data: String?
+    ) : Exception("Error while calling a command: $originalMessage${data?.let {"($it)"} ?: ""} (code: $code)")
 }

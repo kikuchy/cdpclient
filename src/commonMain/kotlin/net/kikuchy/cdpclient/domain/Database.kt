@@ -3,6 +3,7 @@ package net.kikuchy.cdpclient.domain
 import kotlin.Int
 import kotlin.String
 import kotlin.Unit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -21,17 +22,24 @@ public val CDPClient.database: Database
 public class Database(
   private val client: CDPClient
 ) : Domain {
-  public val addDatabase: Flow<AddDatabaseParameter> = client.events.filter {
-          it.method == "addDatabase"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val addDatabase: Flow<AddDatabaseParameter> = client
+          .events
+          .filter {
+              it.method == "addDatabase"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Disables database tracking, prevents database events from being sent to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Database.disable", parameter)
@@ -40,13 +48,15 @@ public class Database(
   /**
    * Enables database tracking, database events will now be delivered to the client.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Database.enable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun executeSQL(args: ExecuteSQLParameter): ExecuteSQLReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Database.executeSQL", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -56,9 +66,10 @@ public class Database(
     return executeSQL(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getDatabaseTableNames(args: GetDatabaseTableNamesParameter):
       GetDatabaseTableNamesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Database.getDatabaseTableNames", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -106,7 +117,7 @@ public class Database(
     public val code: Int
   )
 
-  public class AddDatabaseParameter(
+  public data class AddDatabaseParameter(
     public val database: Database
   )
 

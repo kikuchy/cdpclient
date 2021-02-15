@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,34 +29,52 @@ public val CDPClient.security: Security
 public class Security(
   private val client: CDPClient
 ) : Domain {
-  public val certificateError: Flow<CertificateErrorParameter> = client.events.filter {
-          it.method == "certificateError"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val certificateError: Flow<CertificateErrorParameter> = client
+          .events
+          .filter {
+              it.method == "certificateError"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val visibleSecurityStateChanged: Flow<VisibleSecurityStateChangedParameter> =
-      client.events.filter {
-          it.method == "visibleSecurityStateChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val visibleSecurityStateChanged: Flow<VisibleSecurityStateChangedParameter> = client
+          .events
+          .filter {
+              it.method == "visibleSecurityStateChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val securityStateChanged: Flow<SecurityStateChangedParameter> = client.events.filter {
-          it.method == "securityStateChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val securityStateChanged: Flow<SecurityStateChangedParameter> = client
+          .events
+          .filter {
+              it.method == "securityStateChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Disables tracking security state changes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Security.disable", parameter)
@@ -64,6 +83,7 @@ public class Security(
   /**
    * Enables tracking security state changes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Security.enable", parameter)
@@ -72,8 +92,9 @@ public class Security(
   /**
    * Enable/disable whether all certificate errors should be ignored.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setIgnoreCertificateErrors(args: SetIgnoreCertificateErrorsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Security.setIgnoreCertificateErrors", parameter)
   }
 
@@ -85,9 +106,10 @@ public class Security(
   /**
    * Handles a certificate error that fired a certificateError event.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun handleCertificateError(args: HandleCertificateErrorParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Security.handleCertificateError", parameter)
   }
 
@@ -101,10 +123,11 @@ public class Security(
    * be handled by the DevTools client and should be answered with `handleCertificateError`
    * commands.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setOverrideCertificateErrors(args: SetOverrideCertificateErrorsParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Security.setOverrideCertificateErrors", parameter)
   }
 
@@ -358,7 +381,7 @@ public class Security(
    * certificate error has been allowed internally. Only one client per target should override
    * certificate errors at the same time.
    */
-  public class CertificateErrorParameter(
+  public data class CertificateErrorParameter(
     /**
      * The ID of the event.
      */
@@ -376,7 +399,7 @@ public class Security(
   /**
    * The security state of the page changed.
    */
-  public class VisibleSecurityStateChangedParameter(
+  public data class VisibleSecurityStateChangedParameter(
     /**
      * Security state information about the page.
      */
@@ -386,7 +409,7 @@ public class Security(
   /**
    * The security state of the page changed.
    */
-  public class SecurityStateChangedParameter(
+  public data class SecurityStateChangedParameter(
     /**
      * Security state.
      */

@@ -5,6 +5,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -29,8 +30,9 @@ public class DOMDebugger(
   /**
    * Returns event listeners of the given object.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getEventListeners(args: GetEventListenersParameter): GetEventListenersReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOMDebugger.getEventListeners", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -47,8 +49,9 @@ public class DOMDebugger(
   /**
    * Removes DOM breakpoint that was set using `setDOMBreakpoint`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeDOMBreakpoint(args: RemoveDOMBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.removeDOMBreakpoint", parameter)
   }
 
@@ -60,9 +63,10 @@ public class DOMDebugger(
   /**
    * Removes breakpoint on particular DOM event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeEventListenerBreakpoint(args: RemoveEventListenerBreakpointParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.removeEventListenerBreakpoint", parameter)
   }
 
@@ -76,9 +80,10 @@ public class DOMDebugger(
   /**
    * Removes breakpoint on particular native event.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun removeInstrumentationBreakpoint(args: RemoveInstrumentationBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.removeInstrumentationBreakpoint", parameter)
   }
 
@@ -90,8 +95,9 @@ public class DOMDebugger(
   /**
    * Removes breakpoint from XMLHttpRequest.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeXHRBreakpoint(args: RemoveXHRBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.removeXHRBreakpoint", parameter)
   }
 
@@ -103,8 +109,9 @@ public class DOMDebugger(
   /**
    * Sets breakpoint on particular CSP violations.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBreakOnCSPViolation(args: SetBreakOnCSPViolationParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.setBreakOnCSPViolation", parameter)
   }
 
@@ -116,8 +123,9 @@ public class DOMDebugger(
   /**
    * Sets breakpoint on particular operation with DOM.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDOMBreakpoint(args: SetDOMBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.setDOMBreakpoint", parameter)
   }
 
@@ -129,8 +137,9 @@ public class DOMDebugger(
   /**
    * Sets breakpoint on particular DOM event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setEventListenerBreakpoint(args: SetEventListenerBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.setEventListenerBreakpoint", parameter)
   }
 
@@ -144,9 +153,10 @@ public class DOMDebugger(
   /**
    * Sets breakpoint on particular native event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setInstrumentationBreakpoint(args: SetInstrumentationBreakpointParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.setInstrumentationBreakpoint", parameter)
   }
 
@@ -158,8 +168,9 @@ public class DOMDebugger(
   /**
    * Sets breakpoint on XMLHttpRequest.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setXHRBreakpoint(args: SetXHRBreakpointParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMDebugger.setXHRBreakpoint", parameter)
   }
 
@@ -249,12 +260,12 @@ public class DOMDebugger(
      * The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
      */
-    public val depth: Int?,
+    public val depth: Int? = null,
     /**
      * Whether or not iframes and shadow roots should be traversed when returning the subtree
      * (default is false). Reports listeners for all contexts if pierce is enabled.
      */
-    public val pierce: Boolean?
+    public val pierce: Boolean? = null
   )
 
   @Serializable
@@ -286,7 +297,7 @@ public class DOMDebugger(
     /**
      * EventTarget interface name.
      */
-    public val targetName: String?
+    public val targetName: String? = null
   )
 
   @Serializable
@@ -335,7 +346,7 @@ public class DOMDebugger(
      * EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
      * EventTarget.
      */
-    public val targetName: String?
+    public val targetName: String? = null
   )
 
   @Serializable

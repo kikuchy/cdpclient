@@ -3,6 +3,7 @@ package net.kikuchy.cdpclient.domain
 import kotlin.Int
 import kotlin.String
 import kotlin.Unit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,19 +24,26 @@ public val CDPClient.tethering: Tethering
 public class Tethering(
   private val client: CDPClient
 ) : Domain {
-  public val accepted: Flow<AcceptedParameter> = client.events.filter {
-          it.method == "accepted"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val accepted: Flow<AcceptedParameter> = client
+          .events
+          .filter {
+              it.method == "accepted"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Request browser port binding.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun bind(args: BindParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tethering.bind", parameter)
   }
 
@@ -47,8 +55,9 @@ public class Tethering(
   /**
    * Request browser port unbinding.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun unbind(args: UnbindParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tethering.unbind", parameter)
   }
 
@@ -60,7 +69,7 @@ public class Tethering(
   /**
    * Informs that port was successfully bound and got a specified connection id.
    */
-  public class AcceptedParameter(
+  public data class AcceptedParameter(
     /**
      * Port number that was successfully bound.
      */

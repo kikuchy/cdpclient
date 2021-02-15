@@ -3,6 +3,7 @@ package net.kikuchy.cdpclient.domain
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -24,21 +25,33 @@ public val CDPClient.cast: Cast
 public class Cast(
   private val client: CDPClient
 ) : Domain {
-  public val sinksUpdated: Flow<SinksUpdatedParameter> = client.events.filter {
-          it.method == "sinksUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val sinksUpdated: Flow<SinksUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "sinksUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val issueUpdated: Flow<IssueUpdatedParameter> = client.events.filter {
-          it.method == "issueUpdated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val issueUpdated: Flow<IssueUpdatedParameter> = client
+          .events
+          .filter {
+              it.method == "issueUpdated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Starts observing for sinks that can be used for tab mirroring, and if set,
@@ -47,8 +60,9 @@ public class Cast(
    * Also starts observing for issue messages. When an issue is added or removed,
    * an |issueUpdated| event is fired.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(args: EnableParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Cast.enable", parameter)
   }
 
@@ -60,6 +74,7 @@ public class Cast(
   /**
    * Stops observing for sinks and issues.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Cast.disable", parameter)
@@ -69,8 +84,9 @@ public class Cast(
    * Sets a sink to be used when the web page requests the browser to choose a
    * sink via Presentation API, Remote Playback API, or Cast SDK.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setSinkToUse(args: SetSinkToUseParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Cast.setSinkToUse", parameter)
   }
 
@@ -82,8 +98,9 @@ public class Cast(
   /**
    * Starts mirroring the tab to the sink.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startTabMirroring(args: StartTabMirroringParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Cast.startTabMirroring", parameter)
   }
 
@@ -95,8 +112,9 @@ public class Cast(
   /**
    * Stops the active Cast session on the sink.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopCasting(args: StopCastingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Cast.stopCasting", parameter)
   }
 
@@ -120,7 +138,7 @@ public class Cast(
    * This is fired whenever the list of available sinks changes. A sink is a
    * device or a software surface that you can cast to.
    */
-  public class SinksUpdatedParameter(
+  public data class SinksUpdatedParameter(
     public val sinks: List<Sink>
   )
 
@@ -128,13 +146,13 @@ public class Cast(
    * This is fired whenever the outstanding issue/error message changes.
    * |issueMessage| is empty if there is no issue.
    */
-  public class IssueUpdatedParameter(
+  public data class IssueUpdatedParameter(
     public val issueMessage: String
   )
 
   @Serializable
   public data class EnableParameter(
-    public val presentationUrl: String?
+    public val presentationUrl: String? = null
   )
 
   @Serializable

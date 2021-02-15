@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -26,68 +27,110 @@ public val CDPClient.target: Target
 public class Target(
   private val client: CDPClient
 ) : Domain {
-  public val attachedToTarget: Flow<AttachedToTargetParameter> = client.events.filter {
-          it.method == "attachedToTarget"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val attachedToTarget: Flow<AttachedToTargetParameter> = client
+          .events
+          .filter {
+              it.method == "attachedToTarget"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val detachedFromTarget: Flow<DetachedFromTargetParameter> = client.events.filter {
-          it.method == "detachedFromTarget"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val detachedFromTarget: Flow<DetachedFromTargetParameter> = client
+          .events
+          .filter {
+              it.method == "detachedFromTarget"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val receivedMessageFromTarget: Flow<ReceivedMessageFromTargetParameter> =
-      client.events.filter {
-          it.method == "receivedMessageFromTarget"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val receivedMessageFromTarget: Flow<ReceivedMessageFromTargetParameter> = client
+          .events
+          .filter {
+              it.method == "receivedMessageFromTarget"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val targetCreated: Flow<TargetCreatedParameter> = client.events.filter {
-          it.method == "targetCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val targetCreated: Flow<TargetCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "targetCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val targetDestroyed: Flow<TargetDestroyedParameter> = client.events.filter {
-          it.method == "targetDestroyed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val targetDestroyed: Flow<TargetDestroyedParameter> = client
+          .events
+          .filter {
+              it.method == "targetDestroyed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val targetCrashed: Flow<TargetCrashedParameter> = client.events.filter {
-          it.method == "targetCrashed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val targetCrashed: Flow<TargetCrashedParameter> = client
+          .events
+          .filter {
+              it.method == "targetCrashed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val targetInfoChanged: Flow<TargetInfoChangedParameter> = client.events.filter {
-          it.method == "targetInfoChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val targetInfoChanged: Flow<TargetInfoChangedParameter> = client
+          .events
+          .filter {
+              it.method == "targetInfoChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Activates (focuses) the target.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun activateTarget(args: ActivateTargetParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.activateTarget", parameter)
   }
 
@@ -99,8 +142,9 @@ public class Target(
   /**
    * Attaches to the target with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun attachToTarget(args: AttachToTargetParameter): AttachToTargetReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.attachToTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -114,6 +158,7 @@ public class Target(
   /**
    * Attaches to the browser target, only uses flat sessionId mode.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun attachToBrowserTarget(): AttachToBrowserTargetReturn {
     val parameter = null
     val result = client.callCommand("Target.attachToBrowserTarget", parameter)
@@ -123,8 +168,9 @@ public class Target(
   /**
    * Closes the target. If the target is a page that gets closed too.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun closeTarget(args: CloseTargetParameter): CloseTargetReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.closeTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -145,8 +191,9 @@ public class Target(
    * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the
    * protocol notifications and command responses.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun exposeDevToolsProtocol(args: ExposeDevToolsProtocolParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.exposeDevToolsProtocol", parameter)
   }
 
@@ -159,9 +206,10 @@ public class Target(
    * Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
    * one.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun createBrowserContext(args: CreateBrowserContextParameter):
       CreateBrowserContextReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.createBrowserContext", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -179,6 +227,7 @@ public class Target(
   /**
    * Returns all browser contexts created with `Target.createBrowserContext` method.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getBrowserContexts(): GetBrowserContextsReturn {
     val parameter = null
     val result = client.callCommand("Target.getBrowserContexts", parameter)
@@ -188,8 +237,9 @@ public class Target(
   /**
    * Creates a new page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun createTarget(args: CreateTargetParameter): CreateTargetReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.createTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -212,8 +262,9 @@ public class Target(
   /**
    * Detaches session with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun detachFromTarget(args: DetachFromTargetParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.detachFromTarget", parameter)
   }
 
@@ -226,8 +277,9 @@ public class Target(
    * Deletes a BrowserContext. All the belonging pages will be closed without calling their
    * beforeunload hooks.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disposeBrowserContext(args: DisposeBrowserContextParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.disposeBrowserContext", parameter)
   }
 
@@ -239,8 +291,9 @@ public class Target(
   /**
    * Returns information about a target.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getTargetInfo(args: GetTargetInfoParameter): GetTargetInfoReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.getTargetInfo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -253,6 +306,7 @@ public class Target(
   /**
    * Retrieves a list of available targets.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getTargets(): GetTargetsReturn {
     val parameter = null
     val result = client.callCommand("Target.getTargets", parameter)
@@ -264,9 +318,10 @@ public class Target(
    * Consider using flat mode instead; see commands attachToTarget, setAutoAttach,
    * and crbug.com/991325.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun sendMessageToTarget(args: SendMessageToTargetParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.sendMessageToTarget", parameter)
   }
 
@@ -285,8 +340,9 @@ public class Target(
    * this one. When turned on, attaches to all existing related targets as well. When turned off,
    * automatically detaches from all currently attached targets.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAutoAttach(args: SetAutoAttachParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.setAutoAttach", parameter)
   }
 
@@ -304,8 +360,9 @@ public class Target(
    * Controls whether to discover available targets and notify via
    * `targetCreated/targetInfoChanged/targetDestroyed` events.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDiscoverTargets(args: SetDiscoverTargetsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.setDiscoverTargets", parameter)
   }
 
@@ -318,8 +375,9 @@ public class Target(
    * Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
    * `true`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setRemoteLocations(args: SetRemoteLocationsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.setRemoteLocations", parameter)
   }
 
@@ -362,7 +420,7 @@ public class Target(
   /**
    * Issued when attached to target because of auto-attach or `attachToTarget` command.
    */
-  public class AttachedToTargetParameter(
+  public data class AttachedToTargetParameter(
     /**
      * Identifier assigned to the session used to send/receive messages.
      */
@@ -375,7 +433,7 @@ public class Target(
    * Issued when detached from target for any reason (including `detachFromTarget` command). Can be
    * issued multiple times per target if multiple sessions have been attached to it.
    */
-  public class DetachedFromTargetParameter(
+  public data class DetachedFromTargetParameter(
     /**
      * Detached session identifier.
      */
@@ -390,7 +448,7 @@ public class Target(
    * Notifies about a new protocol message received from the session (as reported in
    * `attachedToTarget` event).
    */
-  public class ReceivedMessageFromTargetParameter(
+  public data class ReceivedMessageFromTargetParameter(
     /**
      * Identifier of a session which sends a message.
      */
@@ -405,21 +463,21 @@ public class Target(
   /**
    * Issued when a possible inspection target is created.
    */
-  public class TargetCreatedParameter(
+  public data class TargetCreatedParameter(
     public val targetInfo: TargetInfo
   )
 
   /**
    * Issued when a target is destroyed.
    */
-  public class TargetDestroyedParameter(
+  public data class TargetDestroyedParameter(
     public val targetId: String
   )
 
   /**
    * Issued when a target has crashed.
    */
-  public class TargetCrashedParameter(
+  public data class TargetCrashedParameter(
     public val targetId: String,
     /**
      * Termination status type.
@@ -435,7 +493,7 @@ public class Target(
    * Issued when some information about a target has changed. This only happens between
    * `targetCreated` and `targetDestroyed`.
    */
-  public class TargetInfoChangedParameter(
+  public data class TargetInfoChangedParameter(
     public val targetInfo: TargetInfo
   )
 
@@ -452,7 +510,7 @@ public class Target(
      * We plan to make this the default, deprecate non-flattened mode,
      * and eventually retire it. See crbug.com/991325.
      */
-    public val flatten: Boolean?
+    public val flatten: Boolean? = null
   )
 
   @Serializable
@@ -490,7 +548,7 @@ public class Target(
     /**
      * Binding name, 'cdp' if not specified.
      */
-    public val bindingName: String?
+    public val bindingName: String? = null
   )
 
   @Serializable
@@ -498,15 +556,15 @@ public class Target(
     /**
      * If specified, disposes this context when debugging session disconnects.
      */
-    public val disposeOnDetach: Boolean?,
+    public val disposeOnDetach: Boolean? = null,
     /**
      * Proxy server, similar to the one passed to --proxy-server
      */
-    public val proxyServer: String?,
+    public val proxyServer: String? = null,
     /**
      * Proxy bypass list, similar to the one passed to --proxy-bypass-list
      */
-    public val proxyBypassList: String?
+    public val proxyBypassList: String? = null
   )
 
   @Serializable
@@ -534,29 +592,29 @@ public class Target(
     /**
      * Frame width in DIP (headless chrome only).
      */
-    public val width: Int?,
+    public val width: Int? = null,
     /**
      * Frame height in DIP (headless chrome only).
      */
-    public val height: Int?,
+    public val height: Int? = null,
     /**
      * The browser context to create the page in.
      */
-    public val browserContextId: String?,
+    public val browserContextId: String? = null,
     /**
      * Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,
      * not supported on MacOS yet, false by default).
      */
-    public val enableBeginFrameControl: Boolean?,
+    public val enableBeginFrameControl: Boolean? = null,
     /**
      * Whether to create a new Window or Tab (chrome-only, false by default).
      */
-    public val newWindow: Boolean?,
+    public val newWindow: Boolean? = null,
     /**
      * Whether to create the target in background or foreground (chrome-only,
      * false by default).
      */
-    public val background: Boolean?
+    public val background: Boolean? = null
   )
 
   @Serializable
@@ -572,11 +630,11 @@ public class Target(
     /**
      * Session to detach.
      */
-    public val sessionId: String?,
+    public val sessionId: String? = null,
     /**
      * Deprecated.
      */
-    public val targetId: String?
+    public val targetId: String? = null
   )
 
   @Serializable
@@ -586,7 +644,7 @@ public class Target(
 
   @Serializable
   public data class GetTargetInfoParameter(
-    public val targetId: String?
+    public val targetId: String? = null
   )
 
   @Serializable
@@ -608,11 +666,11 @@ public class Target(
     /**
      * Identifier of the session.
      */
-    public val sessionId: String?,
+    public val sessionId: String? = null,
     /**
      * Deprecated.
      */
-    public val targetId: String?
+    public val targetId: String? = null
   )
 
   @Serializable
@@ -631,7 +689,7 @@ public class Target(
      * We plan to make this the default, deprecate non-flattened mode,
      * and eventually retire it. See crbug.com/991325.
      */
-    public val flatten: Boolean?
+    public val flatten: Boolean? = null
   )
 
   @Serializable

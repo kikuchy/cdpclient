@@ -7,6 +7,7 @@ import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
 import kotlin.collections.Map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -32,77 +33,124 @@ public val CDPClient.runtime: Runtime
 public class Runtime(
   private val client: CDPClient
 ) : Domain {
-  public val bindingCalled: Flow<BindingCalledParameter> = client.events.filter {
-          it.method == "bindingCalled"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val bindingCalled: Flow<BindingCalledParameter> = client
+          .events
+          .filter {
+              it.method == "bindingCalled"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val consoleAPICalled: Flow<ConsoleAPICalledParameter> = client.events.filter {
-          it.method == "consoleAPICalled"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val consoleAPICalled: Flow<ConsoleAPICalledParameter> = client
+          .events
+          .filter {
+              it.method == "consoleAPICalled"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val exceptionRevoked: Flow<ExceptionRevokedParameter> = client.events.filter {
-          it.method == "exceptionRevoked"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val exceptionRevoked: Flow<ExceptionRevokedParameter> = client
+          .events
+          .filter {
+              it.method == "exceptionRevoked"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val exceptionThrown: Flow<ExceptionThrownParameter> = client.events.filter {
-          it.method == "exceptionThrown"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val exceptionThrown: Flow<ExceptionThrownParameter> = client
+          .events
+          .filter {
+              it.method == "exceptionThrown"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val executionContextCreated: Flow<ExecutionContextCreatedParameter> = client.events.filter
-      {
-          it.method == "executionContextCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val executionContextCreated: Flow<ExecutionContextCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "executionContextCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val executionContextDestroyed: Flow<ExecutionContextDestroyedParameter> =
-      client.events.filter {
-          it.method == "executionContextDestroyed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val executionContextDestroyed: Flow<ExecutionContextDestroyedParameter> = client
+          .events
+          .filter {
+              it.method == "executionContextDestroyed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val executionContextsCleared: Flow<Unit> = client.events.filter {
-          it.method == "executionContextsCleared"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val executionContextsCleared: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "executionContextsCleared"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val inspectRequested: Flow<InspectRequestedParameter> = client.events.filter {
-          it.method == "inspectRequested"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val inspectRequested: Flow<InspectRequestedParameter> = client
+          .events
+          .filter {
+              it.method == "inspectRequested"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Add handler to promise with given promise object id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun awaitPromise(args: AwaitPromiseParameter): AwaitPromiseReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.awaitPromise", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -121,8 +169,9 @@ public class Runtime(
    * Calls function with given declaration on the given object. Object group of the result is
    * inherited from the target object.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun callFunctionOn(args: CallFunctionOnParameter): CallFunctionOnReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.callFunctionOn", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -149,8 +198,9 @@ public class Runtime(
   /**
    * Compiles expression.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun compileScript(args: CompileScriptParameter): CompileScriptReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.compileScript", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -169,6 +219,7 @@ public class Runtime(
   /**
    * Disables reporting of execution contexts creation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Runtime.disable", parameter)
@@ -177,6 +228,7 @@ public class Runtime(
   /**
    * Discards collected exceptions and console API calls.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun discardConsoleEntries(): Unit {
     val parameter = null
     client.callCommand("Runtime.discardConsoleEntries", parameter)
@@ -187,6 +239,7 @@ public class Runtime(
    * When the reporting gets enabled the event will be sent immediately for each existing execution
    * context.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Runtime.enable", parameter)
@@ -195,8 +248,9 @@ public class Runtime(
   /**
    * Evaluates expression on global object.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun evaluate(args: EvaluateParameter): EvaluateReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.evaluate", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -229,6 +283,7 @@ public class Runtime(
   /**
    * Returns the isolate id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getIsolateId(): GetIsolateIdReturn {
     val parameter = null
     val result = client.callCommand("Runtime.getIsolateId", parameter)
@@ -239,6 +294,7 @@ public class Runtime(
    * Returns the JavaScript heap usage.
    * It is the total usage of the corresponding isolate not scoped to a particular Runtime.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getHeapUsage(): GetHeapUsageReturn {
     val parameter = null
     val result = client.callCommand("Runtime.getHeapUsage", parameter)
@@ -249,8 +305,9 @@ public class Runtime(
    * Returns properties of a given object. Object group of the result is inherited from the target
    * object.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getProperties(args: GetPropertiesParameter): GetPropertiesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.getProperties", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -270,9 +327,10 @@ public class Runtime(
   /**
    * Returns all let, const and class variables from global scope.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun globalLexicalScopeNames(args: GlobalLexicalScopeNamesParameter):
       GlobalLexicalScopeNamesReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.globalLexicalScopeNames", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -283,8 +341,9 @@ public class Runtime(
     return globalLexicalScopeNames(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun queryObjects(args: QueryObjectsParameter): QueryObjectsReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.queryObjects", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -299,8 +358,9 @@ public class Runtime(
   /**
    * Releases remote object with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun releaseObject(args: ReleaseObjectParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.releaseObject", parameter)
   }
 
@@ -312,8 +372,9 @@ public class Runtime(
   /**
    * Releases all remote objects that belong to a given group.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun releaseObjectGroup(args: ReleaseObjectGroupParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.releaseObjectGroup", parameter)
   }
 
@@ -325,6 +386,7 @@ public class Runtime(
   /**
    * Tells inspected instance to run if it was waiting for debugger to attach.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun runIfWaitingForDebugger(): Unit {
     val parameter = null
     client.callCommand("Runtime.runIfWaitingForDebugger", parameter)
@@ -333,8 +395,9 @@ public class Runtime(
   /**
    * Runs script with given id in a given context.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun runScript(args: RunScriptParameter): RunScriptReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.runScript", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -359,8 +422,9 @@ public class Runtime(
   /**
    * Enables or disables async call stacks tracking.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAsyncCallStackDepth(args: SetAsyncCallStackDepthParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.setAsyncCallStackDepth", parameter)
   }
 
@@ -369,9 +433,10 @@ public class Runtime(
     setAsyncCallStackDepth(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend
       fun setCustomObjectFormatterEnabled(args: SetCustomObjectFormatterEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.setCustomObjectFormatterEnabled", parameter)
   }
 
@@ -380,9 +445,10 @@ public class Runtime(
     setCustomObjectFormatterEnabled(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setMaxCallStackSizeToCapture(args: SetMaxCallStackSizeToCaptureParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.setMaxCallStackSizeToCapture", parameter)
   }
 
@@ -395,6 +461,7 @@ public class Runtime(
    * Terminate current or next JavaScript execution.
    * Will cancel the termination when the outer-most script execution ends.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun terminateExecution(): Unit {
     val parameter = null
     client.callCommand("Runtime.terminateExecution", parameter)
@@ -410,8 +477,9 @@ public class Runtime(
    * in case of any other input, function throws an exception.
    * Each binding function call produces Runtime.bindingCalled notification.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun addBinding(args: AddBindingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.addBinding", parameter)
   }
 
@@ -424,8 +492,9 @@ public class Runtime(
    * This method does not remove binding function from global object but
    * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun removeBinding(args: RemoveBindingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.removeBinding", parameter)
   }
 
@@ -802,7 +871,7 @@ public class Runtime(
   /**
    * Notification is issued every time when binding is called.
    */
-  public class BindingCalledParameter(
+  public data class BindingCalledParameter(
     public val name: String,
     public val payload: String,
     /**
@@ -814,7 +883,7 @@ public class Runtime(
   /**
    * Issued when console API was called.
    */
-  public class ConsoleAPICalledParameter(
+  public data class ConsoleAPICalledParameter(
     /**
      * Type of the call.
      */
@@ -850,7 +919,7 @@ public class Runtime(
   /**
    * Issued when unhandled exception was revoked.
    */
-  public class ExceptionRevokedParameter(
+  public data class ExceptionRevokedParameter(
     /**
      * Reason describing why exception was revoked.
      */
@@ -864,7 +933,7 @@ public class Runtime(
   /**
    * Issued when exception was thrown and unhandled.
    */
-  public class ExceptionThrownParameter(
+  public data class ExceptionThrownParameter(
     /**
      * Timestamp of the exception.
      */
@@ -875,7 +944,7 @@ public class Runtime(
   /**
    * Issued when new execution context is created.
    */
-  public class ExecutionContextCreatedParameter(
+  public data class ExecutionContextCreatedParameter(
     /**
      * A newly created execution context.
      */
@@ -885,7 +954,7 @@ public class Runtime(
   /**
    * Issued when execution context is destroyed.
    */
-  public class ExecutionContextDestroyedParameter(
+  public data class ExecutionContextDestroyedParameter(
     /**
      * Id of the destroyed context
      */
@@ -896,7 +965,7 @@ public class Runtime(
    * Issued when object should be inspected (for example, as a result of inspect() command line API
    * call).
    */
-  public class InspectRequestedParameter(
+  public data class InspectRequestedParameter(
     public val `object`: RemoteObject,
     public val hints: Map<String, JsonElement>
   )
@@ -910,11 +979,11 @@ public class Runtime(
     /**
      * Whether the result is expected to be a JSON object that should be sent by value.
      */
-    public val returnByValue: Boolean?,
+    public val returnByValue: Boolean? = null,
     /**
      * Whether preview should be generated for the result.
      */
-    public val generatePreview: Boolean?
+    public val generatePreview: Boolean? = null
   )
 
   @Serializable
@@ -939,44 +1008,44 @@ public class Runtime(
      * Identifier of the object to call function on. Either objectId or executionContextId should
      * be specified.
      */
-    public val objectId: String?,
+    public val objectId: String? = null,
     /**
      * Call arguments. All call arguments must belong to the same JavaScript world as the target
      * object.
      */
-    public val arguments: List<CallArgument>?,
+    public val arguments: List<CallArgument>? = null,
     /**
      * In silent mode exceptions thrown during evaluation are not reported and do not pause
      * execution. Overrides `setPauseOnException` state.
      */
-    public val silent: Boolean?,
+    public val silent: Boolean? = null,
     /**
      * Whether the result is expected to be a JSON object which should be sent by value.
      */
-    public val returnByValue: Boolean?,
+    public val returnByValue: Boolean? = null,
     /**
      * Whether preview should be generated for the result.
      */
-    public val generatePreview: Boolean?,
+    public val generatePreview: Boolean? = null,
     /**
      * Whether execution should be treated as initiated by user in the UI.
      */
-    public val userGesture: Boolean?,
+    public val userGesture: Boolean? = null,
     /**
      * Whether execution should `await` for resulting value and return once awaited promise is
      * resolved.
      */
-    public val awaitPromise: Boolean?,
+    public val awaitPromise: Boolean? = null,
     /**
      * Specifies execution context which global object will be used to call function on. Either
      * executionContextId or objectId should be specified.
      */
-    public val executionContextId: Int?,
+    public val executionContextId: Int? = null,
     /**
      * Symbolic group name that can be used to release multiple objects. If objectGroup is not
      * specified and objectId is, objectGroup will be inherited from object.
      */
-    public val objectGroup: String?
+    public val objectGroup: String? = null
   )
 
   @Serializable
@@ -1009,7 +1078,7 @@ public class Runtime(
      * Specifies in which execution context to perform script run. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
      */
-    public val executionContextId: Int?
+    public val executionContextId: Int? = null
   )
 
   @Serializable
@@ -1033,64 +1102,64 @@ public class Runtime(
     /**
      * Symbolic group name that can be used to release multiple objects.
      */
-    public val objectGroup: String?,
+    public val objectGroup: String? = null,
     /**
      * Determines whether Command Line API should be available during the evaluation.
      */
-    public val includeCommandLineAPI: Boolean?,
+    public val includeCommandLineAPI: Boolean? = null,
     /**
      * In silent mode exceptions thrown during evaluation are not reported and do not pause
      * execution. Overrides `setPauseOnException` state.
      */
-    public val silent: Boolean?,
+    public val silent: Boolean? = null,
     /**
      * Specifies in which execution context to perform evaluation. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
      */
-    public val contextId: Int?,
+    public val contextId: Int? = null,
     /**
      * Whether the result is expected to be a JSON object that should be sent by value.
      */
-    public val returnByValue: Boolean?,
+    public val returnByValue: Boolean? = null,
     /**
      * Whether preview should be generated for the result.
      */
-    public val generatePreview: Boolean?,
+    public val generatePreview: Boolean? = null,
     /**
      * Whether execution should be treated as initiated by user in the UI.
      */
-    public val userGesture: Boolean?,
+    public val userGesture: Boolean? = null,
     /**
      * Whether execution should `await` for resulting value and return once awaited promise is
      * resolved.
      */
-    public val awaitPromise: Boolean?,
+    public val awaitPromise: Boolean? = null,
     /**
      * Whether to throw an exception if side effect cannot be ruled out during evaluation.
      * This implies `disableBreaks` below.
      */
-    public val throwOnSideEffect: Boolean?,
+    public val throwOnSideEffect: Boolean? = null,
     /**
      * Terminate execution after timing out (number of milliseconds).
      */
-    public val timeout: Double?,
+    public val timeout: Double? = null,
     /**
      * Disable breakpoints during execution.
      */
-    public val disableBreaks: Boolean?,
+    public val disableBreaks: Boolean? = null,
     /**
      * Setting this flag to true enables `let` re-declaration and top-level `await`.
      * Note that `let` variables can only be re-declared if they originate from
      * `replMode` themselves.
      */
-    public val replMode: Boolean?,
+    public val replMode: Boolean? = null,
     /**
      * The Content Security Policy (CSP) for the target might block 'unsafe-eval'
      * which includes eval(), Function(), setTimeout() and setInterval()
      * when called with non-callable arguments. This flag bypasses CSP for this
      * evaluation and allows unsafe-eval. Defaults to true.
      */
-    public val allowUnsafeEvalBlockedByCSP: Boolean?
+    public val allowUnsafeEvalBlockedByCSP: Boolean? = null
   )
 
   @Serializable
@@ -1135,16 +1204,16 @@ public class Runtime(
      * If true, returns properties belonging only to the element itself, not to its prototype
      * chain.
      */
-    public val ownProperties: Boolean?,
+    public val ownProperties: Boolean? = null,
     /**
      * If true, returns accessor properties (with getter/setter) only; internal properties are not
      * returned either.
      */
-    public val accessorPropertiesOnly: Boolean?,
+    public val accessorPropertiesOnly: Boolean? = null,
     /**
      * Whether preview should be generated for the results.
      */
-    public val generatePreview: Boolean?
+    public val generatePreview: Boolean? = null
   )
 
   @Serializable
@@ -1172,7 +1241,7 @@ public class Runtime(
     /**
      * Specifies in which execution context to lookup global scope variables.
      */
-    public val executionContextId: Int?
+    public val executionContextId: Int? = null
   )
 
   @Serializable
@@ -1189,7 +1258,7 @@ public class Runtime(
     /**
      * Symbolic group name that can be used to release the results.
      */
-    public val objectGroup: String?
+    public val objectGroup: String? = null
   )
 
   @Serializable
@@ -1226,33 +1295,33 @@ public class Runtime(
      * Specifies in which execution context to perform script run. If the parameter is omitted the
      * evaluation will be performed in the context of the inspected page.
      */
-    public val executionContextId: Int?,
+    public val executionContextId: Int? = null,
     /**
      * Symbolic group name that can be used to release multiple objects.
      */
-    public val objectGroup: String?,
+    public val objectGroup: String? = null,
     /**
      * In silent mode exceptions thrown during evaluation are not reported and do not pause
      * execution. Overrides `setPauseOnException` state.
      */
-    public val silent: Boolean?,
+    public val silent: Boolean? = null,
     /**
      * Determines whether Command Line API should be available during the evaluation.
      */
-    public val includeCommandLineAPI: Boolean?,
+    public val includeCommandLineAPI: Boolean? = null,
     /**
      * Whether the result is expected to be a JSON object which should be sent by value.
      */
-    public val returnByValue: Boolean?,
+    public val returnByValue: Boolean? = null,
     /**
      * Whether preview should be generated for the result.
      */
-    public val generatePreview: Boolean?,
+    public val generatePreview: Boolean? = null,
     /**
      * Whether execution should `await` for resulting value and return once awaited promise is
      * resolved.
      */
-    public val awaitPromise: Boolean?
+    public val awaitPromise: Boolean? = null
   )
 
   @Serializable
@@ -1289,7 +1358,7 @@ public class Runtime(
   @Serializable
   public data class AddBindingParameter(
     public val name: String,
-    public val executionContextId: Int?
+    public val executionContextId: Int? = null
   )
 
   @Serializable

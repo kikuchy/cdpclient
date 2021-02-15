@@ -5,6 +5,7 @@ import kotlin.Double
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -22,17 +23,24 @@ public val CDPClient.performance: Performance
 public class Performance(
   private val client: CDPClient
 ) : Domain {
-  public val metrics: Flow<MetricsParameter> = client.events.filter {
-          it.method == "metrics"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val metrics: Flow<MetricsParameter> = client
+          .events
+          .filter {
+              it.method == "metrics"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Disable collecting and reporting metrics.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Performance.disable", parameter)
@@ -41,8 +49,9 @@ public class Performance(
   /**
    * Enable collecting and reporting metrics.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(args: EnableParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Performance.enable", parameter)
   }
 
@@ -56,9 +65,10 @@ public class Performance(
    * Note that this must be called before enabling metrics collection. Calling
    * this method while metrics collection is enabled returns an error.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setTimeDomain(args: SetTimeDomainParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Performance.setTimeDomain", parameter)
   }
 
@@ -70,6 +80,7 @@ public class Performance(
   /**
    * Retrieve current values of run-time metrics.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getMetrics(): GetMetricsReturn {
     val parameter = null
     val result = client.callCommand("Performance.getMetrics", parameter)
@@ -94,7 +105,7 @@ public class Performance(
   /**
    * Current values of the metrics.
    */
-  public class MetricsParameter(
+  public data class MetricsParameter(
     /**
      * Current values of the metrics.
      */
@@ -110,7 +121,7 @@ public class Performance(
     /**
      * Time domain to use for collecting and reporting duration metrics.
      */
-    public val timeDomain: String?
+    public val timeDomain: String? = null
   )
 
   @Serializable

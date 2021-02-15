@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -29,6 +30,7 @@ public class DOMSnapshot(
   /**
    * Disables DOM snapshot agent for the given page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("DOMSnapshot.disable", parameter)
@@ -37,6 +39,7 @@ public class DOMSnapshot(
   /**
    * Enables DOM snapshot agent for the given page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("DOMSnapshot.enable", parameter)
@@ -48,9 +51,10 @@ public class DOMSnapshot(
    * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
    * flattened.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun getSnapshot(args: GetSnapshotParameter): GetSnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOMSnapshot.getSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -73,8 +77,9 @@ public class DOMSnapshot(
    * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
    * flattened.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun captureSnapshot(args: CaptureSnapshotParameter): CaptureSnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOMSnapshot.captureSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -535,15 +540,15 @@ public class DOMSnapshot(
     /**
      * Whether or not to retrieve details of DOM listeners (default false).
      */
-    public val includeEventListeners: Boolean?,
+    public val includeEventListeners: Boolean? = null,
     /**
      * Whether to determine and include the paint order index of LayoutTreeNodes (default false).
      */
-    public val includePaintOrder: Boolean?,
+    public val includePaintOrder: Boolean? = null,
     /**
      * Whether to include UA shadow tree in the snapshot (default false).
      */
-    public val includeUserAgentShadowTree: Boolean?
+    public val includeUserAgentShadowTree: Boolean? = null
   )
 
   @Serializable
@@ -571,11 +576,11 @@ public class DOMSnapshot(
     /**
      * Whether to include layout object paint orders into the snapshot.
      */
-    public val includePaintOrder: Boolean?,
+    public val includePaintOrder: Boolean? = null,
     /**
      * Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot
      */
-    public val includeDOMRects: Boolean?
+    public val includeDOMRects: Boolean? = null
   )
 
   @Serializable

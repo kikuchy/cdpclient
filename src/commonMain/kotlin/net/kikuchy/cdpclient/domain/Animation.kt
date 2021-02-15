@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,33 +24,52 @@ public val CDPClient.animation: Animation
 public class Animation(
   private val client: CDPClient
 ) : Domain {
-  public val animationCanceled: Flow<AnimationCanceledParameter> = client.events.filter {
-          it.method == "animationCanceled"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val animationCanceled: Flow<AnimationCanceledParameter> = client
+          .events
+          .filter {
+              it.method == "animationCanceled"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val animationCreated: Flow<AnimationCreatedParameter> = client.events.filter {
-          it.method == "animationCreated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val animationCreated: Flow<AnimationCreatedParameter> = client
+          .events
+          .filter {
+              it.method == "animationCreated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val animationStarted: Flow<AnimationStartedParameter> = client.events.filter {
-          it.method == "animationStarted"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val animationStarted: Flow<AnimationStartedParameter> = client
+          .events
+          .filter {
+              it.method == "animationStarted"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Disables animation domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Animation.disable", parameter)
@@ -58,6 +78,7 @@ public class Animation(
   /**
    * Enables animation domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Animation.enable", parameter)
@@ -66,8 +87,9 @@ public class Animation(
   /**
    * Returns the current time of the an animation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCurrentTime(args: GetCurrentTimeParameter): GetCurrentTimeReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Animation.getCurrentTime", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -80,6 +102,7 @@ public class Animation(
   /**
    * Gets the playback rate of the document timeline.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getPlaybackRate(): GetPlaybackRateReturn {
     val parameter = null
     val result = client.callCommand("Animation.getPlaybackRate", parameter)
@@ -89,8 +112,9 @@ public class Animation(
   /**
    * Releases a set of animations to no longer be manipulated.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun releaseAnimations(args: ReleaseAnimationsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.releaseAnimations", parameter)
   }
 
@@ -102,8 +126,9 @@ public class Animation(
   /**
    * Gets the remote object of the Animation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resolveAnimation(args: ResolveAnimationParameter): ResolveAnimationReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Animation.resolveAnimation", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -116,8 +141,9 @@ public class Animation(
   /**
    * Seek a set of animations to a particular time within each animation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun seekAnimations(args: SeekAnimationsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.seekAnimations", parameter)
   }
 
@@ -129,8 +155,9 @@ public class Animation(
   /**
    * Sets the paused state of a set of animations.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setPaused(args: SetPausedParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.setPaused", parameter)
   }
 
@@ -142,8 +169,9 @@ public class Animation(
   /**
    * Sets the playback rate of the document timeline.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setPlaybackRate(args: SetPlaybackRateParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.setPlaybackRate", parameter)
   }
 
@@ -155,8 +183,9 @@ public class Animation(
   /**
    * Sets the timing of an animation node.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setTiming(args: SetTimingParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.setTiming", parameter)
   }
 
@@ -297,7 +326,7 @@ public class Animation(
   /**
    * Event for when an animation has been cancelled.
    */
-  public class AnimationCanceledParameter(
+  public data class AnimationCanceledParameter(
     /**
      * Id of the animation that was cancelled.
      */
@@ -307,7 +336,7 @@ public class Animation(
   /**
    * Event for each animation that has been created.
    */
-  public class AnimationCreatedParameter(
+  public data class AnimationCreatedParameter(
     /**
      * Id of the animation that was created.
      */
@@ -317,7 +346,7 @@ public class Animation(
   /**
    * Event for animation that has been started.
    */
-  public class AnimationStartedParameter(
+  public data class AnimationStartedParameter(
     /**
      * Animation that was started.
      */

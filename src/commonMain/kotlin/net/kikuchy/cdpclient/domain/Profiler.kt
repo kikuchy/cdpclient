@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,36 +24,55 @@ public val CDPClient.profiler: Profiler
 public class Profiler(
   private val client: CDPClient
 ) : Domain {
-  public val consoleProfileFinished: Flow<ConsoleProfileFinishedParameter> = client.events.filter {
-          it.method == "consoleProfileFinished"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val consoleProfileFinished: Flow<ConsoleProfileFinishedParameter> = client
+          .events
+          .filter {
+              it.method == "consoleProfileFinished"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val consoleProfileStarted: Flow<ConsoleProfileStartedParameter> = client.events.filter {
-          it.method == "consoleProfileStarted"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val consoleProfileStarted: Flow<ConsoleProfileStartedParameter> = client
+          .events
+          .filter {
+              it.method == "consoleProfileStarted"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val preciseCoverageDeltaUpdate: Flow<PreciseCoverageDeltaUpdateParameter> =
-      client.events.filter {
-          it.method == "preciseCoverageDeltaUpdate"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val preciseCoverageDeltaUpdate: Flow<PreciseCoverageDeltaUpdateParameter> = client
+          .events
+          .filter {
+              it.method == "preciseCoverageDeltaUpdate"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Profiler.disable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Profiler.enable", parameter)
@@ -62,6 +82,7 @@ public class Profiler(
    * Collect coverage data for the current isolate. The coverage data may be incomplete due to
    * garbage collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getBestEffortCoverage(): GetBestEffortCoverageReturn {
     val parameter = null
     val result = client.callCommand("Profiler.getBestEffortCoverage", parameter)
@@ -71,8 +92,9 @@ public class Profiler(
   /**
    * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setSamplingInterval(args: SetSamplingIntervalParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Profiler.setSamplingInterval", parameter)
   }
 
@@ -81,6 +103,7 @@ public class Profiler(
     setSamplingInterval(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun start(): Unit {
     val parameter = null
     client.callCommand("Profiler.start", parameter)
@@ -92,9 +115,10 @@ public class Profiler(
    * coverage may be incomplete. Enabling prevents running optimized code and resets execution
    * counters.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startPreciseCoverage(args: StartPreciseCoverageParameter):
       StartPreciseCoverageReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Profiler.startPreciseCoverage", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -112,11 +136,13 @@ public class Profiler(
   /**
    * Enable type profile.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startTypeProfile(): Unit {
     val parameter = null
     client.callCommand("Profiler.startTypeProfile", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun stop(): StopReturn {
     val parameter = null
     val result = client.callCommand("Profiler.stop", parameter)
@@ -128,6 +154,7 @@ public class Profiler(
    * allows
    * executing optimized code.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopPreciseCoverage(): Unit {
     val parameter = null
     client.callCommand("Profiler.stopPreciseCoverage", parameter)
@@ -136,6 +163,7 @@ public class Profiler(
   /**
    * Disable type profile. Disabling releases type profile data collected so far.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopTypeProfile(): Unit {
     val parameter = null
     client.callCommand("Profiler.stopTypeProfile", parameter)
@@ -145,6 +173,7 @@ public class Profiler(
    * Collect coverage data for the current isolate, and resets execution counters. Precise code
    * coverage needs to have started.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun takePreciseCoverage(): TakePreciseCoverageReturn {
     val parameter = null
     val result = client.callCommand("Profiler.takePreciseCoverage", parameter)
@@ -154,6 +183,7 @@ public class Profiler(
   /**
    * Collect type profile.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun takeTypeProfile(): TakeTypeProfileReturn {
     val parameter = null
     val result = client.callCommand("Profiler.takeTypeProfile", parameter)
@@ -163,6 +193,7 @@ public class Profiler(
   /**
    * Enable counters collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enableCounters(): Unit {
     val parameter = null
     client.callCommand("Profiler.enableCounters", parameter)
@@ -171,6 +202,7 @@ public class Profiler(
   /**
    * Disable counters collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disableCounters(): Unit {
     val parameter = null
     client.callCommand("Profiler.disableCounters", parameter)
@@ -179,6 +211,7 @@ public class Profiler(
   /**
    * Retrieve counters.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getCounters(): GetCountersReturn {
     val parameter = null
     val result = client.callCommand("Profiler.getCounters", parameter)
@@ -188,6 +221,7 @@ public class Profiler(
   /**
    * Enable run time call stats collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enableRuntimeCallStats(): Unit {
     val parameter = null
     client.callCommand("Profiler.enableRuntimeCallStats", parameter)
@@ -196,6 +230,7 @@ public class Profiler(
   /**
    * Disable run time call stats collection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disableRuntimeCallStats(): Unit {
     val parameter = null
     client.callCommand("Profiler.disableRuntimeCallStats", parameter)
@@ -204,6 +239,7 @@ public class Profiler(
   /**
    * Retrieve run time call stats.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getRuntimeCallStats(): GetRuntimeCallStatsReturn {
     val parameter = null
     val result = client.callCommand("Profiler.getRuntimeCallStats", parameter)
@@ -421,7 +457,7 @@ public class Profiler(
     public val time: Double
   )
 
-  public class ConsoleProfileFinishedParameter(
+  public data class ConsoleProfileFinishedParameter(
     public val id: String,
     /**
      * Location of console.profileEnd().
@@ -437,7 +473,7 @@ public class Profiler(
   /**
    * Sent when new profile recording is started using console.profile() call.
    */
-  public class ConsoleProfileStartedParameter(
+  public data class ConsoleProfileStartedParameter(
     public val id: String,
     /**
      * Location of console.profile().
@@ -455,7 +491,7 @@ public class Profiler(
    * coverage has been started. This event can be trigged by the embedder to, for example,
    * trigger collection of coverage data immediatelly at a certain point in time.
    */
-  public class PreciseCoverageDeltaUpdateParameter(
+  public data class PreciseCoverageDeltaUpdateParameter(
     /**
      * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
@@ -491,15 +527,15 @@ public class Profiler(
     /**
      * Collect accurate call counts beyond simple 'covered' or 'not covered'.
      */
-    public val callCount: Boolean?,
+    public val callCount: Boolean? = null,
     /**
      * Collect block-based coverage.
      */
-    public val detailed: Boolean?,
+    public val detailed: Boolean? = null,
     /**
      * Allow the backend to send updates on its own initiative
      */
-    public val allowTriggeredUpdates: Boolean?
+    public val allowTriggeredUpdates: Boolean? = null
   )
 
   @Serializable

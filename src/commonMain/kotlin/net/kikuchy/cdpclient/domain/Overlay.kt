@@ -7,6 +7,7 @@ import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
 import kotlin.collections.Map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -29,41 +30,66 @@ public val CDPClient.overlay: Overlay
 public class Overlay(
   private val client: CDPClient
 ) : Domain {
-  public val inspectNodeRequested: Flow<InspectNodeRequestedParameter> = client.events.filter {
-          it.method == "inspectNodeRequested"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val inspectNodeRequested: Flow<InspectNodeRequestedParameter> = client
+          .events
+          .filter {
+              it.method == "inspectNodeRequested"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val nodeHighlightRequested: Flow<NodeHighlightRequestedParameter> = client.events.filter {
-          it.method == "nodeHighlightRequested"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val nodeHighlightRequested: Flow<NodeHighlightRequestedParameter> = client
+          .events
+          .filter {
+              it.method == "nodeHighlightRequested"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val screenshotRequested: Flow<ScreenshotRequestedParameter> = client.events.filter {
-          it.method == "screenshotRequested"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val screenshotRequested: Flow<ScreenshotRequestedParameter> = client
+          .events
+          .filter {
+              it.method == "screenshotRequested"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val inspectModeCanceled: Flow<Unit> = client.events.filter {
-          it.method == "inspectModeCanceled"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val inspectModeCanceled: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "inspectModeCanceled"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Disables domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Overlay.disable", parameter)
@@ -72,6 +98,7 @@ public class Overlay(
   /**
    * Enables domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Overlay.enable", parameter)
@@ -80,9 +107,10 @@ public class Overlay(
   /**
    * For testing.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getHighlightObjectForTest(args: GetHighlightObjectForTestParameter):
       GetHighlightObjectForTestReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Overlay.getHighlightObjectForTest", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -103,9 +131,10 @@ public class Overlay(
   /**
    * For Persistent Grid testing.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getGridHighlightObjectsForTest(args: GetGridHighlightObjectsForTestParameter):
       GetGridHighlightObjectsForTestReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Overlay.getGridHighlightObjectsForTest", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -119,10 +148,11 @@ public class Overlay(
   /**
    * For Source Order Viewer testing.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun getSourceOrderHighlightObjectForTest(args: GetSourceOrderHighlightObjectForTestParameter):
       GetSourceOrderHighlightObjectForTestReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Overlay.getSourceOrderHighlightObjectForTest", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -136,6 +166,7 @@ public class Overlay(
   /**
    * Hides any highlight.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun hideHighlight(): Unit {
     val parameter = null
     client.callCommand("Overlay.hideHighlight", parameter)
@@ -144,8 +175,9 @@ public class Overlay(
   /**
    * Highlights owner element of the frame with given id.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightFrame(args: HighlightFrameParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.highlightFrame", parameter)
   }
 
@@ -163,8 +195,9 @@ public class Overlay(
    * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
    * objectId must be specified.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightNode(args: HighlightNodeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.highlightNode", parameter)
   }
 
@@ -183,8 +216,9 @@ public class Overlay(
   /**
    * Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightQuad(args: HighlightQuadParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.highlightQuad", parameter)
   }
 
@@ -200,8 +234,9 @@ public class Overlay(
   /**
    * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightRect(args: HighlightRectParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.highlightRect", parameter)
   }
 
@@ -222,8 +257,9 @@ public class Overlay(
    * Highlights the source order of the children of the DOM node with given id or with the given
    * JavaScript object wrapper. Either nodeId or objectId must be specified.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun highlightSourceOrder(args: HighlightSourceOrderParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.highlightSourceOrder", parameter)
   }
 
@@ -242,8 +278,9 @@ public class Overlay(
    * Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
    * Backend then generates 'inspectNodeRequested' event upon element selection.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setInspectMode(args: SetInspectModeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setInspectMode", parameter)
   }
 
@@ -256,8 +293,9 @@ public class Overlay(
   /**
    * Highlights owner element of all frames detected to be ads.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowAdHighlights(args: SetShowAdHighlightsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowAdHighlights", parameter)
   }
 
@@ -266,8 +304,9 @@ public class Overlay(
     setShowAdHighlights(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setPausedInDebuggerMessage(args: SetPausedInDebuggerMessageParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setPausedInDebuggerMessage", parameter)
   }
 
@@ -279,8 +318,9 @@ public class Overlay(
   /**
    * Requests that backend shows debug borders on layers
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowDebugBorders(args: SetShowDebugBordersParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowDebugBorders", parameter)
   }
 
@@ -292,8 +332,9 @@ public class Overlay(
   /**
    * Requests that backend shows the FPS counter
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowFPSCounter(args: SetShowFPSCounterParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowFPSCounter", parameter)
   }
 
@@ -305,8 +346,9 @@ public class Overlay(
   /**
    * Highlight multiple elements with the CSS Grid overlay.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowGridOverlays(args: SetShowGridOverlaysParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowGridOverlays", parameter)
   }
 
@@ -317,8 +359,9 @@ public class Overlay(
     setShowGridOverlays(parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun setShowFlexOverlays(args: SetShowFlexOverlaysParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowFlexOverlays", parameter)
   }
 
@@ -332,8 +375,9 @@ public class Overlay(
   /**
    * Requests that backend shows paint rectangles
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowPaintRects(args: SetShowPaintRectsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowPaintRects", parameter)
   }
 
@@ -345,8 +389,9 @@ public class Overlay(
   /**
    * Requests that backend shows layout shift regions
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowLayoutShiftRegions(args: SetShowLayoutShiftRegionsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowLayoutShiftRegions", parameter)
   }
 
@@ -358,9 +403,10 @@ public class Overlay(
   /**
    * Requests that backend shows scroll bottleneck rects
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowScrollBottleneckRects(args: SetShowScrollBottleneckRectsParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowScrollBottleneckRects", parameter)
   }
 
@@ -372,8 +418,9 @@ public class Overlay(
   /**
    * Requests that backend shows hit-test borders on layers
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowHitTestBorders(args: SetShowHitTestBordersParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowHitTestBorders", parameter)
   }
 
@@ -385,8 +432,9 @@ public class Overlay(
   /**
    * Request that backend shows an overlay with web vital metrics.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowWebVitals(args: SetShowWebVitalsParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowWebVitals", parameter)
   }
 
@@ -398,8 +446,9 @@ public class Overlay(
   /**
    * Paints viewport size upon main frame resize.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowViewportSizeOnResize(args: SetShowViewportSizeOnResizeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowViewportSizeOnResize", parameter)
   }
 
@@ -411,8 +460,9 @@ public class Overlay(
   /**
    * Add a dual screen device hinge
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setShowHinge(args: SetShowHingeParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Overlay.setShowHinge", parameter)
   }
 
@@ -776,7 +826,7 @@ public class Overlay(
    * Fired when the node should be inspected. This happens after call to `setInspectMode` or when
    * user manually inspects an element.
    */
-  public class InspectNodeRequestedParameter(
+  public data class InspectNodeRequestedParameter(
     /**
      * Id of the node to inspect.
      */
@@ -786,14 +836,14 @@ public class Overlay(
   /**
    * Fired when the node should be highlighted. This happens after call to `setInspectMode`.
    */
-  public class NodeHighlightRequestedParameter(
+  public data class NodeHighlightRequestedParameter(
     public val nodeId: Int
   )
 
   /**
    * Fired when user asks to capture screenshot of some area on the page.
    */
-  public class ScreenshotRequestedParameter(
+  public data class ScreenshotRequestedParameter(
     /**
      * Viewport to capture, in device independent pixels (dip).
      */
@@ -809,19 +859,19 @@ public class Overlay(
     /**
      * Whether to include distance info.
      */
-    public val includeDistance: Boolean?,
+    public val includeDistance: Boolean? = null,
     /**
      * Whether to include style info.
      */
-    public val includeStyle: Boolean?,
+    public val includeStyle: Boolean? = null,
     /**
      * The color format to get config with (default: hex).
      */
-    public val colorFormat: ColorFormat?,
+    public val colorFormat: ColorFormat? = null,
     /**
      * Whether to show accessibility info (default: true).
      */
-    public val showAccessibilityInfo: Boolean?
+    public val showAccessibilityInfo: Boolean? = null
   )
 
   @Serializable
@@ -873,11 +923,11 @@ public class Overlay(
     /**
      * The content box highlight fill color (default: transparent).
      */
-    public val contentColor: DOM.RGBA?,
+    public val contentColor: DOM.RGBA? = null,
     /**
      * The content box highlight outline color (default: transparent).
      */
-    public val contentOutlineColor: DOM.RGBA?
+    public val contentOutlineColor: DOM.RGBA? = null
   )
 
   @Serializable
@@ -889,19 +939,19 @@ public class Overlay(
     /**
      * Identifier of the node to highlight.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node to highlight.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node to be highlighted.
      */
-    public val objectId: String?,
+    public val objectId: String? = null,
     /**
      * Selectors to highlight relevant nodes.
      */
-    public val selector: String?
+    public val selector: String? = null
   )
 
   @Serializable
@@ -913,11 +963,11 @@ public class Overlay(
     /**
      * The highlight fill color (default: transparent).
      */
-    public val color: DOM.RGBA?,
+    public val color: DOM.RGBA? = null,
     /**
      * The highlight outline color (default: transparent).
      */
-    public val outlineColor: DOM.RGBA?
+    public val outlineColor: DOM.RGBA? = null
   )
 
   @Serializable
@@ -941,11 +991,11 @@ public class Overlay(
     /**
      * The highlight fill color (default: transparent).
      */
-    public val color: DOM.RGBA?,
+    public val color: DOM.RGBA? = null,
     /**
      * The highlight outline color (default: transparent).
      */
-    public val outlineColor: DOM.RGBA?
+    public val outlineColor: DOM.RGBA? = null
   )
 
   @Serializable
@@ -957,15 +1007,15 @@ public class Overlay(
     /**
      * Identifier of the node to highlight.
      */
-    public val nodeId: Int?,
+    public val nodeId: Int? = null,
     /**
      * Identifier of the backend node to highlight.
      */
-    public val backendNodeId: Int?,
+    public val backendNodeId: Int? = null,
     /**
      * JavaScript object id of the node to be highlighted.
      */
-    public val objectId: String?
+    public val objectId: String? = null
   )
 
   @Serializable
@@ -978,7 +1028,7 @@ public class Overlay(
      * A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
      * == false`.
      */
-    public val highlightConfig: HighlightConfig?
+    public val highlightConfig: HighlightConfig? = null
   )
 
   @Serializable
@@ -994,7 +1044,7 @@ public class Overlay(
     /**
      * The message to display, also triggers resume and step over controls.
      */
-    public val message: String?
+    public val message: String? = null
   )
 
   @Serializable
@@ -1079,6 +1129,6 @@ public class Overlay(
     /**
      * hinge data, null means hideHinge
      */
-    public val hingeConfig: HingeConfig?
+    public val hingeConfig: HingeConfig? = null
   )
 }

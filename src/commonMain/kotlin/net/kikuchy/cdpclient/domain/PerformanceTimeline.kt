@@ -6,6 +6,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -27,20 +28,27 @@ public val CDPClient.performanceTimeline: PerformanceTimeline
 public class PerformanceTimeline(
   private val client: CDPClient
 ) : Domain {
-  public val timelineEventAdded: Flow<TimelineEventAddedParameter> = client.events.filter {
-          it.method == "timelineEventAdded"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val timelineEventAdded: Flow<TimelineEventAddedParameter> = client
+          .events
+          .filter {
+              it.method == "timelineEventAdded"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Previously buffered events would be reported before method returns.
    * See also: timelineEventAdded
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(args: EnableParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("PerformanceTimeline.enable", parameter)
   }
 
@@ -123,7 +131,7 @@ public class PerformanceTimeline(
   /**
    * Sent when a performance timeline event is added. See reportPerformanceTimeline method.
    */
-  public class TimelineEventAddedParameter(
+  public data class TimelineEventAddedParameter(
     public val event: TimelineEvent
   )
 

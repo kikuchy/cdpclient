@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,220 +29,365 @@ public val CDPClient.page: Page
 public class Page(
   private val client: CDPClient
 ) : Domain {
-  public val domContentEventFired: Flow<DomContentEventFiredParameter> = client.events.filter {
-          it.method == "domContentEventFired"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val domContentEventFired: Flow<DomContentEventFiredParameter> = client
+          .events
+          .filter {
+              it.method == "domContentEventFired"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val fileChooserOpened: Flow<FileChooserOpenedParameter> = client.events.filter {
-          it.method == "fileChooserOpened"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val fileChooserOpened: Flow<FileChooserOpenedParameter> = client
+          .events
+          .filter {
+              it.method == "fileChooserOpened"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameAttached: Flow<FrameAttachedParameter> = client.events.filter {
-          it.method == "frameAttached"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameAttached: Flow<FrameAttachedParameter> = client
+          .events
+          .filter {
+              it.method == "frameAttached"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
+  @ExperimentalCoroutinesApi
   public val frameClearedScheduledNavigation: Flow<FrameClearedScheduledNavigationParameter> =
-      client.events.filter {
-          it.method == "frameClearedScheduledNavigation"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+      client
+          .events
+          .filter {
+              it.method == "frameClearedScheduledNavigation"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameDetached: Flow<FrameDetachedParameter> = client.events.filter {
-          it.method == "frameDetached"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameDetached: Flow<FrameDetachedParameter> = client
+          .events
+          .filter {
+              it.method == "frameDetached"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameNavigated: Flow<FrameNavigatedParameter> = client.events.filter {
-          it.method == "frameNavigated"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameNavigated: Flow<FrameNavigatedParameter> = client
+          .events
+          .filter {
+              it.method == "frameNavigated"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val documentOpened: Flow<DocumentOpenedParameter> = client.events.filter {
-          it.method == "documentOpened"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val documentOpened: Flow<DocumentOpenedParameter> = client
+          .events
+          .filter {
+              it.method == "documentOpened"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameResized: Flow<Unit> = client.events.filter {
-          it.method == "frameResized"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameResized: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "frameResized"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameRequestedNavigation: Flow<FrameRequestedNavigationParameter> =
-      client.events.filter {
-          it.method == "frameRequestedNavigation"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameRequestedNavigation: Flow<FrameRequestedNavigationParameter> = client
+          .events
+          .filter {
+              it.method == "frameRequestedNavigation"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameScheduledNavigation: Flow<FrameScheduledNavigationParameter> =
-      client.events.filter {
-          it.method == "frameScheduledNavigation"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameScheduledNavigation: Flow<FrameScheduledNavigationParameter> = client
+          .events
+          .filter {
+              it.method == "frameScheduledNavigation"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameStartedLoading: Flow<FrameStartedLoadingParameter> = client.events.filter {
-          it.method == "frameStartedLoading"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameStartedLoading: Flow<FrameStartedLoadingParameter> = client
+          .events
+          .filter {
+              it.method == "frameStartedLoading"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val frameStoppedLoading: Flow<FrameStoppedLoadingParameter> = client.events.filter {
-          it.method == "frameStoppedLoading"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val frameStoppedLoading: Flow<FrameStoppedLoadingParameter> = client
+          .events
+          .filter {
+              it.method == "frameStoppedLoading"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val downloadWillBegin: Flow<DownloadWillBeginParameter> = client.events.filter {
-          it.method == "downloadWillBegin"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val downloadWillBegin: Flow<DownloadWillBeginParameter> = client
+          .events
+          .filter {
+              it.method == "downloadWillBegin"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val downloadProgress: Flow<DownloadProgressParameter> = client.events.filter {
-          it.method == "downloadProgress"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val downloadProgress: Flow<DownloadProgressParameter> = client
+          .events
+          .filter {
+              it.method == "downloadProgress"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val interstitialHidden: Flow<Unit> = client.events.filter {
-          it.method == "interstitialHidden"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val interstitialHidden: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "interstitialHidden"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val interstitialShown: Flow<Unit> = client.events.filter {
-          it.method == "interstitialShown"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val interstitialShown: Flow<Unit> = client
+          .events
+          .filter {
+              it.method == "interstitialShown"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val javascriptDialogClosed: Flow<JavascriptDialogClosedParameter> = client.events.filter {
-          it.method == "javascriptDialogClosed"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val javascriptDialogClosed: Flow<JavascriptDialogClosedParameter> = client
+          .events
+          .filter {
+              it.method == "javascriptDialogClosed"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val javascriptDialogOpening: Flow<JavascriptDialogOpeningParameter> = client.events.filter
-      {
-          it.method == "javascriptDialogOpening"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val javascriptDialogOpening: Flow<JavascriptDialogOpeningParameter> = client
+          .events
+          .filter {
+              it.method == "javascriptDialogOpening"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val lifecycleEvent: Flow<LifecycleEventParameter> = client.events.filter {
-          it.method == "lifecycleEvent"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val lifecycleEvent: Flow<LifecycleEventParameter> = client
+          .events
+          .filter {
+              it.method == "lifecycleEvent"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val loadEventFired: Flow<LoadEventFiredParameter> = client.events.filter {
-          it.method == "loadEventFired"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val loadEventFired: Flow<LoadEventFiredParameter> = client
+          .events
+          .filter {
+              it.method == "loadEventFired"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val navigatedWithinDocument: Flow<NavigatedWithinDocumentParameter> = client.events.filter
-      {
-          it.method == "navigatedWithinDocument"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val navigatedWithinDocument: Flow<NavigatedWithinDocumentParameter> = client
+          .events
+          .filter {
+              it.method == "navigatedWithinDocument"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val screencastFrame: Flow<ScreencastFrameParameter> = client.events.filter {
-          it.method == "screencastFrame"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val screencastFrame: Flow<ScreencastFrameParameter> = client
+          .events
+          .filter {
+              it.method == "screencastFrame"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val screencastVisibilityChanged: Flow<ScreencastVisibilityChangedParameter> =
-      client.events.filter {
-          it.method == "screencastVisibilityChanged"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val screencastVisibilityChanged: Flow<ScreencastVisibilityChangedParameter> = client
+          .events
+          .filter {
+              it.method == "screencastVisibilityChanged"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val windowOpen: Flow<WindowOpenParameter> = client.events.filter {
-          it.method == "windowOpen"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val windowOpen: Flow<WindowOpenParameter> = client
+          .events
+          .filter {
+              it.method == "windowOpen"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
-  public val compilationCacheProduced: Flow<CompilationCacheProducedParameter> =
-      client.events.filter {
-          it.method == "compilationCacheProduced"
-      }.map {
-          it.params
-      }.filterNotNull().map {
-          Json.decodeFromJsonElement(it)
-      }
+  @ExperimentalCoroutinesApi
+  public val compilationCacheProduced: Flow<CompilationCacheProducedParameter> = client
+          .events
+          .filter {
+              it.method == "compilationCacheProduced"
+          }
+          .map {
+              it.params
+          }
+          .filterNotNull()
+          .map {
+              Json.decodeFromJsonElement(it)
+          }
 
   /**
    * Deprecated, please use addScriptToEvaluateOnNewDocument instead.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun addScriptToEvaluateOnLoad(args: AddScriptToEvaluateOnLoadParameter):
       AddScriptToEvaluateOnLoadReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.addScriptToEvaluateOnLoad", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -255,10 +401,11 @@ public class Page(
   /**
    * Evaluates given script in every frame upon creation (before loading frame's scripts).
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun addScriptToEvaluateOnNewDocument(args: AddScriptToEvaluateOnNewDocumentParameter):
       AddScriptToEvaluateOnNewDocumentReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.addScriptToEvaluateOnNewDocument", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -272,6 +419,7 @@ public class Page(
   /**
    * Brings page to front (activates tab).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun bringToFront(): Unit {
     val parameter = null
     client.callCommand("Page.bringToFront", parameter)
@@ -280,8 +428,9 @@ public class Page(
   /**
    * Capture page screenshot.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun captureScreenshot(args: CaptureScreenshotParameter): CaptureScreenshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.captureScreenshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -302,8 +451,9 @@ public class Page(
    * Returns a snapshot of the page as a string. For MHTML format, the serialization includes
    * iframes, shadow DOM, external resources, and element-inline styles.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun captureSnapshot(args: CaptureSnapshotParameter): CaptureSnapshotReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.captureSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -316,6 +466,7 @@ public class Page(
   /**
    * Clears the overriden device metrics.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun clearDeviceMetricsOverride(): Unit {
     val parameter = null
@@ -325,6 +476,7 @@ public class Page(
   /**
    * Clears the overridden Device Orientation.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun clearDeviceOrientationOverride(): Unit {
     val parameter = null
@@ -334,6 +486,7 @@ public class Page(
   /**
    * Clears the overriden Geolocation Position and Error.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun clearGeolocationOverride(): Unit {
     val parameter = null
@@ -343,9 +496,10 @@ public class Page(
   /**
    * Creates an isolated world for the given frame.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun createIsolatedWorld(args: CreateIsolatedWorldParameter):
       CreateIsolatedWorldReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.createIsolatedWorld", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -363,9 +517,10 @@ public class Page(
   /**
    * Deletes browser cookie with given name, domain and path.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun deleteCookie(args: DeleteCookieParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.deleteCookie", parameter)
   }
 
@@ -377,6 +532,7 @@ public class Page(
   /**
    * Disables page domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Page.disable", parameter)
@@ -385,23 +541,27 @@ public class Page(
   /**
    * Enables page domain notifications.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Page.enable", parameter)
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getAppManifest(): GetAppManifestReturn {
     val parameter = null
     val result = client.callCommand("Page.getAppManifest", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getInstallabilityErrors(): GetInstallabilityErrorsReturn {
     val parameter = null
     val result = client.callCommand("Page.getInstallabilityErrors", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
   public suspend fun getManifestIcons(): GetManifestIconsReturn {
     val parameter = null
     val result = client.callCommand("Page.getManifestIcons", parameter)
@@ -412,6 +572,7 @@ public class Page(
    * Returns all browser cookies. Depending on the backend support, will return detailed cookie
    * information in the `cookies` field.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun getCookies(): GetCookiesReturn {
     val parameter = null
@@ -422,6 +583,7 @@ public class Page(
   /**
    * Returns present frame tree structure.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getFrameTree(): GetFrameTreeReturn {
     val parameter = null
     val result = client.callCommand("Page.getFrameTree", parameter)
@@ -431,6 +593,7 @@ public class Page(
   /**
    * Returns metrics relating to the layouting of the page, such as viewport bounds/scale.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getLayoutMetrics(): GetLayoutMetricsReturn {
     val parameter = null
     val result = client.callCommand("Page.getLayoutMetrics", parameter)
@@ -440,6 +603,7 @@ public class Page(
   /**
    * Returns navigation history for the current page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getNavigationHistory(): GetNavigationHistoryReturn {
     val parameter = null
     val result = client.callCommand("Page.getNavigationHistory", parameter)
@@ -449,6 +613,7 @@ public class Page(
   /**
    * Resets navigation history for the current page.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun resetNavigationHistory(): Unit {
     val parameter = null
     client.callCommand("Page.resetNavigationHistory", parameter)
@@ -457,9 +622,10 @@ public class Page(
   /**
    * Returns content of the given resource.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getResourceContent(args: GetResourceContentParameter):
       GetResourceContentReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.getResourceContent", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -472,6 +638,7 @@ public class Page(
   /**
    * Returns present frame / resource tree structure.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun getResourceTree(): GetResourceTreeReturn {
     val parameter = null
     val result = client.callCommand("Page.getResourceTree", parameter)
@@ -481,8 +648,9 @@ public class Page(
   /**
    * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
    */
+  @ExperimentalCoroutinesApi
   public suspend fun handleJavaScriptDialog(args: HandleJavaScriptDialogParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.handleJavaScriptDialog", parameter)
   }
 
@@ -494,8 +662,9 @@ public class Page(
   /**
    * Navigates current page to the given URL.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun navigate(args: NavigateParameter): NavigateReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.navigate", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -515,8 +684,9 @@ public class Page(
   /**
    * Navigates current page to the given history entry.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun navigateToHistoryEntry(args: NavigateToHistoryEntryParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.navigateToHistoryEntry", parameter)
   }
 
@@ -528,8 +698,9 @@ public class Page(
   /**
    * Print page as PDF.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun printToPDF(args: PrintToPDFParameter): PrintToPDFReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.printToPDF", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -565,8 +736,9 @@ public class Page(
   /**
    * Reloads given page optionally ignoring the cache.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun reload(args: ReloadParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.reload", parameter)
   }
 
@@ -580,10 +752,11 @@ public class Page(
   /**
    * Deprecated, please use removeScriptToEvaluateOnNewDocument instead.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun removeScriptToEvaluateOnLoad(args: RemoveScriptToEvaluateOnLoadParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.removeScriptToEvaluateOnLoad", parameter)
   }
 
@@ -595,10 +768,11 @@ public class Page(
   /**
    * Removes given script from the list.
    */
+  @ExperimentalCoroutinesApi
   public suspend
       fun removeScriptToEvaluateOnNewDocument(args: RemoveScriptToEvaluateOnNewDocumentParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.removeScriptToEvaluateOnNewDocument", parameter)
   }
 
@@ -610,8 +784,9 @@ public class Page(
   /**
    * Acknowledges that a screencast frame has been received by the frontend.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun screencastFrameAck(args: ScreencastFrameAckParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.screencastFrameAck", parameter)
   }
 
@@ -623,8 +798,9 @@ public class Page(
   /**
    * Searches for given string in resource content.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun searchInResource(args: SearchInResourceParameter): SearchInResourceReturn {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Page.searchInResource", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
@@ -644,8 +820,9 @@ public class Page(
   /**
    * Enable Chrome's experimental ad filter on all sites.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setAdBlockingEnabled(args: SetAdBlockingEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setAdBlockingEnabled", parameter)
   }
 
@@ -657,8 +834,9 @@ public class Page(
   /**
    * Enable page Content Security Policy by-passing.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setBypassCSP(args: SetBypassCSPParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setBypassCSP", parameter)
   }
 
@@ -672,9 +850,10 @@ public class Page(
    * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
    * query results).
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setDeviceMetricsOverride(args: SetDeviceMetricsOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setDeviceMetricsOverride", parameter)
   }
 
@@ -703,10 +882,11 @@ public class Page(
   /**
    * Overrides the Device Orientation.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setDeviceOrientationOverride(args: SetDeviceOrientationOverrideParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setDeviceOrientationOverride", parameter)
   }
 
@@ -722,8 +902,9 @@ public class Page(
   /**
    * Set generic font families.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setFontFamilies(args: SetFontFamiliesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setFontFamilies", parameter)
   }
 
@@ -735,8 +916,9 @@ public class Page(
   /**
    * Set default font sizes.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setFontSizes(args: SetFontSizesParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setFontSizes", parameter)
   }
 
@@ -748,8 +930,9 @@ public class Page(
   /**
    * Sets given markup as the document's HTML.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setDocumentContent(args: SetDocumentContentParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setDocumentContent", parameter)
   }
 
@@ -761,9 +944,10 @@ public class Page(
   /**
    * Set the behavior when downloading a file.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setDownloadBehavior(args: SetDownloadBehaviorParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setDownloadBehavior", parameter)
   }
 
@@ -776,9 +960,10 @@ public class Page(
    * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
    * unavailable.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setGeolocationOverride(args: SetGeolocationOverrideParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setGeolocationOverride", parameter)
   }
 
@@ -795,8 +980,9 @@ public class Page(
   /**
    * Controls whether page will emit lifecycle events.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setLifecycleEventsEnabled(args: SetLifecycleEventsEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setLifecycleEventsEnabled", parameter)
   }
 
@@ -808,9 +994,10 @@ public class Page(
   /**
    * Toggles mouse event-based touch event emulation.
    */
+  @ExperimentalCoroutinesApi
   @Deprecated(message = "")
   public suspend fun setTouchEmulationEnabled(args: SetTouchEmulationEnabledParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setTouchEmulationEnabled", parameter)
   }
 
@@ -824,8 +1011,9 @@ public class Page(
   /**
    * Starts sending each frame using the `screencastFrame` event.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun startScreencast(args: StartScreencastParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.startScreencast", parameter)
   }
 
@@ -844,6 +1032,7 @@ public class Page(
   /**
    * Force the page stop all navigations and pending resource fetches.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopLoading(): Unit {
     val parameter = null
     client.callCommand("Page.stopLoading", parameter)
@@ -852,6 +1041,7 @@ public class Page(
   /**
    * Crashes renderer on the IO thread, generates minidumps.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun crash(): Unit {
     val parameter = null
     client.callCommand("Page.crash", parameter)
@@ -860,6 +1050,7 @@ public class Page(
   /**
    * Tries to close page, running its beforeunload hooks, if any.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun close(): Unit {
     val parameter = null
     client.callCommand("Page.close", parameter)
@@ -870,8 +1061,9 @@ public class Page(
    * It will transition the page to the given state according to:
    * https://github.com/WICG/web-lifecycle/
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setWebLifecycleState(args: SetWebLifecycleStateParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setWebLifecycleState", parameter)
   }
 
@@ -883,6 +1075,7 @@ public class Page(
   /**
    * Stops sending each frame in the `screencastFrame`.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun stopScreencast(): Unit {
     val parameter = null
     client.callCommand("Page.stopScreencast", parameter)
@@ -891,8 +1084,9 @@ public class Page(
   /**
    * Forces compilation cache to be generated for every subresource script.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setProduceCompilationCache(args: SetProduceCompilationCacheParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setProduceCompilationCache", parameter)
   }
 
@@ -905,8 +1099,9 @@ public class Page(
    * Seeds compilation cache for given url. Compilation cache does not survive
    * cross-process navigation.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun addCompilationCache(args: AddCompilationCacheParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.addCompilationCache", parameter)
   }
 
@@ -918,6 +1113,7 @@ public class Page(
   /**
    * Clears seeded compilation cache.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun clearCompilationCache(): Unit {
     val parameter = null
     client.callCommand("Page.clearCompilationCache", parameter)
@@ -926,8 +1122,9 @@ public class Page(
   /**
    * Generates a report for testing.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun generateTestReport(args: GenerateTestReportParameter): Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.generateTestReport", parameter)
   }
 
@@ -939,6 +1136,7 @@ public class Page(
   /**
    * Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun waitForDebugger(): Unit {
     val parameter = null
     client.callCommand("Page.waitForDebugger", parameter)
@@ -949,9 +1147,10 @@ public class Page(
    * When file chooser interception is enabled, native file chooser dialog is not shown.
    * Instead, a protocol event `Page.fileChooserOpened` is emitted.
    */
+  @ExperimentalCoroutinesApi
   public suspend fun setInterceptFileChooserDialog(args: SetInterceptFileChooserDialogParameter):
       Unit {
-    val parameter = Json.encodeToJsonElement(args)
+    val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Page.setInterceptFileChooserDialog", parameter)
   }
 
@@ -1514,14 +1713,14 @@ public class Page(
     UNSAFEURL,
   }
 
-  public class DomContentEventFiredParameter(
+  public data class DomContentEventFiredParameter(
     public val timestamp: Double
   )
 
   /**
    * Emitted only when `page.interceptFileChooser` is enabled.
    */
-  public class FileChooserOpenedParameter(
+  public data class FileChooserOpenedParameter(
     /**
      * Id of the frame containing input node.
      */
@@ -1539,7 +1738,7 @@ public class Page(
   /**
    * Fired when frame has been attached to its parent.
    */
-  public class FrameAttachedParameter(
+  public data class FrameAttachedParameter(
     /**
      * Id of the frame that has been attached.
      */
@@ -1557,7 +1756,7 @@ public class Page(
   /**
    * Fired when frame no longer has a scheduled navigation.
    */
-  public class FrameClearedScheduledNavigationParameter(
+  public data class FrameClearedScheduledNavigationParameter(
     /**
      * Id of the frame that has cleared its scheduled navigation.
      */
@@ -1567,7 +1766,7 @@ public class Page(
   /**
    * Fired when frame has been detached from its parent.
    */
-  public class FrameDetachedParameter(
+  public data class FrameDetachedParameter(
     /**
      * Id of the frame that has been detached.
      */
@@ -1578,7 +1777,7 @@ public class Page(
   /**
    * Fired once navigation of the frame has completed. Frame is now associated with the new loader.
    */
-  public class FrameNavigatedParameter(
+  public data class FrameNavigatedParameter(
     /**
      * Frame object.
      */
@@ -1588,7 +1787,7 @@ public class Page(
   /**
    * Fired when opening document to write to.
    */
-  public class DocumentOpenedParameter(
+  public data class DocumentOpenedParameter(
     /**
      * Frame object.
      */
@@ -1599,7 +1798,7 @@ public class Page(
    * Fired when a renderer-initiated navigation is requested.
    * Navigation may still be cancelled after the event is issued.
    */
-  public class FrameRequestedNavigationParameter(
+  public data class FrameRequestedNavigationParameter(
     /**
      * Id of the frame that is being navigated.
      */
@@ -1621,7 +1820,7 @@ public class Page(
   /**
    * Fired when frame schedules a potential navigation.
    */
-  public class FrameScheduledNavigationParameter(
+  public data class FrameScheduledNavigationParameter(
     /**
      * Id of the frame that has scheduled a navigation.
      */
@@ -1644,7 +1843,7 @@ public class Page(
   /**
    * Fired when frame has started loading.
    */
-  public class FrameStartedLoadingParameter(
+  public data class FrameStartedLoadingParameter(
     /**
      * Id of the frame that has started loading.
      */
@@ -1654,7 +1853,7 @@ public class Page(
   /**
    * Fired when frame has stopped loading.
    */
-  public class FrameStoppedLoadingParameter(
+  public data class FrameStoppedLoadingParameter(
     /**
      * Id of the frame that has stopped loading.
      */
@@ -1664,7 +1863,7 @@ public class Page(
   /**
    * Fired when page is about to start a download.
    */
-  public class DownloadWillBeginParameter(
+  public data class DownloadWillBeginParameter(
     /**
      * Id of the frame that caused download to begin.
      */
@@ -1686,7 +1885,7 @@ public class Page(
   /**
    * Fired when download makes progress. Last call has |done| == true.
    */
-  public class DownloadProgressParameter(
+  public data class DownloadProgressParameter(
     /**
      * Global unique identifier of the download.
      */
@@ -1709,7 +1908,7 @@ public class Page(
    * Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) has been
    * closed.
    */
-  public class JavascriptDialogClosedParameter(
+  public data class JavascriptDialogClosedParameter(
     /**
      * Whether dialog was confirmed.
      */
@@ -1725,7 +1924,7 @@ public class Page(
    * to
    * open.
    */
-  public class JavascriptDialogOpeningParameter(
+  public data class JavascriptDialogOpeningParameter(
     /**
      * Frame url.
      */
@@ -1753,7 +1952,7 @@ public class Page(
   /**
    * Fired for top level page lifecycle events such as navigation, load, paint, etc.
    */
-  public class LifecycleEventParameter(
+  public data class LifecycleEventParameter(
     /**
      * Id of the frame.
      */
@@ -1766,7 +1965,7 @@ public class Page(
     public val timestamp: Double
   )
 
-  public class LoadEventFiredParameter(
+  public data class LoadEventFiredParameter(
     public val timestamp: Double
   )
 
@@ -1774,7 +1973,7 @@ public class Page(
    * Fired when same-document navigation happens, e.g. due to history API usage or anchor
    * navigation.
    */
-  public class NavigatedWithinDocumentParameter(
+  public data class NavigatedWithinDocumentParameter(
     /**
      * Id of the frame.
      */
@@ -1788,7 +1987,7 @@ public class Page(
   /**
    * Compressed image data requested by the `startScreencast`.
    */
-  public class ScreencastFrameParameter(
+  public data class ScreencastFrameParameter(
     /**
      * Base64-encoded compressed image. (Encoded as a base64 string when passed over JSON)
      */
@@ -1806,7 +2005,7 @@ public class Page(
   /**
    * Fired when the page with currently enabled screencast was shown or hidden `.
    */
-  public class ScreencastVisibilityChangedParameter(
+  public data class ScreencastVisibilityChangedParameter(
     /**
      * True if the page is visible.
      */
@@ -1817,7 +2016,7 @@ public class Page(
    * Fired when a new window is going to be opened, via window.open(), link click, form submission,
    * etc.
    */
-  public class WindowOpenParameter(
+  public data class WindowOpenParameter(
     /**
      * The URL for the new window.
      */
@@ -1840,7 +2039,7 @@ public class Page(
    * Issued for every compilation cache generated. Is only available
    * if Page.setGenerateCompilationCache is enabled.
    */
-  public class CompilationCacheProducedParameter(
+  public data class CompilationCacheProducedParameter(
     public val url: String,
     /**
      * Base64-encoded data (Encoded as a base64 string when passed over JSON)
@@ -1869,7 +2068,7 @@ public class Page(
      * This world name will be used as the ExecutionContextDescription::name when the corresponding
      * event is emitted.
      */
-    public val worldName: String?
+    public val worldName: String? = null
   )
 
   @Serializable
@@ -1885,23 +2084,23 @@ public class Page(
     /**
      * Image compression format (defaults to png).
      */
-    public val format: String?,
+    public val format: String? = null,
     /**
      * Compression quality from range [0..100] (jpeg only).
      */
-    public val quality: Int?,
+    public val quality: Int? = null,
     /**
      * Capture the screenshot of a given region only.
      */
-    public val clip: Viewport?,
+    public val clip: Viewport? = null,
     /**
      * Capture the screenshot from the surface, rather than the view. Defaults to true.
      */
-    public val fromSurface: Boolean?,
+    public val fromSurface: Boolean? = null,
     /**
      * Capture the screenshot beyond the viewport. Defaults to false.
      */
-    public val captureBeyondViewport: Boolean?
+    public val captureBeyondViewport: Boolean? = null
   )
 
   @Serializable
@@ -1917,7 +2116,7 @@ public class Page(
     /**
      * Format (defaults to mhtml).
      */
-    public val format: String?
+    public val format: String? = null
   )
 
   @Serializable
@@ -1937,12 +2136,12 @@ public class Page(
     /**
      * An optional name which is reported in the Execution Context.
      */
-    public val worldName: String?,
+    public val worldName: String? = null,
     /**
      * Whether or not universal access should be granted to the isolated world. This is a powerful
      * option, use with caution.
      */
-    public val grantUniveralAccess: Boolean?
+    public val grantUniveralAccess: Boolean? = null
   )
 
   @Serializable
@@ -2078,7 +2277,7 @@ public class Page(
      * The text to enter into the dialog prompt before accepting. Used only if this is a prompt
      * dialog.
      */
-    public val promptText: String?
+    public val promptText: String? = null
   )
 
   @Serializable
@@ -2090,19 +2289,19 @@ public class Page(
     /**
      * Referrer URL.
      */
-    public val referrer: String?,
+    public val referrer: String? = null,
     /**
      * Intended transition type.
      */
-    public val transitionType: TransitionType?,
+    public val transitionType: TransitionType? = null,
     /**
      * Frame id to navigate, if not specified navigates the top frame.
      */
-    public val frameId: String?,
+    public val frameId: String? = null,
     /**
      * Referrer-policy used for the navigation.
      */
-    public val referrerPolicy: ReferrerPolicy?
+    public val referrerPolicy: ReferrerPolicy? = null
   )
 
   @Serializable
@@ -2134,53 +2333,53 @@ public class Page(
     /**
      * Paper orientation. Defaults to false.
      */
-    public val landscape: Boolean?,
+    public val landscape: Boolean? = null,
     /**
      * Display header and footer. Defaults to false.
      */
-    public val displayHeaderFooter: Boolean?,
+    public val displayHeaderFooter: Boolean? = null,
     /**
      * Print background graphics. Defaults to false.
      */
-    public val printBackground: Boolean?,
+    public val printBackground: Boolean? = null,
     /**
      * Scale of the webpage rendering. Defaults to 1.
      */
-    public val scale: Double?,
+    public val scale: Double? = null,
     /**
      * Paper width in inches. Defaults to 8.5 inches.
      */
-    public val paperWidth: Double?,
+    public val paperWidth: Double? = null,
     /**
      * Paper height in inches. Defaults to 11 inches.
      */
-    public val paperHeight: Double?,
+    public val paperHeight: Double? = null,
     /**
      * Top margin in inches. Defaults to 1cm (~0.4 inches).
      */
-    public val marginTop: Double?,
+    public val marginTop: Double? = null,
     /**
      * Bottom margin in inches. Defaults to 1cm (~0.4 inches).
      */
-    public val marginBottom: Double?,
+    public val marginBottom: Double? = null,
     /**
      * Left margin in inches. Defaults to 1cm (~0.4 inches).
      */
-    public val marginLeft: Double?,
+    public val marginLeft: Double? = null,
     /**
      * Right margin in inches. Defaults to 1cm (~0.4 inches).
      */
-    public val marginRight: Double?,
+    public val marginRight: Double? = null,
     /**
      * Paper ranges to print, e.g., '1-5, 8, 11-13'. Defaults to the empty string, which means
      * print all pages.
      */
-    public val pageRanges: String?,
+    public val pageRanges: String? = null,
     /**
      * Whether to silently ignore invalid but successfully parsed page ranges, such as '3-2'.
      * Defaults to false.
      */
-    public val ignoreInvalidPageRanges: Boolean?,
+    public val ignoreInvalidPageRanges: Boolean? = null,
     /**
      * HTML template for the print header. Should be valid HTML markup with following
      * classes used to inject printing values into them:
@@ -2192,20 +2391,20 @@ public class Page(
      *
      * For example, `<span class=title></span>` would generate span containing the title.
      */
-    public val headerTemplate: String?,
+    public val headerTemplate: String? = null,
     /**
      * HTML template for the print footer. Should use the same format as the `headerTemplate`.
      */
-    public val footerTemplate: String?,
+    public val footerTemplate: String? = null,
     /**
      * Whether or not to prefer page size as defined by css. Defaults to false,
      * in which case the content will be scaled to fit the paper size.
      */
-    public val preferCSSPageSize: Boolean?,
+    public val preferCSSPageSize: Boolean? = null,
     /**
      * return as stream
      */
-    public val transferMode: String?
+    public val transferMode: String? = null
   )
 
   @Serializable
@@ -2226,12 +2425,12 @@ public class Page(
     /**
      * If true, browser cache is ignored (as if the user pressed Shift+refresh).
      */
-    public val ignoreCache: Boolean?,
+    public val ignoreCache: Boolean? = null,
     /**
      * If set, the script will be injected into all frames of the inspected page after reload.
      * Argument will be ignored if reloading dataURL origin.
      */
-    public val scriptToEvaluateOnLoad: String?
+    public val scriptToEvaluateOnLoad: String? = null
   )
 
   @Serializable
@@ -2269,11 +2468,11 @@ public class Page(
     /**
      * If true, search is case sensitive.
      */
-    public val caseSensitive: Boolean?,
+    public val caseSensitive: Boolean? = null,
     /**
      * If true, treats string parameter as regex.
      */
-    public val isRegex: Boolean?
+    public val isRegex: Boolean? = null
   )
 
   @Serializable
@@ -2322,35 +2521,35 @@ public class Page(
     /**
      * Scale to apply to resulting view image.
      */
-    public val scale: Double?,
+    public val scale: Double? = null,
     /**
      * Overriding screen width value in pixels (minimum 0, maximum 10000000).
      */
-    public val screenWidth: Int?,
+    public val screenWidth: Int? = null,
     /**
      * Overriding screen height value in pixels (minimum 0, maximum 10000000).
      */
-    public val screenHeight: Int?,
+    public val screenHeight: Int? = null,
     /**
      * Overriding view X position on screen in pixels (minimum 0, maximum 10000000).
      */
-    public val positionX: Int?,
+    public val positionX: Int? = null,
     /**
      * Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).
      */
-    public val positionY: Int?,
+    public val positionY: Int? = null,
     /**
      * Do not set visible view size, rely upon explicit setVisibleSize call.
      */
-    public val dontSetVisibleSize: Boolean?,
+    public val dontSetVisibleSize: Boolean? = null,
     /**
      * Screen orientation override.
      */
-    public val screenOrientation: Emulation.ScreenOrientation?,
+    public val screenOrientation: Emulation.ScreenOrientation? = null,
     /**
      * The viewport dimensions and scale. If not set, the override is cleared.
      */
-    public val viewport: Viewport?
+    public val viewport: Viewport? = null
   )
 
   @Serializable
@@ -2407,7 +2606,7 @@ public class Page(
     /**
      * The default path to save downloaded files to. This is requred if behavior is set to 'allow'
      */
-    public val downloadPath: String?
+    public val downloadPath: String? = null
   )
 
   @Serializable
@@ -2415,15 +2614,15 @@ public class Page(
     /**
      * Mock latitude
      */
-    public val latitude: Double?,
+    public val latitude: Double? = null,
     /**
      * Mock longitude
      */
-    public val longitude: Double?,
+    public val longitude: Double? = null,
     /**
      * Mock accuracy
      */
-    public val accuracy: Double?
+    public val accuracy: Double? = null
   )
 
   @Serializable
@@ -2443,7 +2642,7 @@ public class Page(
     /**
      * Touch/gesture events configuration. Default: current platform.
      */
-    public val configuration: String?
+    public val configuration: String? = null
   )
 
   @Serializable
@@ -2451,23 +2650,23 @@ public class Page(
     /**
      * Image compression format.
      */
-    public val format: String?,
+    public val format: String? = null,
     /**
      * Compression quality from range [0..100].
      */
-    public val quality: Int?,
+    public val quality: Int? = null,
     /**
      * Maximum screenshot width.
      */
-    public val maxWidth: Int?,
+    public val maxWidth: Int? = null,
     /**
      * Maximum screenshot height.
      */
-    public val maxHeight: Int?,
+    public val maxHeight: Int? = null,
     /**
      * Send every n-th frame.
      */
-    public val everyNthFrame: Int?
+    public val everyNthFrame: Int? = null
   )
 
   @Serializable
@@ -2501,7 +2700,7 @@ public class Page(
     /**
      * Specifies the endpoint group to deliver the report to.
      */
-    public val group: String?
+    public val group: String? = null
   )
 
   @Serializable
