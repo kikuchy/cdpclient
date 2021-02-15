@@ -74,24 +74,27 @@ fun Domain.generateClassFile(domains: List<Domain>): FileSpec {
 
 fun Domain.Type.generateTypeClass(parentDomain: Domain, domains: List<Domain>): TypeSpec? {
     return when (type) {
-        "object" -> TypeSpec.classBuilder(id).apply {
-            description?.let { addKdoc(it) }
-            addAnnotation(SERIALIZABLE)
-            properties.forEach {
-                addProperty(it.generateTypeProperty(parentDomain, domains))
-            }
-            primaryConstructor(FunSpec.constructorBuilder().apply {
+        "object" -> if (properties.isNotEmpty()) {
+            TypeSpec.classBuilder(id).apply {
+                addModifiers(KModifier.DATA)
+                description?.let { addKdoc(it) }
+                addAnnotation(SERIALIZABLE)
                 properties.forEach {
-                    addParameter(ParameterSpec.builder(it.name, it.resolveType(parentDomain, domains))
-                        .apply {
-                            if (it.optional) {
-                                defaultValue("null")
-                            }
-                        }
-                        .build())
+                    addProperty(it.generateTypeProperty(parentDomain, domains))
                 }
-            }.build())
-        }.build()
+                primaryConstructor(FunSpec.constructorBuilder().apply {
+                    properties.forEach {
+                        addParameter(ParameterSpec.builder(it.name, it.resolveType(parentDomain, domains))
+                            .apply {
+                                if (it.optional) {
+                                    defaultValue("null")
+                                }
+                            }
+                            .build())
+                    }
+                }.build())
+            }.build()
+        } else null
         "string" -> if (enum.isNotEmpty()) {
             TypeSpec.enumBuilder(id).apply {
                 description?.let { addKdoc(it) }
@@ -190,7 +193,7 @@ fun Domain.TypeOrReference.jsTypeToKType(parentDomain: Domain, domains: List<Dom
 fun Domain.TypeOrReference.resolveType(parentDomain: Domain, domains: List<Domain>): TypeName {
     return if (this.ref != null) {
         val (domain, type) = domains.resolveRef(this.ref!!, parentDomain)
-        if (type.type == "object" || (type.type == "string" && type.enum.isNotEmpty())) {
+        if ((type.type == "object" && type.properties.isNotEmpty()) || (type.type == "string" && type.enum.isNotEmpty())) {
             if (domain == parentDomain) {
                 ClassName("", type.id)
             } else {
@@ -207,7 +210,8 @@ fun Domain.TypeOrReference.resolveType(parentDomain: Domain, domains: List<Domai
 fun Domain.Event.generateEventChanel(parentDomain: Domain, domains: List<Domain>): PropertySpec {
     return PropertySpec.builder(name, FLOW.parameterizedBy(parameterTypeName))
         .addAnnotation(EXPERIMENTAL_COROUTINE_API)
-        .initializer("""
+        .initializer(
+            """
             client
                 .events
                 .filter {
@@ -220,7 +224,8 @@ fun Domain.Event.generateEventChanel(parentDomain: Domain, domains: List<Domain>
                 .map {
                     %T.decodeFromJsonElement(it)
                 }
-        """.trimIndent(), name, JSON)
+        """.trimIndent(), name, JSON
+        )
         .build()
 }
 

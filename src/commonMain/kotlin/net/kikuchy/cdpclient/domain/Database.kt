@@ -83,7 +83,7 @@ public class Database(
    * Database object.
    */
   @Serializable
-  public class Database(
+  public data class Database(
     /**
      * Database ID.
      */
@@ -106,7 +106,7 @@ public class Database(
    * Database error.
    */
   @Serializable
-  public class Error(
+  public data class Error(
     /**
      * Error message.
      */

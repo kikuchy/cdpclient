@@ -191,7 +191,7 @@ public class LayerTree(
    * Rectangle where scrolling happens on the main thread.
    */
   @Serializable
-  public class ScrollRect(
+  public data class ScrollRect(
     /**
      * Rectangle itself.
      */
@@ -206,7 +206,7 @@ public class LayerTree(
    * Sticky position constraints.
    */
   @Serializable
-  public class StickyPositionConstraint(
+  public data class StickyPositionConstraint(
     /**
      * Layout rectangle of the sticky element before being shifted
      */
@@ -229,7 +229,7 @@ public class LayerTree(
    * Serialized fragment of layer picture along with its offset within the layer.
    */
   @Serializable
-  public class PictureTile(
+  public data class PictureTile(
     /**
      * Offset from owning layer left boundary
      */
@@ -248,7 +248,7 @@ public class LayerTree(
    * Information about a compositing layer.
    */
   @Serializable
-  public class Layer(
+  public data class Layer(
     /**
      * The unique id for this layer.
      */

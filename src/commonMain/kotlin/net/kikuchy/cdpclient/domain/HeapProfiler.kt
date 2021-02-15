@@ -220,7 +220,7 @@ public class HeapProfiler(
    * Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes.
    */
   @Serializable
-  public class SamplingHeapProfileNode(
+  public data class SamplingHeapProfileNode(
     /**
      * Function location.
      */
@@ -243,7 +243,7 @@ public class HeapProfiler(
    * A single sample from a sampling profile.
    */
   @Serializable
-  public class SamplingHeapProfileSample(
+  public data class SamplingHeapProfileSample(
     /**
      * Allocation size in bytes attributed to the sample.
      */
@@ -263,7 +263,7 @@ public class HeapProfiler(
    * Sampling profile.
    */
   @Serializable
-  public class SamplingHeapProfile(
+  public data class SamplingHeapProfile(
     public val head: SamplingHeapProfileNode,
     public val samples: List<SamplingHeapProfileSample>
   )

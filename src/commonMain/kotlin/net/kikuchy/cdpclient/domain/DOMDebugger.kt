@@ -207,7 +207,7 @@ public class DOMDebugger(
    * Object event listener.
    */
   @Serializable
-  public class EventListener(
+  public data class EventListener(
     /**
      * `EventListener`'s type.
      */

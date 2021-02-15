@@ -268,7 +268,7 @@ public class Storage(
    * Usage for a storage type.
    */
   @Serializable
-  public class UsageForType(
+  public data class UsageForType(
     /**
      * Name of storage type.
      */
@@ -284,7 +284,7 @@ public class Storage(
    * Tokens from that issuer.
    */
   @Serializable
-  public class TrustTokens(
+  public data class TrustTokens(
     public val issuerOrigin: String,
     public val count: Double
   )

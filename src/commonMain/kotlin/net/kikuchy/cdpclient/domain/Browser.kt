@@ -269,7 +269,7 @@ public class Browser(
    * Browser window bounds information
    */
   @Serializable
-  public class Bounds(
+  public data class Bounds(
     /**
      * The offset from the left edge of the screen to the window in pixels.
      */
@@ -357,7 +357,7 @@ public class Browser(
    * https://w3c.github.io/permissions/#dictdef-permissiondescriptor.
    */
   @Serializable
-  public class PermissionDescriptor(
+  public data class PermissionDescriptor(
     /**
      * Name of permission.
      * See
@@ -399,7 +399,7 @@ public class Browser(
    * Chrome histogram bucket.
    */
   @Serializable
-  public class Bucket(
+  public data class Bucket(
     /**
      * Minimum value (inclusive).
      */
@@ -418,7 +418,7 @@ public class Browser(
    * Chrome histogram.
    */
   @Serializable
-  public class Histogram(
+  public data class Histogram(
     /**
      * Name.
      */

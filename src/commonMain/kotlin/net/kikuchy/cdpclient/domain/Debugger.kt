@@ -612,7 +612,7 @@ public class Debugger(
    * Location in the source code.
    */
   @Serializable
-  public class Location(
+  public data class Location(
     /**
      * Script identifier as reported in the `Debugger.scriptParsed`.
      */
@@ -631,7 +631,7 @@ public class Debugger(
    * Location in the source code.
    */
   @Serializable
-  public class ScriptPosition(
+  public data class ScriptPosition(
     public val lineNumber: Int,
     public val columnNumber: Int
   )
@@ -640,7 +640,7 @@ public class Debugger(
    * Location range within one script.
    */
   @Serializable
-  public class LocationRange(
+  public data class LocationRange(
     public val scriptId: String,
     public val start: ScriptPosition,
     public val end: ScriptPosition
@@ -650,7 +650,7 @@ public class Debugger(
    * JavaScript call frame. Array of call frames form the call stack.
    */
   @Serializable
-  public class CallFrame(
+  public data class CallFrame(
     /**
      * Call frame identifier. This identifier is only valid while the virtual machine is paused.
      */
@@ -689,7 +689,7 @@ public class Debugger(
    * Scope description.
    */
   @Serializable
-  public class Scope(
+  public data class Scope(
     /**
      * Scope type.
      */
@@ -715,7 +715,7 @@ public class Debugger(
    * Search match for resource.
    */
   @Serializable
-  public class SearchMatch(
+  public data class SearchMatch(
     /**
      * Line number in resource content.
      */
@@ -727,7 +727,7 @@ public class Debugger(
   )
 
   @Serializable
-  public class BreakLocation(
+  public data class BreakLocation(
     /**
      * Script identifier as reported in the `Debugger.scriptParsed`.
      */
@@ -758,7 +758,7 @@ public class Debugger(
    * Debug symbols available for a wasm script.
    */
   @Serializable
-  public class DebugSymbols(
+  public data class DebugSymbols(
     /**
      * Type of the debug symbols.
      */

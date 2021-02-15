@@ -136,13 +136,13 @@ public class BackgroundService(
    * A key-value pair for additional event information to pass along.
    */
   @Serializable
-  public class EventMetadata(
+  public data class EventMetadata(
     public val key: String,
     public val value: String
   )
 
   @Serializable
-  public class BackgroundServiceEvent(
+  public data class BackgroundServiceEvent(
     /**
      * Timestamp of the event (in seconds).
      */

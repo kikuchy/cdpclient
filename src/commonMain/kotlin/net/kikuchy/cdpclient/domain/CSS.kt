@@ -503,7 +503,7 @@ public class CSS(
    * CSS rule collection for a single pseudo style.
    */
   @Serializable
-  public class PseudoElementMatches(
+  public data class PseudoElementMatches(
     /**
      * Pseudo element type.
      */
@@ -518,7 +518,7 @@ public class CSS(
    * Inherited CSS rule collection from ancestor node.
    */
   @Serializable
-  public class InheritedStyleEntry(
+  public data class InheritedStyleEntry(
     /**
      * The ancestor node's inline style, if any, in the style inheritance chain.
      */
@@ -533,7 +533,7 @@ public class CSS(
    * Match data for a CSS rule.
    */
   @Serializable
-  public class RuleMatch(
+  public data class RuleMatch(
     /**
      * CSS rule in the match.
      */
@@ -548,7 +548,7 @@ public class CSS(
    * Data for a simple selector (these are delimited by commas in a selector list).
    */
   @Serializable
-  public class Value(
+  public data class Value(
     /**
      * Value text.
      */
@@ -563,7 +563,7 @@ public class CSS(
    * Selector list data.
    */
   @Serializable
-  public class SelectorList(
+  public data class SelectorList(
     /**
      * Selectors in the list.
      */
@@ -578,7 +578,7 @@ public class CSS(
    * CSS stylesheet metainformation.
    */
   @Serializable
-  public class CSSStyleSheetHeader(
+  public data class CSSStyleSheetHeader(
     /**
      * The stylesheet identifier.
      */
@@ -657,7 +657,7 @@ public class CSS(
    * CSS rule representation.
    */
   @Serializable
-  public class CSSRule(
+  public data class CSSRule(
     /**
      * The css style sheet identifier (absent for user agent stylesheet and user-specified
      * stylesheet rules) this rule came from.
@@ -686,7 +686,7 @@ public class CSS(
    * CSS coverage information.
    */
   @Serializable
-  public class RuleUsage(
+  public data class RuleUsage(
     /**
      * The css style sheet identifier (absent for user agent stylesheet and user-specified
      * stylesheet rules) this rule came from.
@@ -710,7 +710,7 @@ public class CSS(
    * Text range within a resource. All numbers are zero-based.
    */
   @Serializable
-  public class SourceRange(
+  public data class SourceRange(
     /**
      * Start line of range.
      */
@@ -730,7 +730,7 @@ public class CSS(
   )
 
   @Serializable
-  public class ShorthandEntry(
+  public data class ShorthandEntry(
     /**
      * Shorthand name.
      */
@@ -746,7 +746,7 @@ public class CSS(
   )
 
   @Serializable
-  public class CSSComputedStyleProperty(
+  public data class CSSComputedStyleProperty(
     /**
      * Computed style property name.
      */
@@ -761,7 +761,7 @@ public class CSS(
    * CSS style representation.
    */
   @Serializable
-  public class CSSStyle(
+  public data class CSSStyle(
     /**
      * The css style sheet identifier (absent for user agent stylesheet and user-specified
      * stylesheet rules) this rule came from.
@@ -789,7 +789,7 @@ public class CSS(
    * CSS property declaration data.
    */
   @Serializable
-  public class CSSProperty(
+  public data class CSSProperty(
     /**
      * The property name.
      */
@@ -828,7 +828,7 @@ public class CSS(
    * CSS media rule descriptor.
    */
   @Serializable
-  public class CSSMedia(
+  public data class CSSMedia(
     /**
      * Media query text.
      */
@@ -863,7 +863,7 @@ public class CSS(
    * Media query descriptor.
    */
   @Serializable
-  public class MediaQuery(
+  public data class MediaQuery(
     /**
      * Array of media query expressions.
      */
@@ -878,7 +878,7 @@ public class CSS(
    * Media query expression descriptor.
    */
   @Serializable
-  public class MediaQueryExpression(
+  public data class MediaQueryExpression(
     /**
      * Media query expression value.
      */
@@ -905,7 +905,7 @@ public class CSS(
    * Information about amount of glyphs that were rendered with given font.
    */
   @Serializable
-  public class PlatformFontUsage(
+  public data class PlatformFontUsage(
     /**
      * Font's family name reported by platform.
      */
@@ -924,7 +924,7 @@ public class CSS(
    * Information about font variation axes for variable fonts
    */
   @Serializable
-  public class FontVariationAxis(
+  public data class FontVariationAxis(
     /**
      * The font-variation-setting tag (a.k.a. "axis tag").
      */
@@ -953,7 +953,7 @@ public class CSS(
    * and additional information such as platformFontFamily and fontVariationAxes.
    */
   @Serializable
-  public class FontFace(
+  public data class FontFace(
     /**
      * The font-family.
      */
@@ -996,7 +996,7 @@ public class CSS(
    * CSS keyframes rule representation.
    */
   @Serializable
-  public class CSSKeyframesRule(
+  public data class CSSKeyframesRule(
     /**
      * Animation name.
      */
@@ -1011,7 +1011,7 @@ public class CSS(
    * CSS keyframe rule representation.
    */
   @Serializable
-  public class CSSKeyframeRule(
+  public data class CSSKeyframeRule(
     /**
      * The css style sheet identifier (absent for user agent stylesheet and user-specified
      * stylesheet rules) this rule came from.
@@ -1035,7 +1035,7 @@ public class CSS(
    * A descriptor of operation to mutate style declaration text.
    */
   @Serializable
-  public class StyleDeclarationEdit(
+  public data class StyleDeclarationEdit(
     /**
      * The css style sheet identifier.
      */

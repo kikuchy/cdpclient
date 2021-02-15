@@ -173,7 +173,7 @@ public class Security(
    * Details about the security state of the page certificate.
    */
   @Serializable
-  public class CertificateSecurityState(
+  public data class CertificateSecurityState(
     /**
      * Protocol name (e.g. "TLS 1.2" or "QUIC").
      */
@@ -257,7 +257,7 @@ public class Security(
   }
 
   @Serializable
-  public class SafetyTipInfo(
+  public data class SafetyTipInfo(
     /**
      * Describes whether the page triggers any safety tips or reputation warnings. Default is
      * unknown.
@@ -273,7 +273,7 @@ public class Security(
    * Security state information about the page.
    */
   @Serializable
-  public class VisibleSecurityState(
+  public data class VisibleSecurityState(
     /**
      * The security level of the page.
      */
@@ -297,7 +297,7 @@ public class Security(
    * An explanation of an factor contributing to the security state.
    */
   @Serializable
-  public class SecurityStateExplanation(
+  public data class SecurityStateExplanation(
     /**
      * Security state representing the severity of the factor being explained.
      */
@@ -332,7 +332,7 @@ public class Security(
    * Information about insecure content on the page.
    */
   @Serializable
-  public class InsecureContentStatus(
+  public data class InsecureContentStatus(
     /**
      * Always false.
      */

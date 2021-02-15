@@ -202,7 +202,7 @@ public class Animation(
    * Animation instance.
    */
   @Serializable
-  public class Animation(
+  public data class Animation(
     /**
      * `Animation`'s id.
      */
@@ -250,7 +250,7 @@ public class Animation(
    * AnimationEffect instance
    */
   @Serializable
-  public class AnimationEffect(
+  public data class AnimationEffect(
     /**
      * `AnimationEffect`'s delay.
      */
@@ -297,7 +297,7 @@ public class Animation(
    * Keyframes Rule
    */
   @Serializable
-  public class KeyframesRule(
+  public data class KeyframesRule(
     /**
      * CSS keyframed animation's name.
      */
@@ -312,7 +312,7 @@ public class Animation(
    * Keyframe Style
    */
   @Serializable
-  public class KeyframeStyle(
+  public data class KeyframeStyle(
     /**
      * Keyframe's time offset.
      */

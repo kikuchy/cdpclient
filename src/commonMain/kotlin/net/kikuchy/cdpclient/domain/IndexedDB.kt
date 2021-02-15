@@ -177,7 +177,7 @@ public class IndexedDB(
    * Database with an array of object stores.
    */
   @Serializable
-  public class DatabaseWithObjectStores(
+  public data class DatabaseWithObjectStores(
     /**
      * Database name.
      */
@@ -197,7 +197,7 @@ public class IndexedDB(
    * Object store.
    */
   @Serializable
-  public class ObjectStore(
+  public data class ObjectStore(
     /**
      * Object store name.
      */
@@ -220,7 +220,7 @@ public class IndexedDB(
    * Object store index.
    */
   @Serializable
-  public class ObjectStoreIndex(
+  public data class ObjectStoreIndex(
     /**
      * Index name.
      */
@@ -243,7 +243,7 @@ public class IndexedDB(
    * Key.
    */
   @Serializable
-  public class Key(
+  public data class Key(
     /**
      * Key type.
      */
@@ -270,7 +270,7 @@ public class IndexedDB(
    * Key range.
    */
   @Serializable
-  public class KeyRange(
+  public data class KeyRange(
     /**
      * Lower bound.
      */
@@ -293,7 +293,7 @@ public class IndexedDB(
    * Data entry.
    */
   @Serializable
-  public class DataEntry(
+  public data class DataEntry(
     /**
      * Key object.
      */
@@ -312,7 +312,7 @@ public class IndexedDB(
    * Key path.
    */
   @Serializable
-  public class KeyPath(
+  public data class KeyPath(
     /**
      * Key path type.
      */

@@ -986,7 +986,7 @@ public class DOM(
    * Backend node with a friendly name.
    */
   @Serializable
-  public class BackendNode(
+  public data class BackendNode(
     /**
      * `Node`'s nodeType.
      */
@@ -1061,7 +1061,7 @@ public class DOM(
    * DOMNode is a base node mirror type.
    */
   @Serializable
-  public class Node(
+  public data class Node(
     /**
      * Node identifier that is passed into the rest of the DOM messages as the `nodeId`. Backend
      * will only push node with given `id` once. It is aware of all requested nodes and will only
@@ -1182,7 +1182,7 @@ public class DOM(
    * A structure holding an RGBA color.
    */
   @Serializable
-  public class RGBA(
+  public data class RGBA(
     /**
      * The red component, in the [0-255] range.
      */
@@ -1205,7 +1205,7 @@ public class DOM(
    * Box model.
    */
   @Serializable
-  public class BoxModel(
+  public data class BoxModel(
     /**
      * Content box
      */
@@ -1240,7 +1240,7 @@ public class DOM(
    * CSS Shape Outside details.
    */
   @Serializable
-  public class ShapeOutsideInfo(
+  public data class ShapeOutsideInfo(
     /**
      * Shape bounds
      */
@@ -1259,7 +1259,7 @@ public class DOM(
    * Rectangle.
    */
   @Serializable
-  public class Rect(
+  public data class Rect(
     /**
      * X coordinate
      */
@@ -1279,7 +1279,7 @@ public class DOM(
   )
 
   @Serializable
-  public class CSSComputedStyleProperty(
+  public data class CSSComputedStyleProperty(
     /**
      * Computed style property name.
      */

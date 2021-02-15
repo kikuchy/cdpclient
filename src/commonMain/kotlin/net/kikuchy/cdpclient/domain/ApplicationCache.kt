@@ -109,7 +109,7 @@ public class ApplicationCache(
    * Detailed application cache resource information.
    */
   @Serializable
-  public class ApplicationCacheResource(
+  public data class ApplicationCacheResource(
     /**
      * Resource url.
      */
@@ -128,7 +128,7 @@ public class ApplicationCache(
    * Detailed application cache information.
    */
   @Serializable
-  public class ApplicationCache(
+  public data class ApplicationCache(
     /**
      * Manifest URL.
      */
@@ -155,7 +155,7 @@ public class ApplicationCache(
    * Frame identifier - manifest URL pair.
    */
   @Serializable
-  public class FrameWithManifest(
+  public data class FrameWithManifest(
     /**
      * Frame identifier.
      */

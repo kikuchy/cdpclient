@@ -240,7 +240,7 @@ public class Input(
   }
 
   @Serializable
-  public class TouchPoint(
+  public data class TouchPoint(
     /**
      * X coordinate of the event relative to the main frame's viewport in CSS pixels.
      */

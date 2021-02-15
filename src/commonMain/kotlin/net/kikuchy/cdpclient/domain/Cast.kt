@@ -124,7 +124,7 @@ public class Cast(
   }
 
   @Serializable
-  public class Sink(
+  public data class Sink(
     public val name: String,
     public val id: String,
     /**

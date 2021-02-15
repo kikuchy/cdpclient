@@ -87,7 +87,7 @@ public class HeadlessExperimental(
    * Encoding options for a screenshot.
    */
   @Serializable
-  public class ScreenshotParams(
+  public data class ScreenshotParams(
     /**
      * Image compression format (defaults to png).
      */

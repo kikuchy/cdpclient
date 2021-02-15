@@ -98,7 +98,7 @@ public class Audits(
    * Information about a cookie that is affected by an inspector issue.
    */
   @Serializable
-  public class AffectedCookie(
+  public data class AffectedCookie(
     /**
      * The following three properties uniquely identify a cookie
      */
@@ -111,7 +111,7 @@ public class Audits(
    * Information about a request that is affected by an inspector issue.
    */
   @Serializable
-  public class AffectedRequest(
+  public data class AffectedRequest(
     /**
      * The unique request id.
      */
@@ -123,7 +123,7 @@ public class Audits(
    * Information about the frame affected by an inspector issue.
    */
   @Serializable
-  public class AffectedFrame(
+  public data class AffectedFrame(
     public val frameId: String
   )
 
@@ -173,7 +173,7 @@ public class Audits(
    * information without the cookie.
    */
   @Serializable
-  public class SameSiteCookieIssueDetails(
+  public data class SameSiteCookieIssueDetails(
     public val cookie: AffectedCookie,
     public val cookieWarningReasons: List<SameSiteCookieWarningReason>,
     public val cookieExclusionReasons: List<SameSiteCookieExclusionReason>,
@@ -254,7 +254,7 @@ public class Audits(
   }
 
   @Serializable
-  public class MixedContentIssueDetails(
+  public data class MixedContentIssueDetails(
     /**
      * The type of resource causing the mixed content issue (css, js, iframe,
      * form,...). Marked as optional because it is mapped to from
@@ -309,7 +309,7 @@ public class Audits(
    * some CSP errors in the future.
    */
   @Serializable
-  public class BlockedByResponseIssueDetails(
+  public data class BlockedByResponseIssueDetails(
     public val request: AffectedRequest,
     public val parentFrame: AffectedFrame? = null,
     public val blockedFrame: AffectedFrame? = null,
@@ -335,7 +335,7 @@ public class Audits(
   }
 
   @Serializable
-  public class HeavyAdIssueDetails(
+  public data class HeavyAdIssueDetails(
     /**
      * The resolution status, either blocking the content or warning.
      */
@@ -365,7 +365,7 @@ public class Audits(
   }
 
   @Serializable
-  public class SourceCodeLocation(
+  public data class SourceCodeLocation(
     public val scriptId: String? = null,
     public val url: String,
     public val lineNumber: Int,
@@ -373,7 +373,7 @@ public class Audits(
   )
 
   @Serializable
-  public class ContentSecurityPolicyIssueDetails(
+  public data class ContentSecurityPolicyIssueDetails(
     /**
      * The url not included in allowed sources.
      */
@@ -402,7 +402,7 @@ public class Audits(
    * transfered to a context that is not cross-origin isolated.
    */
   @Serializable
-  public class SharedArrayBufferIssueDetails(
+  public data class SharedArrayBufferIssueDetails(
     public val sourceCodeLocation: SourceCodeLocation,
     public val isWarning: Boolean,
     public val type: SharedArrayBufferIssueType
@@ -419,7 +419,7 @@ public class Audits(
   }
 
   @Serializable
-  public class TrustedWebActivityIssueDetails(
+  public data class TrustedWebActivityIssueDetails(
     /**
      * The url that triggers the violation.
      */
@@ -439,7 +439,7 @@ public class Audits(
   )
 
   @Serializable
-  public class LowTextContrastIssueDetails(
+  public data class LowTextContrastIssueDetails(
     public val violatingNodeId: Int,
     public val violatingNodeSelector: String,
     public val contrastRatio: Double,
@@ -454,7 +454,7 @@ public class Audits(
    * CORS RFC1918 enforcement.
    */
   @Serializable
-  public class CorsIssueDetails(
+  public data class CorsIssueDetails(
     public val corsErrorStatus: Network.CorsErrorStatus,
     public val isWarning: Boolean,
     public val request: AffectedRequest,
@@ -495,7 +495,7 @@ public class Audits(
    * add a new optional field to this type.
    */
   @Serializable
-  public class InspectorIssueDetails(
+  public data class InspectorIssueDetails(
     public val sameSiteCookieIssueDetails: SameSiteCookieIssueDetails? = null,
     public val mixedContentIssueDetails: MixedContentIssueDetails? = null,
     public val blockedByResponseIssueDetails: BlockedByResponseIssueDetails? = null,
@@ -511,7 +511,7 @@ public class Audits(
    * An inspector issue reported from the back-end.
    */
   @Serializable
-  public class InspectorIssue(
+  public data class InspectorIssue(
     public val code: InspectorIssueCode,
     public val details: InspectorIssueDetails
   )

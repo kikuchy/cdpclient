@@ -220,7 +220,7 @@ public class WebAuthn(
   }
 
   @Serializable
-  public class VirtualAuthenticatorOptions(
+  public data class VirtualAuthenticatorOptions(
     public val protocol: AuthenticatorProtocol,
     /**
      * Defaults to ctap2_0. Ignored if |protocol| == u2f.
@@ -254,7 +254,7 @@ public class WebAuthn(
   )
 
   @Serializable
-  public class Credential(
+  public data class Credential(
     public val credentialId: String,
     public val isResidentCredential: Boolean,
     /**

@@ -143,14 +143,8 @@ public class Tracing(
     start(parameter)
   }
 
-  /**
-   * Configuration for memory dump. Used only when "memory-infra" category is enabled.
-   */
   @Serializable
-  public class MemoryDumpConfig
-
-  @Serializable
-  public class TraceConfig(
+  public data class TraceConfig(
     /**
      * Controls how the trace buffer stores data.
      */
@@ -182,7 +176,7 @@ public class Tracing(
     /**
      * Configuration for memory dump triggers. Used only when "memory-infra" category is enabled.
      */
-    public val memoryDumpConfig: MemoryDumpConfig? = null
+    public val memoryDumpConfig: Map<String, JsonElement>? = null
   )
 
   /**

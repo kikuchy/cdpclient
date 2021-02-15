@@ -7,6 +7,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.Unit
 import kotlin.collections.List
+import kotlin.collections.Map
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import net.kikuchy.cdpclient.CDPClient
@@ -427,7 +429,7 @@ public class Network(
     url: String? = null,
     method: String? = null,
     postData: String? = null,
-    headers: Headers? = null,
+    headers: Map<String, JsonElement>? = null,
     authChallengeResponse: AuthChallengeResponse? = null
   ): Unit {
     val parameter = ContinueInterceptedRequestParameter(interceptionId = interceptionId,errorReason
@@ -765,7 +767,7 @@ public class Network(
     client.callCommand("Network.setExtraHTTPHeaders", parameter)
   }
 
-  public suspend fun setExtraHTTPHeaders(headers: Headers): Unit {
+  public suspend fun setExtraHTTPHeaders(headers: Map<String, JsonElement>): Unit {
     val parameter = SetExtraHTTPHeadersParameter(headers = headers)
     setExtraHTTPHeaders(parameter)
   }
@@ -934,12 +936,6 @@ public class Network(
   }
 
   /**
-   * Request / response headers as keys / values of JSON object.
-   */
-  @Serializable
-  public class Headers
-
-  /**
    * The underlying connection technology that the browser is supposedly using.
    */
   @Serializable
@@ -996,7 +992,7 @@ public class Network(
    * Timing information for the request.
    */
   @Serializable
-  public class ResourceTiming(
+  public data class ResourceTiming(
     /**
      * Timing's requestTime is a baseline in seconds, while the other numbers are ticks in
      * milliseconds relatively to this requestTime.
@@ -1093,7 +1089,7 @@ public class Network(
    * Post data entry for HTTP request
    */
   @Serializable
-  public class PostDataEntry(
+  public data class PostDataEntry(
     public val bytes: String? = null
   )
 
@@ -1101,7 +1097,7 @@ public class Network(
    * HTTP request data.
    */
   @Serializable
-  public class Request(
+  public data class Request(
     /**
      * Request URL (without fragment).
      */
@@ -1117,7 +1113,7 @@ public class Network(
     /**
      * HTTP request headers.
      */
-    public val headers: Headers,
+    public val headers: Map<String, JsonElement>,
     /**
      * HTTP POST request data.
      */
@@ -1158,7 +1154,7 @@ public class Network(
    * Details of a signed certificate timestamp (SCT).
    */
   @Serializable
-  public class SignedCertificateTimestamp(
+  public data class SignedCertificateTimestamp(
     /**
      * Validation status.
      */
@@ -1197,7 +1193,7 @@ public class Network(
    * Security details about a request.
    */
   @Serializable
-  public class SecurityDetails(
+  public data class SecurityDetails(
     /**
      * Protocol name (e.g. "TLS 1.2" or "QUIC").
      */
@@ -1356,7 +1352,7 @@ public class Network(
   }
 
   @Serializable
-  public class CorsErrorStatus(
+  public data class CorsErrorStatus(
     public val corsError: CorsError,
     public val failedParameter: String
   )
@@ -1382,7 +1378,7 @@ public class Network(
    * are specified in third_party/blink/renderer/core/fetch/trust_token.idl.
    */
   @Serializable
-  public class TrustTokenParams(
+  public data class TrustTokenParams(
     public val type: TrustTokenOperationType,
     /**
      * Only set for "token-redemption" type and determine whether
@@ -1410,7 +1406,7 @@ public class Network(
    * HTTP response data.
    */
   @Serializable
-  public class Response(
+  public data class Response(
     /**
      * Response URL. This URL can be different from CachedResource.url in case of redirect.
      */
@@ -1426,7 +1422,7 @@ public class Network(
     /**
      * HTTP response headers.
      */
-    public val headers: Headers,
+    public val headers: Map<String, JsonElement>,
     /**
      * HTTP response headers text.
      */
@@ -1438,7 +1434,7 @@ public class Network(
     /**
      * Refined HTTP request headers that were actually transmitted over the network.
      */
-    public val requestHeaders: Headers? = null,
+    public val requestHeaders: Map<String, JsonElement>? = null,
     /**
      * HTTP request headers text.
      */
@@ -1509,18 +1505,18 @@ public class Network(
    * WebSocket request data.
    */
   @Serializable
-  public class WebSocketRequest(
+  public data class WebSocketRequest(
     /**
      * HTTP request headers.
      */
-    public val headers: Headers
+    public val headers: Map<String, JsonElement>
   )
 
   /**
    * WebSocket response data.
    */
   @Serializable
-  public class WebSocketResponse(
+  public data class WebSocketResponse(
     /**
      * HTTP response status code.
      */
@@ -1532,7 +1528,7 @@ public class Network(
     /**
      * HTTP response headers.
      */
-    public val headers: Headers,
+    public val headers: Map<String, JsonElement>,
     /**
      * HTTP response headers text.
      */
@@ -1540,7 +1536,7 @@ public class Network(
     /**
      * HTTP request headers.
      */
-    public val requestHeaders: Headers? = null,
+    public val requestHeaders: Map<String, JsonElement>? = null,
     /**
      * HTTP request headers text.
      */
@@ -1552,7 +1548,7 @@ public class Network(
    * frame as the name suggests.
    */
   @Serializable
-  public class WebSocketFrame(
+  public data class WebSocketFrame(
     /**
      * WebSocket message opcode.
      */
@@ -1573,7 +1569,7 @@ public class Network(
    * Information about the cached resource.
    */
   @Serializable
-  public class CachedResource(
+  public data class CachedResource(
     /**
      * Resource URL. This is the url of the original network request.
      */
@@ -1596,7 +1592,7 @@ public class Network(
    * Information about the request initiator.
    */
   @Serializable
-  public class Initiator(
+  public data class Initiator(
     /**
      * Type of this initiator.
      */
@@ -1630,7 +1626,7 @@ public class Network(
    * Cookie object
    */
   @Serializable
-  public class Cookie(
+  public data class Cookie(
     /**
      * Cookie name.
      */
@@ -1759,7 +1755,7 @@ public class Network(
    * A cookie which was not stored from a response with the corresponding reason.
    */
   @Serializable
-  public class BlockedSetCookieWithReason(
+  public data class BlockedSetCookieWithReason(
     /**
      * The reason(s) this cookie was blocked.
      */
@@ -1781,7 +1777,7 @@ public class Network(
    * A cookie with was not sent with a request with the corresponding reason.
    */
   @Serializable
-  public class BlockedCookieWithReason(
+  public data class BlockedCookieWithReason(
     /**
      * The reason(s) the cookie was blocked.
      */
@@ -1796,7 +1792,7 @@ public class Network(
    * Cookie parameter object
    */
   @Serializable
-  public class CookieParam(
+  public data class CookieParam(
     /**
      * Cookie name.
      */
@@ -1844,7 +1840,7 @@ public class Network(
    * Authorization challenge for HTTP status code 401 or 407.
    */
   @Serializable
-  public class AuthChallenge(
+  public data class AuthChallenge(
     /**
      * Source of the authentication challenge.
      */
@@ -1867,7 +1863,7 @@ public class Network(
    * Response to an AuthChallenge.
    */
   @Serializable
-  public class AuthChallengeResponse(
+  public data class AuthChallengeResponse(
     /**
      * The decision on what to do in response to the authorization challenge.  Default means
      * deferring to the default behavior of the net stack, which will likely either the Cancel
@@ -1902,7 +1898,7 @@ public class Network(
    * Request pattern for interception.
    */
   @Serializable
-  public class RequestPattern(
+  public data class RequestPattern(
     /**
      * Wildcards ('*' -> zero or more, '?' -> exactly one) are allowed. Escape character is
      * backslash. Omitting is equivalent to "*".
@@ -1923,7 +1919,7 @@ public class Network(
    * https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#rfc.section.3.1
    */
   @Serializable
-  public class SignedExchangeSignature(
+  public data class SignedExchangeSignature(
     /**
      * Signed exchange signature label.
      */
@@ -1967,7 +1963,7 @@ public class Network(
    * https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation
    */
   @Serializable
-  public class SignedExchangeHeader(
+  public data class SignedExchangeHeader(
     /**
      * Signed exchange request URL.
      */
@@ -1979,7 +1975,7 @@ public class Network(
     /**
      * Signed exchange response headers.
      */
-    public val responseHeaders: Headers,
+    public val responseHeaders: Map<String, JsonElement>,
     /**
      * Signed exchange response signature.
      */
@@ -2013,7 +2009,7 @@ public class Network(
    * Information about a signed exchange response.
    */
   @Serializable
-  public class SignedExchangeError(
+  public data class SignedExchangeError(
     /**
      * Error message.
      */
@@ -2032,7 +2028,7 @@ public class Network(
    * Information about a signed exchange response.
    */
   @Serializable
-  public class SignedExchangeInfo(
+  public data class SignedExchangeInfo(
     /**
      * The outer response of signed HTTP exchange which was received from network.
      */
@@ -2074,7 +2070,7 @@ public class Network(
   }
 
   @Serializable
-  public class ClientSecurityState(
+  public data class ClientSecurityState(
     public val initiatorIsSecureContext: Boolean,
     public val initiatorIPAddressSpace: IPAddressSpace,
     public val privateNetworkRequestPolicy: PrivateNetworkRequestPolicy
@@ -2093,7 +2089,7 @@ public class Network(
   }
 
   @Serializable
-  public class CrossOriginOpenerPolicyStatus(
+  public data class CrossOriginOpenerPolicyStatus(
     public val value: CrossOriginOpenerPolicyValue,
     public val reportOnlyValue: CrossOriginOpenerPolicyValue,
     public val reportingEndpoint: String? = null,
@@ -2109,7 +2105,7 @@ public class Network(
   }
 
   @Serializable
-  public class CrossOriginEmbedderPolicyStatus(
+  public data class CrossOriginEmbedderPolicyStatus(
     public val value: CrossOriginEmbedderPolicyValue,
     public val reportOnlyValue: CrossOriginEmbedderPolicyValue,
     public val reportingEndpoint: String? = null,
@@ -2117,7 +2113,7 @@ public class Network(
   )
 
   @Serializable
-  public class SecurityIsolationStatus(
+  public data class SecurityIsolationStatus(
     public val coop: CrossOriginOpenerPolicyStatus? = null,
     public val coep: CrossOriginEmbedderPolicyStatus? = null
   )
@@ -2126,7 +2122,7 @@ public class Network(
    * An object providing the result of a network resource load.
    */
   @Serializable
-  public class LoadNetworkResourcePageResult(
+  public data class LoadNetworkResourcePageResult(
     public val success: Boolean,
     /**
      * Optional values used for error reporting.
@@ -2141,7 +2137,7 @@ public class Network(
     /**
      * Response headers.
      */
-    public val headers: Headers? = null
+    public val headers: Map<String, JsonElement>? = null
   )
 
   /**
@@ -2149,7 +2145,7 @@ public class Network(
    * CORB and streaming.
    */
   @Serializable
-  public class LoadNetworkResourceOptions(
+  public data class LoadNetworkResourceOptions(
     public val disableCache: Boolean,
     public val includeCredentials: Boolean
   )
@@ -2312,7 +2308,7 @@ public class Network(
      * Response headers if intercepted at the response stage or if redirect occurred while
      * intercepting request or auth retry occurred.
      */
-    public val responseHeaders: Headers? = null,
+    public val responseHeaders: Map<String, JsonElement>? = null,
     /**
      * If the intercepted request had a corresponding requestWillBeSent event fired for it, then
      * this requestId will be the same as the requestId present in the requestWillBeSent event.
@@ -2639,7 +2635,7 @@ public class Network(
     /**
      * Raw request headers as they will be sent over the wire.
      */
-    public val headers: Headers,
+    public val headers: Map<String, JsonElement>,
     /**
      * The client security state set for the request.
      */
@@ -2665,7 +2661,7 @@ public class Network(
     /**
      * Raw response headers as they were received over the wire.
      */
-    public val headers: Headers,
+    public val headers: Map<String, JsonElement>,
     /**
      * The IP address space of the resource. The address space can only be determined once the
      * transport
@@ -2766,7 +2762,7 @@ public class Network(
      * If set this allows the request headers to be changed. Must not be set in response to an
      * authChallenge.
      */
-    public val headers: Headers? = null,
+    public val headers: Map<String, JsonElement>? = null,
     /**
      * Response to a requestIntercepted with an authChallenge. Must not be set otherwise.
      */
@@ -3077,7 +3073,7 @@ public class Network(
     /**
      * Map with extra HTTP headers.
      */
-    public val headers: Headers
+    public val headers: Map<String, JsonElement>
   )
 
   @Serializable

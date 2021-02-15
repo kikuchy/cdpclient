@@ -432,7 +432,7 @@ public class Emulation(
    * Screen orientation.
    */
   @Serializable
-  public class ScreenOrientation(
+  public data class ScreenOrientation(
     /**
      * Orientation type.
      */
@@ -444,7 +444,7 @@ public class Emulation(
   )
 
   @Serializable
-  public class DisplayFeature(
+  public data class DisplayFeature(
     /**
      * Orientation of a display feature in relation to screen
      */
@@ -463,7 +463,7 @@ public class Emulation(
   )
 
   @Serializable
-  public class MediaFeature(
+  public data class MediaFeature(
     public val name: String,
     public val value: String
   )
@@ -488,7 +488,7 @@ public class Emulation(
    * Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
    */
   @Serializable
-  public class UserAgentBrandVersion(
+  public data class UserAgentBrandVersion(
     public val brand: String,
     public val version: String
   )
@@ -498,7 +498,7 @@ public class Emulation(
    * Missing optional values will be filled in by the target with what it would normally use.
    */
   @Serializable
-  public class UserAgentMetadata(
+  public data class UserAgentMetadata(
     public val brands: List<UserAgentBrandVersion>? = null,
     public val fullVersion: String? = null,
     public val platform: String,

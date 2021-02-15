@@ -95,7 +95,7 @@ public class Log(
    * Log entry.
    */
   @Serializable
-  public class LogEntry(
+  public data class LogEntry(
     /**
      * Log entry source.
      */
@@ -142,7 +142,7 @@ public class Log(
    * Violation configuration setting.
    */
   @Serializable
-  public class ViolationSetting(
+  public data class ViolationSetting(
     /**
      * Violation type.
      */

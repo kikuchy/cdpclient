@@ -70,7 +70,7 @@ public class Console(
    * Console message.
    */
   @Serializable
-  public class ConsoleMessage(
+  public data class ConsoleMessage(
     /**
      * Message source.
      */

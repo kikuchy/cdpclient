@@ -387,7 +387,7 @@ public class Target(
   }
 
   @Serializable
-  public class TargetInfo(
+  public data class TargetInfo(
     public val targetId: String,
     public val type: String,
     public val title: String,
@@ -412,7 +412,7 @@ public class Target(
   )
 
   @Serializable
-  public class RemoteLocation(
+  public data class RemoteLocation(
     public val host: String,
     public val port: Int
   )

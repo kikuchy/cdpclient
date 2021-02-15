@@ -118,7 +118,7 @@ public class Media(
    * Corresponds to kMessage
    */
   @Serializable
-  public class PlayerMessage(
+  public data class PlayerMessage(
     /**
      * Keep in sync with MediaLogMessageLevel
      * We are currently keeping the message level 'error' separate from the
@@ -138,7 +138,7 @@ public class Media(
    * Corresponds to kMediaPropertyChange
    */
   @Serializable
-  public class PlayerProperty(
+  public data class PlayerProperty(
     public val name: String,
     public val value: String
   )
@@ -147,7 +147,7 @@ public class Media(
    * Corresponds to kMediaEventTriggered
    */
   @Serializable
-  public class PlayerEvent(
+  public data class PlayerEvent(
     public val timestamp: Double,
     public val value: String
   )
@@ -156,7 +156,7 @@ public class Media(
    * Corresponds to kMediaError
    */
   @Serializable
-  public class PlayerError(
+  public data class PlayerError(
     public val type: String,
     /**
      * When this switches to using media::Status instead of PipelineStatus

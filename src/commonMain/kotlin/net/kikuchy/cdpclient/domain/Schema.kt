@@ -36,7 +36,7 @@ public class Schema(
    * Description of the protocol domain.
    */
   @Serializable
-  public class Domain(
+  public data class Domain(
     /**
      * Domain name.
      */

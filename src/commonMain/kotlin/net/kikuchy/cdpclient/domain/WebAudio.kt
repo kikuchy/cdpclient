@@ -304,7 +304,7 @@ public class WebAudio(
    * Fields in AudioContext that change in real-time.
    */
   @Serializable
-  public class ContextRealtimeData(
+  public data class ContextRealtimeData(
     /**
      * The current context time in second in BaseAudioContext.
      */
@@ -329,7 +329,7 @@ public class WebAudio(
    * Protocol object for BaseAudioContext
    */
   @Serializable
-  public class BaseAudioContext(
+  public data class BaseAudioContext(
     public val contextId: String,
     public val contextType: ContextType,
     public val contextState: ContextState,
@@ -352,7 +352,7 @@ public class WebAudio(
    * Protocol object for AudioListener
    */
   @Serializable
-  public class AudioListener(
+  public data class AudioListener(
     public val listenerId: String,
     public val contextId: String
   )
@@ -361,7 +361,7 @@ public class WebAudio(
    * Protocol object for AudioNode
    */
   @Serializable
-  public class AudioNode(
+  public data class AudioNode(
     public val nodeId: String,
     public val contextId: String,
     public val nodeType: String,
@@ -376,7 +376,7 @@ public class WebAudio(
    * Protocol object for AudioParam
    */
   @Serializable
-  public class AudioParam(
+  public data class AudioParam(
     public val paramId: String,
     public val nodeId: String,
     public val contextId: String,

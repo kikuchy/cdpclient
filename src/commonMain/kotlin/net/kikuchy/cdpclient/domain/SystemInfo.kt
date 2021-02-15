@@ -51,7 +51,7 @@ public class SystemInfo(
    * Describes a single graphics processor (GPU).
    */
   @Serializable
-  public class GPUDevice(
+  public data class GPUDevice(
     /**
      * PCI ID of the GPU vendor, if available; 0 otherwise.
      */
@@ -90,7 +90,7 @@ public class SystemInfo(
    * Describes the width and height dimensions of an entity.
    */
   @Serializable
-  public class Size(
+  public data class Size(
     /**
      * Width in pixels.
      */
@@ -106,7 +106,7 @@ public class SystemInfo(
    * maximum resolutions.
    */
   @Serializable
-  public class VideoDecodeAcceleratorCapability(
+  public data class VideoDecodeAcceleratorCapability(
     /**
      * Video codec profile that is supported, e.g. VP9 Profile 2.
      */
@@ -126,7 +126,7 @@ public class SystemInfo(
    * resolution and maximum framerate.
    */
   @Serializable
-  public class VideoEncodeAcceleratorCapability(
+  public data class VideoEncodeAcceleratorCapability(
     /**
      * Video codec profile that is supported, e.g H264 Main.
      */
@@ -175,7 +175,7 @@ public class SystemInfo(
    * maximum resolutions and subsampling.
    */
   @Serializable
-  public class ImageDecodeAcceleratorCapability(
+  public data class ImageDecodeAcceleratorCapability(
     /**
      * Image coded, e.g. Jpeg.
      */
@@ -198,7 +198,7 @@ public class SystemInfo(
    * Provides information about the GPU(s) on the system.
    */
   @Serializable
-  public class GPUInfo(
+  public data class GPUInfo(
     /**
      * The graphics devices on the system. Element 0 is the primary GPU.
      */
@@ -233,7 +233,7 @@ public class SystemInfo(
    * Represents process info.
    */
   @Serializable
-  public class ProcessInfo(
+  public data class ProcessInfo(
     /**
      * Specifies process type.
      */

@@ -61,7 +61,7 @@ public class PerformanceTimeline(
    * See https://github.com/WICG/LargestContentfulPaint and largest_contentful_paint.idl
    */
   @Serializable
-  public class LargestContentfulPaint(
+  public data class LargestContentfulPaint(
     public val renderTime: Double,
     public val loadTime: Double,
     /**
@@ -80,7 +80,7 @@ public class PerformanceTimeline(
   )
 
   @Serializable
-  public class LayoutShiftAttribution(
+  public data class LayoutShiftAttribution(
     public val previousRect: DOM.Rect,
     public val currentRect: DOM.Rect,
     public val nodeId: Int? = null
@@ -90,7 +90,7 @@ public class PerformanceTimeline(
    * See https://wicg.github.io/layout-instability/#sec-layout-shift and layout_shift.idl
    */
   @Serializable
-  public class LayoutShift(
+  public data class LayoutShift(
     /**
      * Score increment produced by this event.
      */
@@ -101,7 +101,7 @@ public class PerformanceTimeline(
   )
 
   @Serializable
-  public class TimelineEvent(
+  public data class TimelineEvent(
     /**
      * Identifies the frame that this event is related to. Empty for non-frame targets.
      */

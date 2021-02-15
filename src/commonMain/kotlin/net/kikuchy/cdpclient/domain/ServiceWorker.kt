@@ -215,7 +215,7 @@ public class ServiceWorker(
    * ServiceWorker registration.
    */
   @Serializable
-  public class ServiceWorkerRegistration(
+  public data class ServiceWorkerRegistration(
     public val registrationId: String,
     public val scopeURL: String,
     public val isDeleted: Boolean
@@ -253,7 +253,7 @@ public class ServiceWorker(
    * ServiceWorker version.
    */
   @Serializable
-  public class ServiceWorkerVersion(
+  public data class ServiceWorkerVersion(
     public val versionId: String,
     public val registrationId: String,
     public val scriptURL: String,
@@ -276,7 +276,7 @@ public class ServiceWorker(
    * ServiceWorker error message.
    */
   @Serializable
-  public class ServiceWorkerErrorMessage(
+  public data class ServiceWorkerErrorMessage(
     public val errorMessage: String,
     public val registrationId: String,
     public val versionId: String,

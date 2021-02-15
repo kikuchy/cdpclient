@@ -91,7 +91,7 @@ public class Performance(
    * Run-time execution metric.
    */
   @Serializable
-  public class Metric(
+  public data class Metric(
     /**
      * Metric name.
      */

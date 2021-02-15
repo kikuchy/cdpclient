@@ -150,7 +150,7 @@ public class Memory(
    * Heap profile sample.
    */
   @Serializable
-  public class SamplingProfileNode(
+  public data class SamplingProfileNode(
     /**
      * Size of the sampled allocation.
      */
@@ -169,7 +169,7 @@ public class Memory(
    * Array of heap profile samples.
    */
   @Serializable
-  public class SamplingProfile(
+  public data class SamplingProfile(
     public val samples: List<SamplingProfileNode>,
     public val modules: List<Module>
   )
@@ -178,7 +178,7 @@ public class Memory(
    * Executable module information
    */
   @Serializable
-  public class Module(
+  public data class Module(
     /**
      * Name of the module.
      */

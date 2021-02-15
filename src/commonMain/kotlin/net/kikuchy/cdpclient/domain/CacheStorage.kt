@@ -131,7 +131,7 @@ public class CacheStorage(
    * Data entry.
    */
   @Serializable
-  public class DataEntry(
+  public data class DataEntry(
     /**
      * Request URL.
      */
@@ -170,7 +170,7 @@ public class CacheStorage(
    * Cache identifier.
    */
   @Serializable
-  public class Cache(
+  public data class Cache(
     /**
      * An opaque unique id of the cache.
      */
@@ -186,7 +186,7 @@ public class CacheStorage(
   )
 
   @Serializable
-  public class Header(
+  public data class Header(
     public val name: String,
     public val value: String
   )
@@ -195,7 +195,7 @@ public class CacheStorage(
    * Cached response
    */
   @Serializable
-  public class CachedResponse(
+  public data class CachedResponse(
     /**
      * Entry content, base64-encoded. (Encoded as a base64 string when passed over JSON)
      */

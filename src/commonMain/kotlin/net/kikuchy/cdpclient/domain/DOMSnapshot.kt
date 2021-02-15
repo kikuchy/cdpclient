@@ -98,7 +98,7 @@ public class DOMSnapshot(
    * A Node in the DOM tree.
    */
   @Serializable
-  public class DOMNode(
+  public data class DOMNode(
     /**
      * `Node`'s nodeType.
      */
@@ -221,7 +221,7 @@ public class DOMSnapshot(
    * stable and may change between versions.
    */
   @Serializable
-  public class InlineTextBox(
+  public data class InlineTextBox(
     /**
      * The bounding box in document coordinates. Note that scroll offset of the document is ignored.
      */
@@ -242,7 +242,7 @@ public class DOMSnapshot(
    * Details of an element in the DOM tree with a LayoutObject.
    */
   @Serializable
-  public class LayoutTreeNode(
+  public data class LayoutTreeNode(
     /**
      * The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.
      */
@@ -279,7 +279,7 @@ public class DOMSnapshot(
    * A subset of the full ComputedStyle as defined by the request whitelist.
    */
   @Serializable
-  public class ComputedStyle(
+  public data class ComputedStyle(
     /**
      * Name/value pairs of computed style properties.
      */
@@ -290,7 +290,7 @@ public class DOMSnapshot(
    * A name/value pair.
    */
   @Serializable
-  public class NameValue(
+  public data class NameValue(
     /**
      * Attribute/property name.
      */
@@ -305,18 +305,18 @@ public class DOMSnapshot(
    * Data that is only present on rare nodes.
    */
   @Serializable
-  public class RareStringData(
+  public data class RareStringData(
     public val index: Int,
     public val value: List<Int>
   )
 
   @Serializable
-  public class RareBooleanData(
+  public data class RareBooleanData(
     public val index: Int
   )
 
   @Serializable
-  public class RareIntegerData(
+  public data class RareIntegerData(
     public val index: Int,
     public val value: Int
   )
@@ -325,7 +325,7 @@ public class DOMSnapshot(
    * Document snapshot.
    */
   @Serializable
-  public class DocumentSnapshot(
+  public data class DocumentSnapshot(
     /**
      * Document URL that `Document` or `FrameOwner` node points to.
      */
@@ -392,7 +392,7 @@ public class DOMSnapshot(
    * Table containing nodes.
    */
   @Serializable
-  public class NodeTreeSnapshot(
+  public data class NodeTreeSnapshot(
     /**
      * Parent node index.
      */
@@ -461,7 +461,7 @@ public class DOMSnapshot(
    * Table of details of an element in the DOM tree with a LayoutObject.
    */
   @Serializable
-  public class LayoutTreeSnapshot(
+  public data class LayoutTreeSnapshot(
     /**
      * Index of the corresponding node in the `NodeTreeSnapshot` array returned by
      * `captureSnapshot`.
@@ -510,7 +510,7 @@ public class DOMSnapshot(
    * stable and may change between versions.
    */
   @Serializable
-  public class TextBoxSnapshot(
+  public data class TextBoxSnapshot(
     /**
      * Index of the layout tree node that owns this box collection.
      */

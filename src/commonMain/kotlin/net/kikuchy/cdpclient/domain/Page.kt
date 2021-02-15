@@ -1216,7 +1216,7 @@ public class Page(
    * Information about the Frame on the page.
    */
   @Serializable
-  public class Frame(
+  public data class Frame(
     /**
      * Frame unique identifier.
      */
@@ -1283,7 +1283,7 @@ public class Page(
    * Information about the Resource on the page.
    */
   @Serializable
-  public class FrameResource(
+  public data class FrameResource(
     /**
      * Resource URL.
      */
@@ -1318,7 +1318,7 @@ public class Page(
    * Information about the Frame hierarchy along with their cached resources.
    */
   @Serializable
-  public class FrameResourceTree(
+  public data class FrameResourceTree(
     /**
      * Frame information for this tree item.
      */
@@ -1337,7 +1337,7 @@ public class Page(
    * Information about the Frame hierarchy.
    */
   @Serializable
-  public class FrameTree(
+  public data class FrameTree(
     /**
      * Frame information for this tree item.
      */
@@ -1385,7 +1385,7 @@ public class Page(
    * Navigation history entry.
    */
   @Serializable
-  public class NavigationEntry(
+  public data class NavigationEntry(
     /**
      * Unique id of the navigation history entry.
      */
@@ -1412,7 +1412,7 @@ public class Page(
    * Screencast frame metadata.
    */
   @Serializable
-  public class ScreencastFrameMetadata(
+  public data class ScreencastFrameMetadata(
     /**
      * Top offset in DIP.
      */
@@ -1462,7 +1462,7 @@ public class Page(
    * Error while paring app manifest.
    */
   @Serializable
-  public class AppManifestError(
+  public data class AppManifestError(
     /**
      * Error message.
      */
@@ -1485,7 +1485,7 @@ public class Page(
    * Parsed app manifest properties.
    */
   @Serializable
-  public class AppManifestParsedProperties(
+  public data class AppManifestParsedProperties(
     /**
      * Computed scope value
      */
@@ -1496,7 +1496,7 @@ public class Page(
    * Layout viewport position and dimensions.
    */
   @Serializable
-  public class LayoutViewport(
+  public data class LayoutViewport(
     /**
      * Horizontal offset relative to the document (CSS pixels).
      */
@@ -1519,7 +1519,7 @@ public class Page(
    * Visual viewport position, dimensions, and scale.
    */
   @Serializable
-  public class VisualViewport(
+  public data class VisualViewport(
     /**
      * Horizontal offset relative to the layout viewport (CSS pixels).
      */
@@ -1558,7 +1558,7 @@ public class Page(
    * Viewport for capturing screenshot.
    */
   @Serializable
-  public class Viewport(
+  public data class Viewport(
     /**
      * X offset in device independent pixels (dip).
      */
@@ -1585,7 +1585,7 @@ public class Page(
    * Generic font families collection.
    */
   @Serializable
-  public class FontFamilies(
+  public data class FontFamilies(
     /**
      * The standard font-family.
      */
@@ -1620,7 +1620,7 @@ public class Page(
    * Default font sizes.
    */
   @Serializable
-  public class FontSizes(
+  public data class FontSizes(
     /**
      * Default standard font size.
      */
@@ -1664,7 +1664,7 @@ public class Page(
   }
 
   @Serializable
-  public class InstallabilityErrorArgument(
+  public data class InstallabilityErrorArgument(
     /**
      * Argument name (e.g. name:'minimum-icon-size-in-pixels').
      */
@@ -1679,7 +1679,7 @@ public class Page(
    * The installability error
    */
   @Serializable
-  public class InstallabilityError(
+  public data class InstallabilityError(
     /**
      * The error id (e.g. 'manifest-missing-suitable-icon').
      */

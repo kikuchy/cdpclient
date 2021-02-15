@@ -507,7 +507,7 @@ public class Runtime(
    * Mirror object referencing original JavaScript object.
    */
   @Serializable
-  public class RemoteObject(
+  public data class RemoteObject(
     /**
      * Object type.
      */
@@ -545,7 +545,7 @@ public class Runtime(
   )
 
   @Serializable
-  public class CustomPreview(
+  public data class CustomPreview(
     /**
      * The JSON-stringified result of formatter.header(object, config) call.
      * It contains json ML array that represents RemoteObject.
@@ -564,7 +564,7 @@ public class Runtime(
    * Object containing abbreviated remote object value.
    */
   @Serializable
-  public class ObjectPreview(
+  public data class ObjectPreview(
     /**
      * Object type.
      */
@@ -592,7 +592,7 @@ public class Runtime(
   )
 
   @Serializable
-  public class PropertyPreview(
+  public data class PropertyPreview(
     /**
      * Property name.
      */
@@ -616,7 +616,7 @@ public class Runtime(
   )
 
   @Serializable
-  public class EntryPreview(
+  public data class EntryPreview(
     /**
      * Preview of the key. Specified for map-like collection entries.
      */
@@ -631,7 +631,7 @@ public class Runtime(
    * Object property descriptor.
    */
   @Serializable
-  public class PropertyDescriptor(
+  public data class PropertyDescriptor(
     /**
      * Property name or symbol description.
      */
@@ -682,7 +682,7 @@ public class Runtime(
    * Object internal property descriptor. This property isn't normally visible in JavaScript code.
    */
   @Serializable
-  public class InternalPropertyDescriptor(
+  public data class InternalPropertyDescriptor(
     /**
      * Conventional property name.
      */
@@ -697,7 +697,7 @@ public class Runtime(
    * Object private field descriptor.
    */
   @Serializable
-  public class PrivatePropertyDescriptor(
+  public data class PrivatePropertyDescriptor(
     /**
      * Private property name.
      */
@@ -723,7 +723,7 @@ public class Runtime(
    * unserializable primitive value or neither of (for undefined) them should be specified.
    */
   @Serializable
-  public class CallArgument(
+  public data class CallArgument(
     /**
      * Primitive value or serializable javascript object.
      */
@@ -742,7 +742,7 @@ public class Runtime(
    * Description of an isolated world.
    */
   @Serializable
-  public class ExecutionContextDescription(
+  public data class ExecutionContextDescription(
     /**
      * Unique id of the execution context. It can be used to specify in which execution context
      * script evaluation should be performed.
@@ -767,7 +767,7 @@ public class Runtime(
    * execution.
    */
   @Serializable
-  public class ExceptionDetails(
+  public data class ExceptionDetails(
     /**
      * Exception id.
      */
@@ -810,7 +810,7 @@ public class Runtime(
    * Stack entry for runtime errors and assertions.
    */
   @Serializable
-  public class CallFrame(
+  public data class CallFrame(
     /**
      * JavaScript function name.
      */
@@ -837,7 +837,7 @@ public class Runtime(
    * Call frames for assertions or error messages.
    */
   @Serializable
-  public class StackTrace(
+  public data class StackTrace(
     /**
      * String label of this stack trace. For async traces this may be a name of the function that
      * initiated the async call.
@@ -863,7 +863,7 @@ public class Runtime(
    * usages.
    */
   @Serializable
-  public class StackTraceId(
+  public data class StackTraceId(
     public val id: String,
     public val debuggerId: String? = null
   )

@@ -56,9 +56,11 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         channel.offer(received)
     }
 
+    @ExperimentalSerializationApi
     @ExperimentalCoroutinesApi
     internal val events: Flow<Message.Event> = allMessages.filterIsInstance()
 
+    @ExperimentalSerializationApi
     @ExperimentalCoroutinesApi
     private val responses: Flow<Message.Response> = allMessages.filterIsInstance()
 
@@ -73,6 +75,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         return domain
     }
 
+    @ExperimentalSerializationApi
     @ExperimentalCoroutinesApi
     internal suspend fun callCommand(method: String, parameter: JsonElement?): JsonElement? {
         val requestID = currentID++
@@ -116,7 +119,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
             val element = decoder.decodeJsonElement()
             require(element is JsonObject)
             return if (element.containsKey("id")) {
-                val r: Message.Response = Json.decodeFromJsonElement(Message.Response.serializer(), element)
+                val r: Message.Response = Json.decodeFromJsonElement(element)
                 r
             } else {
                 val e: Message.Event = Json.decodeFromJsonElement(element)

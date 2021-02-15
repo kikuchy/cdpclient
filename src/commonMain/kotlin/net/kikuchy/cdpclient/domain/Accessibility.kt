@@ -212,7 +212,7 @@ public class Accessibility(
    * A single source for a computed AX property.
    */
   @Serializable
-  public class AXValueSource(
+  public data class AXValueSource(
     /**
      * What type of source this is.
      */
@@ -252,7 +252,7 @@ public class Accessibility(
   )
 
   @Serializable
-  public class AXRelatedNode(
+  public data class AXRelatedNode(
     /**
      * The BackendNodeId of the related DOM node.
      */
@@ -268,7 +268,7 @@ public class Accessibility(
   )
 
   @Serializable
-  public class AXProperty(
+  public data class AXProperty(
     /**
      * The name of this property.
      */
@@ -283,7 +283,7 @@ public class Accessibility(
    * A single computed AX property.
    */
   @Serializable
-  public class AXValue(
+  public data class AXValue(
     /**
      * The type of this value.
      */
@@ -397,7 +397,7 @@ public class Accessibility(
    * A node in the accessibility tree.
    */
   @Serializable
-  public class AXNode(
+  public data class AXNode(
     /**
      * Unique identifier for this node.
      */

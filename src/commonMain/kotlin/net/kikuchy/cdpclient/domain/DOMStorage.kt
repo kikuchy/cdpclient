@@ -154,7 +154,7 @@ public class DOMStorage(
    * DOM Storage identifier.
    */
   @Serializable
-  public class StorageId(
+  public data class StorageId(
     /**
      * Security origin for the storage.
      */

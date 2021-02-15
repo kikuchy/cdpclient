@@ -250,7 +250,7 @@ public class Profiler(
    * Profile node. Holds callsite information, execution statistics and child nodes.
    */
   @Serializable
-  public class ProfileNode(
+  public data class ProfileNode(
     /**
      * Unique id of the node.
      */
@@ -282,7 +282,7 @@ public class Profiler(
    * Profile.
    */
   @Serializable
-  public class Profile(
+  public data class Profile(
     /**
      * The list of profile nodes. First item is the root node.
      */
@@ -310,7 +310,7 @@ public class Profiler(
    * Specifies a number of samples attributed to a certain source position.
    */
   @Serializable
-  public class PositionTickInfo(
+  public data class PositionTickInfo(
     /**
      * Source line number (1-based).
      */
@@ -325,7 +325,7 @@ public class Profiler(
    * Coverage data for a source range.
    */
   @Serializable
-  public class CoverageRange(
+  public data class CoverageRange(
     /**
      * JavaScript script source offset for the range start.
      */
@@ -344,7 +344,7 @@ public class Profiler(
    * Coverage data for a JavaScript function.
    */
   @Serializable
-  public class FunctionCoverage(
+  public data class FunctionCoverage(
     /**
      * JavaScript function name.
      */
@@ -363,7 +363,7 @@ public class Profiler(
    * Coverage data for a JavaScript script.
    */
   @Serializable
-  public class ScriptCoverage(
+  public data class ScriptCoverage(
     /**
      * JavaScript script id.
      */
@@ -382,7 +382,7 @@ public class Profiler(
    * Describes a type collected during runtime.
    */
   @Serializable
-  public class TypeObject(
+  public data class TypeObject(
     /**
      * Name of a type collected with type profiling.
      */
@@ -393,7 +393,7 @@ public class Profiler(
    * Source offset and types for a parameter or return value.
    */
   @Serializable
-  public class TypeProfileEntry(
+  public data class TypeProfileEntry(
     /**
      * Source offset of the parameter or end of function for return values.
      */
@@ -408,7 +408,7 @@ public class Profiler(
    * Type profile data collected during runtime for a JavaScript script.
    */
   @Serializable
-  public class ScriptTypeProfile(
+  public data class ScriptTypeProfile(
     /**
      * JavaScript script id.
      */
@@ -427,7 +427,7 @@ public class Profiler(
    * Collected counter information.
    */
   @Serializable
-  public class CounterInfo(
+  public data class CounterInfo(
     /**
      * Counter name.
      */
@@ -442,7 +442,7 @@ public class Profiler(
    * Runtime call counter information.
    */
   @Serializable
-  public class RuntimeCallCounterInfo(
+  public data class RuntimeCallCounterInfo(
     /**
      * Counter name.
      */

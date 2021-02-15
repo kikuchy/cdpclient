@@ -475,7 +475,7 @@ public class Overlay(
    * Configuration data for drawing the source order of an elements children.
    */
   @Serializable
-  public class SourceOrderConfig(
+  public data class SourceOrderConfig(
     /**
      * the color to outline the givent element in.
      */
@@ -490,7 +490,7 @@ public class Overlay(
    * Configuration data for the highlighting of Grid elements.
    */
   @Serializable
-  public class GridHighlightConfig(
+  public data class GridHighlightConfig(
     /**
      * Whether the extension lines from grid cells to the rulers should be shown (default: false).
      */
@@ -579,7 +579,7 @@ public class Overlay(
    * Configuration data for the highlighting of Flex container elements.
    */
   @Serializable
-  public class FlexContainerHighlightConfig(
+  public data class FlexContainerHighlightConfig(
     /**
      * The style of the container border
      */
@@ -618,7 +618,7 @@ public class Overlay(
    * Configuration data for the highlighting of Flex item elements.
    */
   @Serializable
-  public class FlexItemHighlightConfig(
+  public data class FlexItemHighlightConfig(
     /**
      * Style of the box representing the item's base size
      */
@@ -637,7 +637,7 @@ public class Overlay(
    * Style information for drawing a line.
    */
   @Serializable
-  public class LineStyle(
+  public data class LineStyle(
     /**
      * The color of the line (default: transparent)
      */
@@ -652,7 +652,7 @@ public class Overlay(
    * Style information for drawing a box.
    */
   @Serializable
-  public class BoxStyle(
+  public data class BoxStyle(
     /**
      * The background color for the box (default: transparent)
      */
@@ -677,7 +677,7 @@ public class Overlay(
    * Configuration data for the highlighting of page elements.
    */
   @Serializable
-  public class HighlightConfig(
+  public data class HighlightConfig(
     /**
      * Whether the node info tooltip should be shown (default: false).
      */
@@ -766,7 +766,7 @@ public class Overlay(
    * Configurations for Persistent Grid Highlight
    */
   @Serializable
-  public class GridNodeHighlightConfig(
+  public data class GridNodeHighlightConfig(
     /**
      * A descriptor for the highlight appearance.
      */
@@ -778,7 +778,7 @@ public class Overlay(
   )
 
   @Serializable
-  public class FlexNodeHighlightConfig(
+  public data class FlexNodeHighlightConfig(
     /**
      * A descriptor for the highlight appearance of flex containers.
      */
@@ -793,7 +793,7 @@ public class Overlay(
    * Configuration for dual screen hinge
    */
   @Serializable
-  public class HingeConfig(
+  public data class HingeConfig(
     /**
      * A rectangle represent hinge
      */
