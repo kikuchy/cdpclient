@@ -24,7 +24,7 @@ kotlin {
         }
     }
     js(IR) {
-        browser {
+        nodejs {
             testTask {
                 useKarma {
                     useChromeHeadless()
