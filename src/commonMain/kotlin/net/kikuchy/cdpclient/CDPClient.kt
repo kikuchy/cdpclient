@@ -4,8 +4,11 @@ import io.ktor.client.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.serialization.*
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -17,44 +20,55 @@ import kotlin.reflect.KClass
 /**
  * Thin wrapper of Chrome DevTools Protocol.
  */
-class CDPClient(private val wsSession: ClientWebSocketSession) {
+class CDPClient(private val wsSession: ClientWebSocketSession, externalCoroutineScope: CoroutineScope = GlobalScope) {
     companion object {
         /**
-         * Generate [CDPClient] with HTTP client.
+         * Open [block] with [CDPClient].
          *
          * It always try to connect to peer with ws:// scheme.
          */
-        suspend fun create(host: String, port: Int, path: String): CDPClient {
-            val client = HttpClient {
+        @ExperimentalSerializationApi
+        @ExperimentalCoroutinesApi
+        suspend fun use(
+            host: String,
+            port: Int,
+            path: String,
+            externalCoroutineScope: CoroutineScope = GlobalScope,
+            block: suspend CDPClient.() -> Unit,
+        ) {
+            HttpClient {
                 install(WebSockets)
-            }
-            return CDPClient(client.webSocketSession {
+            }.ws({
                 url {
                     this.protocol = URLProtocol.WS
                     this.host = host
                     this.port = port
                     this.path(path)
                 }
-            })
-        }
-
-        suspend fun use(host: String, port: Int, path: String, block: suspend CDPClient.() -> Unit) {
-            val client = create(host, port, path)
-            client.block()
-            client.close()
+            }) {
+                val client = CDPClient(this, externalCoroutineScope)
+                client.block()
+                client.close()
+            }
         }
     }
-
-    private var currentID = 0
 
     @ExperimentalCoroutinesApi
-    private var allMessages = channelFlow<Message> {
-        val received: Message = when (val frame = wsSession.incoming.receive()) {
-            is Frame.Text -> Json.decodeFromString(frame.readText())
-            else -> error("Unsupported websocket frame type: $frame")
+    @ExperimentalSerializationApi
+    private val socketSubscription: Job = externalCoroutineScope.launch {
+        for (frame in wsSession.incoming) {
+            val received: Message = when (frame) {
+                is Frame.Text -> Json.decodeFromString(frame.readText())
+                else -> error("Unsupported websocket frame type: $frame")
+            }
+            allMessages.emit(received)
         }
-        channel.offer(received)
     }
+    private var currentID = 0
+
+    @ExperimentalSerializationApi
+    @ExperimentalCoroutinesApi
+    private var allMessages = MutableSharedFlow<Message>()
 
     @ExperimentalSerializationApi
     @ExperimentalCoroutinesApi
@@ -81,14 +95,15 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         val requestID = currentID++
         val jsonString = Json.encodeToString(Request(requestID, method, parameter))
         wsSession.send(jsonString)
-        val result = responses.filter { it.id == requestID }.single()
-        // TODO: IDの確認
+        val result = responses.first { it.id == requestID }
         result.error?.throwAsException()
         return result.result
     }
 
-    suspend fun close() {
-        wsSession.close()
+    @ExperimentalCoroutinesApi
+    @ExperimentalSerializationApi
+    fun close() {
+        socketSubscription.cancel()
     }
 
     @Serializable
@@ -96,7 +111,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
 
     @ExperimentalSerializationApi
     @Serializable(with = MessageSerializer::class)
-    internal sealed class Message {
+    sealed class Message {
         @Serializable
         class Response(
             val id: Int,
@@ -113,7 +128,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
 
     @ExperimentalSerializationApi
     @Serializer(forClass = Message::class)
-    private object MessageSerializer: KSerializer<Message> {
+    private object MessageSerializer : KSerializer<Message> {
         override fun deserialize(decoder: Decoder): Message {
             require(decoder is JsonDecoder)
             val element = decoder.decodeJsonElement()
@@ -136,7 +151,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
     }
 
     @Serializable
-    internal class ResponseError(
+    class ResponseError(
         val code: Int,
         val message: String,
         val data: String?
@@ -150,5 +165,5 @@ class CDPClient(private val wsSession: ClientWebSocketSession) {
         val code: Int,
         val originalMessage: String,
         val data: String?
-    ) : Exception("Error while calling a command: $originalMessage${data?.let {"($it)"} ?: ""} (code: $code)")
+    ) : Exception("Error while calling a command: $originalMessage${data?.let { "($it)" } ?: ""} (code: $code)")
 }
