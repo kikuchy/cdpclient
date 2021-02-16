@@ -8,6 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -28,11 +29,17 @@ public class IO(
    * Close the stream, discard any temporary backing storage.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun close(args: CloseParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IO.close", parameter)
   }
 
+  /**
+   * Close the stream, discard any temporary backing storage.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun close(handle: String): Unit {
     val parameter = CloseParameter(handle = handle)
     close(parameter)
@@ -42,12 +49,18 @@ public class IO(
    * Read a chunk of the stream
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun read(args: ReadParameter): ReadReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IO.read", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Read a chunk of the stream
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun read(
     handle: String,
     offset: Int? = null,
@@ -61,12 +74,18 @@ public class IO(
    * Return UUID of Blob object specified by a remote object id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun resolveBlob(args: ResolveBlobParameter): ResolveBlobReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IO.resolveBlob", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Return UUID of Blob object specified by a remote object id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun resolveBlob(objectId: String): ResolveBlobReturn {
     val parameter = ResolveBlobParameter(objectId = objectId)
     return resolveBlob(parameter)

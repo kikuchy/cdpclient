@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -27,6 +28,7 @@ public class DOMStorage(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val domStorageItemAdded: Flow<DomStorageItemAddedParameter> = client
           .events
           .filter {
@@ -41,6 +43,7 @@ public class DOMStorage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val domStorageItemRemoved: Flow<DomStorageItemRemovedParameter> = client
           .events
           .filter {
@@ -55,6 +58,7 @@ public class DOMStorage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val domStorageItemUpdated: Flow<DomStorageItemUpdatedParameter> = client
           .events
           .filter {
@@ -69,6 +73,7 @@ public class DOMStorage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val domStorageItemsCleared: Flow<DomStorageItemsClearedParameter> = client
           .events
           .filter {
@@ -83,11 +88,14 @@ public class DOMStorage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clear(args: ClearParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMStorage.clear", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clear(storageId: StorageId): Unit {
     val parameter = ClearParameter(storageId = storageId)
     clear(parameter)
@@ -97,6 +105,7 @@ public class DOMStorage(
    * Disables storage tracking, prevents storage events from being sent to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("DOMStorage.disable", parameter)
@@ -106,12 +115,14 @@ public class DOMStorage(
    * Enables storage tracking, storage events will now be delivered to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("DOMStorage.enable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDOMStorageItems(args: GetDOMStorageItemsParameter):
       GetDOMStorageItemsReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -119,28 +130,36 @@ public class DOMStorage(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDOMStorageItems(storageId: StorageId): GetDOMStorageItemsReturn {
     val parameter = GetDOMStorageItemsParameter(storageId = storageId)
     return getDOMStorageItems(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeDOMStorageItem(args: RemoveDOMStorageItemParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMStorage.removeDOMStorageItem", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeDOMStorageItem(storageId: StorageId, key: String): Unit {
     val parameter = RemoveDOMStorageItemParameter(storageId = storageId,key = key)
     removeDOMStorageItem(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setDOMStorageItem(args: SetDOMStorageItemParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOMStorage.setDOMStorageItem", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setDOMStorageItem(
     storageId: StorageId,
     key: String,

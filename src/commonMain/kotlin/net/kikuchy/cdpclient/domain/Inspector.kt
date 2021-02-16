@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
@@ -20,6 +21,7 @@ public class Inspector(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val detached: Flow<DetachedParameter> = client
           .events
           .filter {
@@ -34,6 +36,7 @@ public class Inspector(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val targetCrashed: Flow<Unit> = client
           .events
           .filter {
@@ -48,6 +51,7 @@ public class Inspector(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val targetReloadedAfterCrash: Flow<Unit> = client
           .events
           .filter {
@@ -65,6 +69,7 @@ public class Inspector(
    * Disables inspector domain notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Inspector.disable", parameter)
@@ -74,6 +79,7 @@ public class Inspector(
    * Enables inspector domain notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Inspector.enable", parameter)

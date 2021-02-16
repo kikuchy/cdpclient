@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -26,6 +27,7 @@ public class Media(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val playerPropertiesChanged: Flow<PlayerPropertiesChangedParameter> = client
           .events
           .filter {
@@ -40,6 +42,7 @@ public class Media(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val playerEventsAdded: Flow<PlayerEventsAddedParameter> = client
           .events
           .filter {
@@ -54,6 +57,7 @@ public class Media(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val playerMessagesLogged: Flow<PlayerMessagesLoggedParameter> = client
           .events
           .filter {
@@ -68,6 +72,7 @@ public class Media(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val playerErrorsRaised: Flow<PlayerErrorsRaisedParameter> = client
           .events
           .filter {
@@ -82,6 +87,7 @@ public class Media(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val playersCreated: Flow<PlayersCreatedParameter> = client
           .events
           .filter {
@@ -99,6 +105,7 @@ public class Media(
    * Enables the Media domain
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Media.enable", parameter)
@@ -108,6 +115,7 @@ public class Media(
    * Disables the Media domain.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Media.disable", parameter)

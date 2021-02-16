@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,6 +26,7 @@ public class Animation(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val animationCanceled: Flow<AnimationCanceledParameter> = client
           .events
           .filter {
@@ -39,6 +41,7 @@ public class Animation(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val animationCreated: Flow<AnimationCreatedParameter> = client
           .events
           .filter {
@@ -53,6 +56,7 @@ public class Animation(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val animationStarted: Flow<AnimationStartedParameter> = client
           .events
           .filter {
@@ -70,6 +74,7 @@ public class Animation(
    * Disables animation domain notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Animation.disable", parameter)
@@ -79,6 +84,7 @@ public class Animation(
    * Enables animation domain notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Animation.enable", parameter)
@@ -88,12 +94,18 @@ public class Animation(
    * Returns the current time of the an animation.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getCurrentTime(args: GetCurrentTimeParameter): GetCurrentTimeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Animation.getCurrentTime", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the current time of the an animation.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getCurrentTime(id: String): GetCurrentTimeReturn {
     val parameter = GetCurrentTimeParameter(id = id)
     return getCurrentTime(parameter)
@@ -103,6 +115,7 @@ public class Animation(
    * Gets the playback rate of the document timeline.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getPlaybackRate(): GetPlaybackRateReturn {
     val parameter = null
     val result = client.callCommand("Animation.getPlaybackRate", parameter)
@@ -113,11 +126,17 @@ public class Animation(
    * Releases a set of animations to no longer be manipulated.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseAnimations(args: ReleaseAnimationsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.releaseAnimations", parameter)
   }
 
+  /**
+   * Releases a set of animations to no longer be manipulated.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseAnimations(animations: String): Unit {
     val parameter = ReleaseAnimationsParameter(animations = animations)
     releaseAnimations(parameter)
@@ -127,12 +146,18 @@ public class Animation(
    * Gets the remote object of the Animation.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun resolveAnimation(args: ResolveAnimationParameter): ResolveAnimationReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Animation.resolveAnimation", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Gets the remote object of the Animation.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun resolveAnimation(animationId: String): ResolveAnimationReturn {
     val parameter = ResolveAnimationParameter(animationId = animationId)
     return resolveAnimation(parameter)
@@ -142,11 +167,17 @@ public class Animation(
    * Seek a set of animations to a particular time within each animation.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun seekAnimations(args: SeekAnimationsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.seekAnimations", parameter)
   }
 
+  /**
+   * Seek a set of animations to a particular time within each animation.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun seekAnimations(animations: String, currentTime: Double): Unit {
     val parameter = SeekAnimationsParameter(animations = animations,currentTime = currentTime)
     seekAnimations(parameter)
@@ -156,11 +187,17 @@ public class Animation(
    * Sets the paused state of a set of animations.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setPaused(args: SetPausedParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.setPaused", parameter)
   }
 
+  /**
+   * Sets the paused state of a set of animations.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setPaused(animations: String, paused: Boolean): Unit {
     val parameter = SetPausedParameter(animations = animations,paused = paused)
     setPaused(parameter)
@@ -170,11 +207,17 @@ public class Animation(
    * Sets the playback rate of the document timeline.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setPlaybackRate(args: SetPlaybackRateParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.setPlaybackRate", parameter)
   }
 
+  /**
+   * Sets the playback rate of the document timeline.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setPlaybackRate(playbackRate: Double): Unit {
     val parameter = SetPlaybackRateParameter(playbackRate = playbackRate)
     setPlaybackRate(parameter)
@@ -184,11 +227,17 @@ public class Animation(
    * Sets the timing of an animation node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setTiming(args: SetTimingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Animation.setTiming", parameter)
   }
 
+  /**
+   * Sets the timing of an animation node.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setTiming(
     animationId: String,
     duration: Double,

@@ -10,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -28,11 +29,17 @@ public class Input(
    * Dispatches a key event to the page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchKeyEvent(args: DispatchKeyEventParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.dispatchKeyEvent", parameter)
   }
 
+  /**
+   * Dispatches a key event to the page.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchKeyEvent(
     type: String,
     modifiers: Int? = null,
@@ -63,11 +70,18 @@ public class Input(
    * for example an emoji keyboard or an IME.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun insertText(args: InsertTextParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.insertText", parameter)
   }
 
+  /**
+   * This method emulates inserting text that doesn't come from a key press,
+   * for example an emoji keyboard or an IME.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun insertText(text: String): Unit {
     val parameter = InsertTextParameter(text = text)
     insertText(parameter)
@@ -77,11 +91,17 @@ public class Input(
    * Dispatches a mouse event to the page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchMouseEvent(args: DispatchMouseEventParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.dispatchMouseEvent", parameter)
   }
 
+  /**
+   * Dispatches a mouse event to the page.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchMouseEvent(
     type: String,
     x: Double,
@@ -111,11 +131,17 @@ public class Input(
    * Dispatches a touch event to the page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchTouchEvent(args: DispatchTouchEventParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.dispatchTouchEvent", parameter)
   }
 
+  /**
+   * Dispatches a touch event to the page.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchTouchEvent(
     type: String,
     touchPoints: List<TouchPoint>,
@@ -131,11 +157,17 @@ public class Input(
    * Emulates touch event from the mouse event parameters.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun emulateTouchFromMouseEvent(args: EmulateTouchFromMouseEventParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.emulateTouchFromMouseEvent", parameter)
   }
 
+  /**
+   * Emulates touch event from the mouse event parameters.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun emulateTouchFromMouseEvent(
     type: String,
     x: Int,
@@ -157,11 +189,17 @@ public class Input(
    * Ignores input events (useful while auditing page).
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setIgnoreInputEvents(args: SetIgnoreInputEventsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.setIgnoreInputEvents", parameter)
   }
 
+  /**
+   * Ignores input events (useful while auditing page).
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setIgnoreInputEvents(ignore: Boolean): Unit {
     val parameter = SetIgnoreInputEventsParameter(ignore = ignore)
     setIgnoreInputEvents(parameter)
@@ -171,11 +209,17 @@ public class Input(
    * Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun synthesizePinchGesture(args: SynthesizePinchGestureParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.synthesizePinchGesture", parameter)
   }
 
+  /**
+   * Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun synthesizePinchGesture(
     x: Double,
     y: Double,
@@ -192,11 +236,17 @@ public class Input(
    * Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun synthesizeScrollGesture(args: SynthesizeScrollGestureParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.synthesizeScrollGesture", parameter)
   }
 
+  /**
+   * Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun synthesizeScrollGesture(
     x: Double,
     y: Double,
@@ -222,11 +272,17 @@ public class Input(
    * Synthesizes a tap gesture over a time period by issuing appropriate touch events.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun synthesizeTapGesture(args: SynthesizeTapGestureParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Input.synthesizeTapGesture", parameter)
   }
 
+  /**
+   * Synthesizes a tap gesture over a time period by issuing appropriate touch events.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun synthesizeTapGesture(
     x: Double,
     y: Double,

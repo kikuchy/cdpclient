@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -34,6 +35,7 @@ public class Runtime(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val bindingCalled: Flow<BindingCalledParameter> = client
           .events
           .filter {
@@ -48,6 +50,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val consoleAPICalled: Flow<ConsoleAPICalledParameter> = client
           .events
           .filter {
@@ -62,6 +65,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val exceptionRevoked: Flow<ExceptionRevokedParameter> = client
           .events
           .filter {
@@ -76,6 +80,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val exceptionThrown: Flow<ExceptionThrownParameter> = client
           .events
           .filter {
@@ -90,6 +95,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val executionContextCreated: Flow<ExecutionContextCreatedParameter> = client
           .events
           .filter {
@@ -104,6 +110,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val executionContextDestroyed: Flow<ExecutionContextDestroyedParameter> = client
           .events
           .filter {
@@ -118,6 +125,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val executionContextsCleared: Flow<Unit> = client
           .events
           .filter {
@@ -132,6 +140,7 @@ public class Runtime(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val inspectRequested: Flow<InspectRequestedParameter> = client
           .events
           .filter {
@@ -149,12 +158,18 @@ public class Runtime(
    * Add handler to promise with given promise object id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun awaitPromise(args: AwaitPromiseParameter): AwaitPromiseReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.awaitPromise", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Add handler to promise with given promise object id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun awaitPromise(
     promiseObjectId: String,
     returnByValue: Boolean? = null,
@@ -170,12 +185,19 @@ public class Runtime(
    * inherited from the target object.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun callFunctionOn(args: CallFunctionOnParameter): CallFunctionOnReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.callFunctionOn", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Calls function with given declaration on the given object. Object group of the result is
+   * inherited from the target object.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun callFunctionOn(
     functionDeclaration: String,
     objectId: String? = null,
@@ -199,12 +221,18 @@ public class Runtime(
    * Compiles expression.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun compileScript(args: CompileScriptParameter): CompileScriptReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.compileScript", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Compiles expression.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun compileScript(
     expression: String,
     sourceURL: String,
@@ -220,6 +248,7 @@ public class Runtime(
    * Disables reporting of execution contexts creation.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Runtime.disable", parameter)
@@ -229,6 +258,7 @@ public class Runtime(
    * Discards collected exceptions and console API calls.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun discardConsoleEntries(): Unit {
     val parameter = null
     client.callCommand("Runtime.discardConsoleEntries", parameter)
@@ -240,6 +270,7 @@ public class Runtime(
    * context.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Runtime.enable", parameter)
@@ -249,12 +280,18 @@ public class Runtime(
    * Evaluates expression on global object.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun evaluate(args: EvaluateParameter): EvaluateReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.evaluate", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Evaluates expression on global object.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun evaluate(
     expression: String,
     objectGroup: String? = null,
@@ -284,6 +321,7 @@ public class Runtime(
    * Returns the isolate id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getIsolateId(): GetIsolateIdReturn {
     val parameter = null
     val result = client.callCommand("Runtime.getIsolateId", parameter)
@@ -295,6 +333,7 @@ public class Runtime(
    * It is the total usage of the corresponding isolate not scoped to a particular Runtime.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getHeapUsage(): GetHeapUsageReturn {
     val parameter = null
     val result = client.callCommand("Runtime.getHeapUsage", parameter)
@@ -306,12 +345,19 @@ public class Runtime(
    * object.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getProperties(args: GetPropertiesParameter): GetPropertiesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.getProperties", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns properties of a given object. Object group of the result is inherited from the target
+   * object.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getProperties(
     objectId: String,
     ownProperties: Boolean? = null,
@@ -328,6 +374,7 @@ public class Runtime(
    * Returns all let, const and class variables from global scope.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun globalLexicalScopeNames(args: GlobalLexicalScopeNamesParameter):
       GlobalLexicalScopeNamesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -335,6 +382,11 @@ public class Runtime(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns all let, const and class variables from global scope.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun globalLexicalScopeNames(executionContextId: Int? = null):
       GlobalLexicalScopeNamesReturn {
     val parameter = GlobalLexicalScopeNamesParameter(executionContextId = executionContextId)
@@ -342,12 +394,15 @@ public class Runtime(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun queryObjects(args: QueryObjectsParameter): QueryObjectsReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.queryObjects", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun queryObjects(prototypeObjectId: String, objectGroup: String? = null):
       QueryObjectsReturn {
     val parameter = QueryObjectsParameter(prototypeObjectId = prototypeObjectId,objectGroup =
@@ -359,11 +414,17 @@ public class Runtime(
    * Releases remote object with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseObject(args: ReleaseObjectParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.releaseObject", parameter)
   }
 
+  /**
+   * Releases remote object with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseObject(objectId: String): Unit {
     val parameter = ReleaseObjectParameter(objectId = objectId)
     releaseObject(parameter)
@@ -373,11 +434,17 @@ public class Runtime(
    * Releases all remote objects that belong to a given group.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseObjectGroup(args: ReleaseObjectGroupParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.releaseObjectGroup", parameter)
   }
 
+  /**
+   * Releases all remote objects that belong to a given group.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseObjectGroup(objectGroup: String): Unit {
     val parameter = ReleaseObjectGroupParameter(objectGroup = objectGroup)
     releaseObjectGroup(parameter)
@@ -387,6 +454,7 @@ public class Runtime(
    * Tells inspected instance to run if it was waiting for debugger to attach.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun runIfWaitingForDebugger(): Unit {
     val parameter = null
     client.callCommand("Runtime.runIfWaitingForDebugger", parameter)
@@ -396,12 +464,18 @@ public class Runtime(
    * Runs script with given id in a given context.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun runScript(args: RunScriptParameter): RunScriptReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Runtime.runScript", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Runs script with given id in a given context.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun runScript(
     scriptId: String,
     executionContextId: Int? = null,
@@ -423,35 +497,47 @@ public class Runtime(
    * Enables or disables async call stacks tracking.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAsyncCallStackDepth(args: SetAsyncCallStackDepthParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.setAsyncCallStackDepth", parameter)
   }
 
+  /**
+   * Enables or disables async call stacks tracking.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAsyncCallStackDepth(maxDepth: Int): Unit {
     val parameter = SetAsyncCallStackDepthParameter(maxDepth = maxDepth)
     setAsyncCallStackDepth(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend
       fun setCustomObjectFormatterEnabled(args: SetCustomObjectFormatterEnabledParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.setCustomObjectFormatterEnabled", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setCustomObjectFormatterEnabled(enabled: Boolean): Unit {
     val parameter = SetCustomObjectFormatterEnabledParameter(enabled = enabled)
     setCustomObjectFormatterEnabled(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setMaxCallStackSizeToCapture(args: SetMaxCallStackSizeToCaptureParameter):
       Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.setMaxCallStackSizeToCapture", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setMaxCallStackSizeToCapture(size: Int): Unit {
     val parameter = SetMaxCallStackSizeToCaptureParameter(size = size)
     setMaxCallStackSizeToCapture(parameter)
@@ -462,6 +548,7 @@ public class Runtime(
    * Will cancel the termination when the outer-most script execution ends.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun terminateExecution(): Unit {
     val parameter = null
     client.callCommand("Runtime.terminateExecution", parameter)
@@ -478,11 +565,24 @@ public class Runtime(
    * Each binding function call produces Runtime.bindingCalled notification.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun addBinding(args: AddBindingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.addBinding", parameter)
   }
 
+  /**
+   * If executionContextId is empty, adds binding with the given name on the
+   * global objects of all inspected contexts, including those created later,
+   * bindings survive reloads.
+   * If executionContextId is specified, adds binding only on global object of
+   * given execution context.
+   * Binding function takes exactly one argument, this argument should be string,
+   * in case of any other input, function throws an exception.
+   * Each binding function call produces Runtime.bindingCalled notification.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun addBinding(name: String, executionContextId: Int? = null): Unit {
     val parameter = AddBindingParameter(name = name,executionContextId = executionContextId)
     addBinding(parameter)
@@ -493,11 +593,18 @@ public class Runtime(
    * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeBinding(args: RemoveBindingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Runtime.removeBinding", parameter)
   }
 
+  /**
+   * This method does not remove binding function from global object but
+   * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeBinding(name: String): Unit {
     val parameter = RemoveBindingParameter(name = name)
     removeBinding(parameter)

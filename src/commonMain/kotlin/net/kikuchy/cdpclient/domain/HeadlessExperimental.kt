@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -27,6 +28,7 @@ public class HeadlessExperimental(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val needsBeginFramesChanged: Flow<NeedsBeginFramesChangedParameter> = client
           .events
           .filter {
@@ -48,12 +50,22 @@ public class HeadlessExperimental(
    * https://goo.gl/3zHXhB for more background.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun beginFrame(args: BeginFrameParameter): BeginFrameReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("HeadlessExperimental.beginFrame", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures
+   * a
+   * screenshot from the resulting frame. Requires that the target was created with enabled
+   * BeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also
+   * https://goo.gl/3zHXhB for more background.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun beginFrame(
     frameTimeTicks: Double? = null,
     interval: Double? = null,
@@ -69,6 +81,7 @@ public class HeadlessExperimental(
    * Disables headless events for the target.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("HeadlessExperimental.disable", parameter)
@@ -78,6 +91,7 @@ public class HeadlessExperimental(
    * Enables headless events for the target.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("HeadlessExperimental.enable", parameter)

@@ -11,6 +11,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -31,6 +32,7 @@ public class DOMSnapshot(
    * Disables DOM snapshot agent for the given page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("DOMSnapshot.disable", parameter)
@@ -40,6 +42,7 @@ public class DOMSnapshot(
    * Enables DOM snapshot agent for the given page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("DOMSnapshot.enable", parameter)
@@ -52,6 +55,7 @@ public class DOMSnapshot(
    * flattened.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   @Deprecated(message = "")
   public suspend fun getSnapshot(args: GetSnapshotParameter): GetSnapshotReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -59,6 +63,14 @@ public class DOMSnapshot(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns a document snapshot, including the full DOM tree of the root node (including iframes,
+   * template contents, and imported documents) in a flattened array, as well as layout and
+   * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
+   * flattened.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getSnapshot(
     computedStyleWhitelist: String,
     includeEventListeners: Boolean? = null,
@@ -78,12 +90,21 @@ public class DOMSnapshot(
    * flattened.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun captureSnapshot(args: CaptureSnapshotParameter): CaptureSnapshotReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOMSnapshot.captureSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns a document snapshot, including the full DOM tree of the root node (including iframes,
+   * template contents, and imported documents) in a flattened array, as well as layout and
+   * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
+   * flattened.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun captureSnapshot(
     computedStyles: String,
     includePaintOrder: Boolean? = null,

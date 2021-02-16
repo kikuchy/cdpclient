@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -23,6 +24,7 @@ public class Database(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val addDatabase: Flow<AddDatabaseParameter> = client
           .events
           .filter {
@@ -40,6 +42,7 @@ public class Database(
    * Disables database tracking, prevents database events from being sent to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Database.disable", parameter)
@@ -49,24 +52,29 @@ public class Database(
    * Enables database tracking, database events will now be delivered to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Database.enable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun executeSQL(args: ExecuteSQLParameter): ExecuteSQLReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Database.executeSQL", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun executeSQL(databaseId: String, query: String): ExecuteSQLReturn {
     val parameter = ExecuteSQLParameter(databaseId = databaseId,query = query)
     return executeSQL(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDatabaseTableNames(args: GetDatabaseTableNamesParameter):
       GetDatabaseTableNamesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -74,6 +82,8 @@ public class Database(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDatabaseTableNames(databaseId: String): GetDatabaseTableNamesReturn {
     val parameter = GetDatabaseTableNamesParameter(databaseId = databaseId)
     return getDatabaseTableNames(parameter)

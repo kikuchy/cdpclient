@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,6 +26,7 @@ public class Tethering(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val accepted: Flow<AcceptedParameter> = client
           .events
           .filter {
@@ -42,11 +44,17 @@ public class Tethering(
    * Request browser port binding.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun bind(args: BindParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tethering.bind", parameter)
   }
 
+  /**
+   * Request browser port binding.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun bind(port: Int): Unit {
     val parameter = BindParameter(port = port)
     bind(parameter)
@@ -56,11 +64,17 @@ public class Tethering(
    * Request browser port unbinding.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun unbind(args: UnbindParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tethering.unbind", parameter)
   }
 
+  /**
+   * Request browser port unbinding.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun unbind(port: Int): Unit {
     val parameter = UnbindParameter(port = port)
     unbind(parameter)

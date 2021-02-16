@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -27,6 +28,7 @@ public class Log(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val entryAdded: Flow<EntryAddedParameter> = client
           .events
           .filter {
@@ -44,6 +46,7 @@ public class Log(
    * Clears the log.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clear(): Unit {
     val parameter = null
     client.callCommand("Log.clear", parameter)
@@ -53,6 +56,7 @@ public class Log(
    * Disables log domain, prevents further log entries from being reported to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Log.disable", parameter)
@@ -63,6 +67,7 @@ public class Log(
    * `entryAdded` notification.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Log.enable", parameter)
@@ -72,11 +77,17 @@ public class Log(
    * start violation reporting.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startViolationsReport(args: StartViolationsReportParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Log.startViolationsReport", parameter)
   }
 
+  /**
+   * start violation reporting.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startViolationsReport(config: List<ViolationSetting>): Unit {
     val parameter = StartViolationsReportParameter(config = config)
     startViolationsReport(parameter)
@@ -86,6 +97,7 @@ public class Log(
    * Stop violation reporting.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopViolationsReport(): Unit {
     val parameter = null
     client.callCommand("Log.stopViolationsReport", parameter)

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -39,6 +40,7 @@ public class DOM(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val attributeModified: Flow<AttributeModifiedParameter> = client
           .events
           .filter {
@@ -53,6 +55,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val attributeRemoved: Flow<AttributeRemovedParameter> = client
           .events
           .filter {
@@ -67,6 +70,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val characterDataModified: Flow<CharacterDataModifiedParameter> = client
           .events
           .filter {
@@ -81,6 +85,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val childNodeCountUpdated: Flow<ChildNodeCountUpdatedParameter> = client
           .events
           .filter {
@@ -95,6 +100,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val childNodeInserted: Flow<ChildNodeInsertedParameter> = client
           .events
           .filter {
@@ -109,6 +115,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val childNodeRemoved: Flow<ChildNodeRemovedParameter> = client
           .events
           .filter {
@@ -123,6 +130,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val distributedNodesUpdated: Flow<DistributedNodesUpdatedParameter> = client
           .events
           .filter {
@@ -137,6 +145,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val documentUpdated: Flow<Unit> = client
           .events
           .filter {
@@ -151,6 +160,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val inlineStyleInvalidated: Flow<InlineStyleInvalidatedParameter> = client
           .events
           .filter {
@@ -165,6 +175,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val pseudoElementAdded: Flow<PseudoElementAddedParameter> = client
           .events
           .filter {
@@ -179,6 +190,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val pseudoElementRemoved: Flow<PseudoElementRemovedParameter> = client
           .events
           .filter {
@@ -193,6 +205,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val setChildNodes: Flow<SetChildNodesParameter> = client
           .events
           .filter {
@@ -207,6 +220,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val shadowRootPopped: Flow<ShadowRootPoppedParameter> = client
           .events
           .filter {
@@ -221,6 +235,7 @@ public class DOM(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val shadowRootPushed: Flow<ShadowRootPushedParameter> = client
           .events
           .filter {
@@ -238,6 +253,7 @@ public class DOM(
    * Collects class names for the node with given id and all of it's child nodes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun collectClassNamesFromSubtree(args: CollectClassNamesFromSubtreeParameter):
       CollectClassNamesFromSubtreeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -245,6 +261,11 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Collects class names for the node with given id and all of it's child nodes.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun collectClassNamesFromSubtree(nodeId: Int): CollectClassNamesFromSubtreeReturn {
     val parameter = CollectClassNamesFromSubtreeParameter(nodeId = nodeId)
     return collectClassNamesFromSubtree(parameter)
@@ -255,12 +276,19 @@ public class DOM(
    * given anchor.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun copyTo(args: CopyToParameter): CopyToReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.copyTo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Creates a deep copy of the specified node and places it into the target container before the
+   * given anchor.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun copyTo(
     nodeId: Int,
     targetNodeId: Int,
@@ -276,12 +304,19 @@ public class DOM(
    * objects, can be used for automation.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun describeNode(args: DescribeNodeParameter): DescribeNodeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.describeNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Describes node given its id, does not require domain to be enabled. Does not start tracking any
+   * objects, can be used for automation.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun describeNode(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -300,11 +335,19 @@ public class DOM(
    * to identify the node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun scrollIntoViewIfNeeded(args: ScrollIntoViewIfNeededParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.scrollIntoViewIfNeeded", parameter)
   }
 
+  /**
+   * Scrolls the specified rect of the given node into view if not already visible.
+   * Note: exactly one between nodeId, backendNodeId and objectId should be passed
+   * to identify the node.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun scrollIntoViewIfNeeded(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -320,6 +363,7 @@ public class DOM(
    * Disables DOM agent for the given page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("DOM.disable", parameter)
@@ -330,11 +374,18 @@ public class DOM(
    * be called for that search.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun discardSearchResults(args: DiscardSearchResultsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.discardSearchResults", parameter)
   }
 
+  /**
+   * Discards search results from the session with the given id. `getSearchResults` should no longer
+   * be called for that search.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun discardSearchResults(searchId: String): Unit {
     val parameter = DiscardSearchResultsParameter(searchId = searchId)
     discardSearchResults(parameter)
@@ -344,6 +395,7 @@ public class DOM(
    * Enables DOM agent for the given page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("DOM.enable", parameter)
@@ -353,11 +405,17 @@ public class DOM(
    * Focuses the given element.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun focus(args: FocusParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.focus", parameter)
   }
 
+  /**
+   * Focuses the given element.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun focus(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -372,12 +430,18 @@ public class DOM(
    * Returns attributes for the specified node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getAttributes(args: GetAttributesParameter): GetAttributesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getAttributes", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns attributes for the specified node.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getAttributes(nodeId: Int): GetAttributesReturn {
     val parameter = GetAttributesParameter(nodeId = nodeId)
     return getAttributes(parameter)
@@ -387,12 +451,18 @@ public class DOM(
    * Returns boxes for the given node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getBoxModel(args: GetBoxModelParameter): GetBoxModelReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getBoxModel", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns boxes for the given node.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getBoxModel(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -408,12 +478,19 @@ public class DOM(
    * might return multiple quads for inline nodes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getContentQuads(args: GetContentQuadsParameter): GetContentQuadsReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getContentQuads", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns quads that describe node position on the page. This method
+   * might return multiple quads for inline nodes.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getContentQuads(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -428,12 +505,18 @@ public class DOM(
    * Returns the root DOM node (and optionally the subtree) to the caller.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDocument(args: GetDocumentParameter): GetDocumentReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getDocument", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the root DOM node (and optionally the subtree) to the caller.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDocument(depth: Int? = null, pierce: Boolean? = null): GetDocumentReturn {
     val parameter = GetDocumentParameter(depth = depth,pierce = pierce)
     return getDocument(parameter)
@@ -445,6 +528,7 @@ public class DOM(
    * Use DOMSnapshot.captureSnapshot instead.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   @Deprecated(message = "")
   public suspend fun getFlattenedDocument(args: GetFlattenedDocumentParameter):
       GetFlattenedDocumentReturn {
@@ -453,6 +537,13 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the root DOM node (and optionally the subtree) to the caller.
+   * Deprecated, as it is not designed to work well with the rest of the DOM agent.
+   * Use DOMSnapshot.captureSnapshot instead.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFlattenedDocument(depth: Int? = null, pierce: Boolean? = null):
       GetFlattenedDocumentReturn {
     val parameter = GetFlattenedDocumentParameter(depth = depth,pierce = pierce)
@@ -463,6 +554,7 @@ public class DOM(
    * Finds nodes with a given computed style in a subtree.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getNodesForSubtreeByStyle(args: GetNodesForSubtreeByStyleParameter):
       GetNodesForSubtreeByStyleReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -470,6 +562,11 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Finds nodes with a given computed style in a subtree.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getNodesForSubtreeByStyle(
     nodeId: Int,
     computedStyles: List<CSSComputedStyleProperty>,
@@ -485,6 +582,7 @@ public class DOM(
    * either returned or not.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getNodeForLocation(args: GetNodeForLocationParameter):
       GetNodeForLocationReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -492,6 +590,12 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns node id at given location. Depending on whether DOM domain is enabled, nodeId is
+   * either returned or not.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getNodeForLocation(
     x: Int,
     y: Int,
@@ -507,12 +611,18 @@ public class DOM(
    * Returns node's HTML markup.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getOuterHTML(args: GetOuterHTMLParameter): GetOuterHTMLReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getOuterHTML", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns node's HTML markup.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getOuterHTML(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -527,6 +637,7 @@ public class DOM(
    * Returns the id of the nearest ancestor that is a relayout boundary.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getRelayoutBoundary(args: GetRelayoutBoundaryParameter):
       GetRelayoutBoundaryReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -534,6 +645,11 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the id of the nearest ancestor that is a relayout boundary.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getRelayoutBoundary(nodeId: Int): GetRelayoutBoundaryReturn {
     val parameter = GetRelayoutBoundaryParameter(nodeId = nodeId)
     return getRelayoutBoundary(parameter)
@@ -544,12 +660,19 @@ public class DOM(
    * identifier.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getSearchResults(args: GetSearchResultsParameter): GetSearchResultsReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getSearchResults", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns search results from given `fromIndex` to given `toIndex` from the search with the given
+   * identifier.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getSearchResults(
     searchId: String,
     fromIndex: Int,
@@ -564,6 +687,7 @@ public class DOM(
    * Hides any highlight.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun hideHighlight(): Unit {
     val parameter = null
     client.callCommand("DOM.hideHighlight", parameter)
@@ -573,6 +697,7 @@ public class DOM(
    * Highlights DOM node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun highlightNode(): Unit {
     val parameter = null
     client.callCommand("DOM.highlightNode", parameter)
@@ -582,6 +707,7 @@ public class DOM(
    * Highlights given rectangle.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun highlightRect(): Unit {
     val parameter = null
     client.callCommand("DOM.highlightRect", parameter)
@@ -591,6 +717,7 @@ public class DOM(
    * Marks last undoable state.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun markUndoableState(): Unit {
     val parameter = null
     client.callCommand("DOM.markUndoableState", parameter)
@@ -600,12 +727,18 @@ public class DOM(
    * Moves node into the new container, places it before the given anchor.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun moveTo(args: MoveToParameter): MoveToReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.moveTo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Moves node into the new container, places it before the given anchor.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun moveTo(
     nodeId: Int,
     targetNodeId: Int,
@@ -621,12 +754,19 @@ public class DOM(
    * `cancelSearch` to end this search session.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun performSearch(args: PerformSearchParameter): PerformSearchReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.performSearch", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or
+   * `cancelSearch` to end this search session.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun performSearch(query: String, includeUserAgentShadowDOM: Boolean? = null):
       PerformSearchReturn {
     val parameter = PerformSearchParameter(query = query,includeUserAgentShadowDOM =
@@ -638,6 +778,7 @@ public class DOM(
    * Requests that the node is sent to the caller given its path. // FIXME, use XPath
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun pushNodeByPathToFrontend(args: PushNodeByPathToFrontendParameter):
       PushNodeByPathToFrontendReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -645,6 +786,11 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests that the node is sent to the caller given its path. // FIXME, use XPath
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun pushNodeByPathToFrontend(path: String): PushNodeByPathToFrontendReturn {
     val parameter = PushNodeByPathToFrontendParameter(path = path)
     return pushNodeByPathToFrontend(parameter)
@@ -654,6 +800,7 @@ public class DOM(
    * Requests that a batch of nodes is sent to the caller given their backend node ids.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend
       fun pushNodesByBackendIdsToFrontend(args: PushNodesByBackendIdsToFrontendParameter):
       PushNodesByBackendIdsToFrontendReturn {
@@ -662,6 +809,11 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests that a batch of nodes is sent to the caller given their backend node ids.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun pushNodesByBackendIdsToFrontend(backendNodeIds: List<Int>):
       PushNodesByBackendIdsToFrontendReturn {
     val parameter = PushNodesByBackendIdsToFrontendParameter(backendNodeIds = backendNodeIds)
@@ -672,12 +824,18 @@ public class DOM(
    * Executes `querySelector` on a given node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun querySelector(args: QuerySelectorParameter): QuerySelectorReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.querySelector", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Executes `querySelector` on a given node.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun querySelector(nodeId: Int, selector: String): QuerySelectorReturn {
     val parameter = QuerySelectorParameter(nodeId = nodeId,selector = selector)
     return querySelector(parameter)
@@ -687,12 +845,18 @@ public class DOM(
    * Executes `querySelectorAll` on a given node.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun querySelectorAll(args: QuerySelectorAllParameter): QuerySelectorAllReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.querySelectorAll", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Executes `querySelectorAll` on a given node.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun querySelectorAll(nodeId: Int, selector: String): QuerySelectorAllReturn {
     val parameter = QuerySelectorAllParameter(nodeId = nodeId,selector = selector)
     return querySelectorAll(parameter)
@@ -702,6 +866,7 @@ public class DOM(
    * Re-does the last undone action.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun redo(): Unit {
     val parameter = null
     client.callCommand("DOM.redo", parameter)
@@ -711,11 +876,17 @@ public class DOM(
    * Removes attribute with given name from an element with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeAttribute(args: RemoveAttributeParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.removeAttribute", parameter)
   }
 
+  /**
+   * Removes attribute with given name from an element with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeAttribute(nodeId: Int, name: String): Unit {
     val parameter = RemoveAttributeParameter(nodeId = nodeId,name = name)
     removeAttribute(parameter)
@@ -725,11 +896,17 @@ public class DOM(
    * Removes node with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeNode(args: RemoveNodeParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.removeNode", parameter)
   }
 
+  /**
+   * Removes node with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun removeNode(nodeId: Int): Unit {
     val parameter = RemoveNodeParameter(nodeId = nodeId)
     removeNode(parameter)
@@ -742,11 +919,20 @@ public class DOM(
    * the specified depth.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestChildNodes(args: RequestChildNodesParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.requestChildNodes", parameter)
   }
 
+  /**
+   * Requests that children of the node with given id are returned to the caller in form of
+   * `setChildNodes` events where not only immediate children are retrieved, but all children down
+   * to
+   * the specified depth.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestChildNodes(
     nodeId: Int,
     depth: Int? = null,
@@ -762,12 +948,20 @@ public class DOM(
    * `setChildNodes` notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestNode(args: RequestNodeParameter): RequestNodeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.requestNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests that the node is sent to the caller given the JavaScript node object reference. All
+   * nodes that form the path from the node to the root are also sent to the client as a series of
+   * `setChildNodes` notifications.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestNode(objectId: String): RequestNodeReturn {
     val parameter = RequestNodeParameter(objectId = objectId)
     return requestNode(parameter)
@@ -777,12 +971,18 @@ public class DOM(
    * Resolves the JavaScript node object for a given NodeId or BackendNodeId.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun resolveNode(args: ResolveNodeParameter): ResolveNodeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.resolveNode", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Resolves the JavaScript node object for a given NodeId or BackendNodeId.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun resolveNode(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -798,11 +998,17 @@ public class DOM(
    * Sets attribute for an element with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAttributeValue(args: SetAttributeValueParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setAttributeValue", parameter)
   }
 
+  /**
+   * Sets attribute for an element with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAttributeValue(
     nodeId: Int,
     name: String,
@@ -817,11 +1023,18 @@ public class DOM(
    * attribute value and types in several attribute name/value pairs.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAttributesAsText(args: SetAttributesAsTextParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setAttributesAsText", parameter)
   }
 
+  /**
+   * Sets attributes on element with given id. This method is useful when user edits some existing
+   * attribute value and types in several attribute name/value pairs.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAttributesAsText(
     nodeId: Int,
     text: String,
@@ -835,11 +1048,17 @@ public class DOM(
    * Sets files for the given file input element.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setFileInputFiles(args: SetFileInputFilesParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setFileInputFiles", parameter)
   }
 
+  /**
+   * Sets files for the given file input element.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setFileInputFiles(
     files: String,
     nodeId: Int? = null,
@@ -856,11 +1075,18 @@ public class DOM(
    * disabled.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setNodeStackTracesEnabled(args: SetNodeStackTracesEnabledParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setNodeStackTracesEnabled", parameter)
   }
 
+  /**
+   * Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is
+   * disabled.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setNodeStackTracesEnabled(enable: Boolean): Unit {
     val parameter = SetNodeStackTracesEnabledParameter(enable = enable)
     setNodeStackTracesEnabled(parameter)
@@ -871,6 +1097,7 @@ public class DOM(
    * creation.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getNodeStackTraces(args: GetNodeStackTracesParameter):
       GetNodeStackTracesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -878,6 +1105,12 @@ public class DOM(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Gets stack traces associated with a Node. As of now, only provides stack trace for Node
+   * creation.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getNodeStackTraces(nodeId: Int): GetNodeStackTracesReturn {
     val parameter = GetNodeStackTracesParameter(nodeId = nodeId)
     return getNodeStackTraces(parameter)
@@ -888,12 +1121,19 @@ public class DOM(
    * File wrapper.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFileInfo(args: GetFileInfoParameter): GetFileInfoReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getFileInfo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns file information for the given
+   * File wrapper.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFileInfo(objectId: String): GetFileInfoReturn {
     val parameter = GetFileInfoParameter(objectId = objectId)
     return getFileInfo(parameter)
@@ -905,11 +1145,19 @@ public class DOM(
    * $x functions).
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setInspectedNode(args: SetInspectedNodeParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setInspectedNode", parameter)
   }
 
+  /**
+   * Enables console to refer to the node with given id via $x (see Command Line API for more
+   * details
+   * $x functions).
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setInspectedNode(nodeId: Int): Unit {
     val parameter = SetInspectedNodeParameter(nodeId = nodeId)
     setInspectedNode(parameter)
@@ -919,12 +1167,18 @@ public class DOM(
    * Sets node name for a node with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setNodeName(args: SetNodeNameParameter): SetNodeNameReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.setNodeName", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Sets node name for a node with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setNodeName(nodeId: Int, name: String): SetNodeNameReturn {
     val parameter = SetNodeNameParameter(nodeId = nodeId,name = name)
     return setNodeName(parameter)
@@ -934,11 +1188,17 @@ public class DOM(
    * Sets node value for a node with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setNodeValue(args: SetNodeValueParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setNodeValue", parameter)
   }
 
+  /**
+   * Sets node value for a node with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setNodeValue(nodeId: Int, value: String): Unit {
     val parameter = SetNodeValueParameter(nodeId = nodeId,value = value)
     setNodeValue(parameter)
@@ -948,11 +1208,17 @@ public class DOM(
    * Sets node HTML markup, returns new node id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setOuterHTML(args: SetOuterHTMLParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("DOM.setOuterHTML", parameter)
   }
 
+  /**
+   * Sets node HTML markup, returns new node id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setOuterHTML(nodeId: Int, outerHTML: String): Unit {
     val parameter = SetOuterHTMLParameter(nodeId = nodeId,outerHTML = outerHTML)
     setOuterHTML(parameter)
@@ -962,6 +1228,7 @@ public class DOM(
    * Undoes the last performed action.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun undo(): Unit {
     val parameter = null
     client.callCommand("DOM.undo", parameter)
@@ -971,12 +1238,18 @@ public class DOM(
    * Returns iframe node that owns iframe with the given domain.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFrameOwner(args: GetFrameOwnerParameter): GetFrameOwnerReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("DOM.getFrameOwner", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns iframe node that owns iframe with the given domain.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFrameOwner(frameId: String): GetFrameOwnerReturn {
     val parameter = GetFrameOwnerParameter(frameId = frameId)
     return getFrameOwner(parameter)

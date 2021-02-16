@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -28,6 +29,7 @@ public class BackgroundService(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val recordingStateChanged: Flow<RecordingStateChangedParameter> = client
           .events
           .filter {
@@ -42,6 +44,7 @@ public class BackgroundService(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val backgroundServiceEventReceived: Flow<BackgroundServiceEventReceivedParameter> = client
           .events
           .filter {
@@ -59,11 +62,17 @@ public class BackgroundService(
    * Enables event updates for the service.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startObserving(args: StartObservingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.startObserving", parameter)
   }
 
+  /**
+   * Enables event updates for the service.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startObserving(service: ServiceName): Unit {
     val parameter = StartObservingParameter(service = service)
     startObserving(parameter)
@@ -73,11 +82,17 @@ public class BackgroundService(
    * Disables event updates for the service.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopObserving(args: StopObservingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.stopObserving", parameter)
   }
 
+  /**
+   * Disables event updates for the service.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopObserving(service: ServiceName): Unit {
     val parameter = StopObservingParameter(service = service)
     stopObserving(parameter)
@@ -87,11 +102,17 @@ public class BackgroundService(
    * Set the recording state for the service.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setRecording(args: SetRecordingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.setRecording", parameter)
   }
 
+  /**
+   * Set the recording state for the service.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setRecording(shouldRecord: Boolean, service: ServiceName): Unit {
     val parameter = SetRecordingParameter(shouldRecord = shouldRecord,service = service)
     setRecording(parameter)
@@ -101,11 +122,17 @@ public class BackgroundService(
    * Clears all stored data for the service.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearEvents(args: ClearEventsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("BackgroundService.clearEvents", parameter)
   }
 
+  /**
+   * Clears all stored data for the service.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearEvents(service: ServiceName): Unit {
     val parameter = ClearEventsParameter(service = service)
     clearEvents(parameter)

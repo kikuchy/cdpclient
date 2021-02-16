@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -28,6 +29,7 @@ public class Target(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val attachedToTarget: Flow<AttachedToTargetParameter> = client
           .events
           .filter {
@@ -42,6 +44,7 @@ public class Target(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val detachedFromTarget: Flow<DetachedFromTargetParameter> = client
           .events
           .filter {
@@ -56,6 +59,7 @@ public class Target(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val receivedMessageFromTarget: Flow<ReceivedMessageFromTargetParameter> = client
           .events
           .filter {
@@ -70,6 +74,7 @@ public class Target(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val targetCreated: Flow<TargetCreatedParameter> = client
           .events
           .filter {
@@ -84,6 +89,7 @@ public class Target(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val targetDestroyed: Flow<TargetDestroyedParameter> = client
           .events
           .filter {
@@ -98,6 +104,7 @@ public class Target(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val targetCrashed: Flow<TargetCrashedParameter> = client
           .events
           .filter {
@@ -112,6 +119,7 @@ public class Target(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val targetInfoChanged: Flow<TargetInfoChangedParameter> = client
           .events
           .filter {
@@ -129,11 +137,17 @@ public class Target(
    * Activates (focuses) the target.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun activateTarget(args: ActivateTargetParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.activateTarget", parameter)
   }
 
+  /**
+   * Activates (focuses) the target.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun activateTarget(targetId: String): Unit {
     val parameter = ActivateTargetParameter(targetId = targetId)
     activateTarget(parameter)
@@ -143,12 +157,18 @@ public class Target(
    * Attaches to the target with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun attachToTarget(args: AttachToTargetParameter): AttachToTargetReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.attachToTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Attaches to the target with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun attachToTarget(targetId: String, flatten: Boolean? = null):
       AttachToTargetReturn {
     val parameter = AttachToTargetParameter(targetId = targetId,flatten = flatten)
@@ -159,6 +179,7 @@ public class Target(
    * Attaches to the browser target, only uses flat sessionId mode.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun attachToBrowserTarget(): AttachToBrowserTargetReturn {
     val parameter = null
     val result = client.callCommand("Target.attachToBrowserTarget", parameter)
@@ -169,12 +190,18 @@ public class Target(
    * Closes the target. If the target is a page that gets closed too.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun closeTarget(args: CloseTargetParameter): CloseTargetReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.closeTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Closes the target. If the target is a page that gets closed too.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun closeTarget(targetId: String): CloseTargetReturn {
     val parameter = CloseTargetParameter(targetId = targetId)
     return closeTarget(parameter)
@@ -192,11 +219,25 @@ public class Target(
    * protocol notifications and command responses.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun exposeDevToolsProtocol(args: ExposeDevToolsProtocolParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.exposeDevToolsProtocol", parameter)
   }
 
+  /**
+   * Inject object to the target's main frame that provides a communication
+   * channel with browser target.
+   *
+   * Injected object will be available as `window[bindingName]`.
+   *
+   * The object has the follwing API:
+   * - `binding.send(json)` - a method to send messages over the remote debugging protocol
+   * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the
+   * protocol notifications and command responses.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun exposeDevToolsProtocol(targetId: String, bindingName: String? = null): Unit {
     val parameter = ExposeDevToolsProtocolParameter(targetId = targetId,bindingName = bindingName)
     exposeDevToolsProtocol(parameter)
@@ -207,6 +248,7 @@ public class Target(
    * one.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun createBrowserContext(args: CreateBrowserContextParameter):
       CreateBrowserContextReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -214,6 +256,12 @@ public class Target(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
+   * one.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun createBrowserContext(
     disposeOnDetach: Boolean? = null,
     proxyServer: String? = null,
@@ -228,6 +276,7 @@ public class Target(
    * Returns all browser contexts created with `Target.createBrowserContext` method.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getBrowserContexts(): GetBrowserContextsReturn {
     val parameter = null
     val result = client.callCommand("Target.getBrowserContexts", parameter)
@@ -238,12 +287,18 @@ public class Target(
    * Creates a new page.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun createTarget(args: CreateTargetParameter): CreateTargetReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.createTarget", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Creates a new page.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun createTarget(
     url: String,
     width: Int? = null,
@@ -263,11 +318,17 @@ public class Target(
    * Detaches session with given id.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun detachFromTarget(args: DetachFromTargetParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.detachFromTarget", parameter)
   }
 
+  /**
+   * Detaches session with given id.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun detachFromTarget(sessionId: String? = null, targetId: String? = null): Unit {
     val parameter = DetachFromTargetParameter(sessionId = sessionId,targetId = targetId)
     detachFromTarget(parameter)
@@ -278,11 +339,18 @@ public class Target(
    * beforeunload hooks.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disposeBrowserContext(args: DisposeBrowserContextParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.disposeBrowserContext", parameter)
   }
 
+  /**
+   * Deletes a BrowserContext. All the belonging pages will be closed without calling their
+   * beforeunload hooks.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disposeBrowserContext(browserContextId: String): Unit {
     val parameter = DisposeBrowserContextParameter(browserContextId = browserContextId)
     disposeBrowserContext(parameter)
@@ -292,12 +360,18 @@ public class Target(
    * Returns information about a target.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getTargetInfo(args: GetTargetInfoParameter): GetTargetInfoReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Target.getTargetInfo", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns information about a target.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getTargetInfo(targetId: String? = null): GetTargetInfoReturn {
     val parameter = GetTargetInfoParameter(targetId = targetId)
     return getTargetInfo(parameter)
@@ -307,6 +381,7 @@ public class Target(
    * Retrieves a list of available targets.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getTargets(): GetTargetsReturn {
     val parameter = null
     val result = client.callCommand("Target.getTargets", parameter)
@@ -319,12 +394,20 @@ public class Target(
    * and crbug.com/991325.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   @Deprecated(message = "")
   public suspend fun sendMessageToTarget(args: SendMessageToTargetParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.sendMessageToTarget", parameter)
   }
 
+  /**
+   * Sends protocol message over session with given id.
+   * Consider using flat mode instead; see commands attachToTarget, setAutoAttach,
+   * and crbug.com/991325.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun sendMessageToTarget(
     message: String,
     sessionId: String? = null,
@@ -341,11 +424,19 @@ public class Target(
    * automatically detaches from all currently attached targets.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAutoAttach(args: SetAutoAttachParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.setAutoAttach", parameter)
   }
 
+  /**
+   * Controls whether to automatically attach to new targets which are considered to be related to
+   * this one. When turned on, attaches to all existing related targets as well. When turned off,
+   * automatically detaches from all currently attached targets.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setAutoAttach(
     autoAttach: Boolean,
     waitForDebuggerOnStart: Boolean,
@@ -361,11 +452,18 @@ public class Target(
    * `targetCreated/targetInfoChanged/targetDestroyed` events.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setDiscoverTargets(args: SetDiscoverTargetsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.setDiscoverTargets", parameter)
   }
 
+  /**
+   * Controls whether to discover available targets and notify via
+   * `targetCreated/targetInfoChanged/targetDestroyed` events.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setDiscoverTargets(discover: Boolean): Unit {
     val parameter = SetDiscoverTargetsParameter(discover = discover)
     setDiscoverTargets(parameter)
@@ -376,11 +474,18 @@ public class Target(
    * `true`.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setRemoteLocations(args: SetRemoteLocationsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Target.setRemoteLocations", parameter)
   }
 
+  /**
+   * Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
+   * `true`.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setRemoteLocations(locations: List<RemoteLocation>): Unit {
     val parameter = SetRemoteLocationsParameter(locations = locations)
     setRemoteLocations(parameter)

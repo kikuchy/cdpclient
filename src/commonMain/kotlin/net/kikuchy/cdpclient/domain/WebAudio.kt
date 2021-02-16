@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -27,6 +28,7 @@ public class WebAudio(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val contextCreated: Flow<ContextCreatedParameter> = client
           .events
           .filter {
@@ -41,6 +43,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val contextWillBeDestroyed: Flow<ContextWillBeDestroyedParameter> = client
           .events
           .filter {
@@ -55,6 +58,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val contextChanged: Flow<ContextChangedParameter> = client
           .events
           .filter {
@@ -69,6 +73,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val audioListenerCreated: Flow<AudioListenerCreatedParameter> = client
           .events
           .filter {
@@ -83,6 +88,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val audioListenerWillBeDestroyed: Flow<AudioListenerWillBeDestroyedParameter> = client
           .events
           .filter {
@@ -97,6 +103,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val audioNodeCreated: Flow<AudioNodeCreatedParameter> = client
           .events
           .filter {
@@ -111,6 +118,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val audioNodeWillBeDestroyed: Flow<AudioNodeWillBeDestroyedParameter> = client
           .events
           .filter {
@@ -125,6 +133,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val audioParamCreated: Flow<AudioParamCreatedParameter> = client
           .events
           .filter {
@@ -139,6 +148,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val audioParamWillBeDestroyed: Flow<AudioParamWillBeDestroyedParameter> = client
           .events
           .filter {
@@ -153,6 +163,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val nodesConnected: Flow<NodesConnectedParameter> = client
           .events
           .filter {
@@ -167,6 +178,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val nodesDisconnected: Flow<NodesDisconnectedParameter> = client
           .events
           .filter {
@@ -181,6 +193,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val nodeParamConnected: Flow<NodeParamConnectedParameter> = client
           .events
           .filter {
@@ -195,6 +208,7 @@ public class WebAudio(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val nodeParamDisconnected: Flow<NodeParamDisconnectedParameter> = client
           .events
           .filter {
@@ -212,6 +226,7 @@ public class WebAudio(
    * Enables the WebAudio domain and starts sending context lifetime events.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("WebAudio.enable", parameter)
@@ -221,6 +236,7 @@ public class WebAudio(
    * Disables the WebAudio domain.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("WebAudio.disable", parameter)
@@ -230,12 +246,18 @@ public class WebAudio(
    * Fetch the realtime data from the registered contexts.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getRealtimeData(args: GetRealtimeDataParameter): GetRealtimeDataReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("WebAudio.getRealtimeData", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Fetch the realtime data from the registered contexts.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getRealtimeData(contextId: String): GetRealtimeDataReturn {
     val parameter = GetRealtimeDataParameter(contextId = contextId)
     return getRealtimeData(parameter)

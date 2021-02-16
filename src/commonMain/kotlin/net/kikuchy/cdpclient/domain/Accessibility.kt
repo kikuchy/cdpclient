@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -28,6 +29,7 @@ public class Accessibility(
    * Disables the accessibility domain.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Accessibility.disable", parameter)
@@ -40,6 +42,7 @@ public class Accessibility(
    * disabled.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Accessibility.enable", parameter)
@@ -49,12 +52,18 @@ public class Accessibility(
    * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getPartialAXTree(args: GetPartialAXTreeParameter): GetPartialAXTreeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.getPartialAXTree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getPartialAXTree(
     nodeId: Int? = null,
     backendNodeId: Int? = null,
@@ -70,12 +79,18 @@ public class Accessibility(
    * Fetches the entire accessibility tree for the root Document
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFullAXTree(args: GetFullAXTreeParameter): GetFullAXTreeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.getFullAXTree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Fetches the entire accessibility tree for the root Document
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFullAXTree(max_depth: Int? = null): GetFullAXTreeReturn {
     val parameter = GetFullAXTreeParameter(max_depth = max_depth)
     return getFullAXTree(parameter)
@@ -86,12 +101,19 @@ public class Accessibility(
    * Requires `enable()` to have been called previously.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getChildAXNodes(args: GetChildAXNodesParameter): GetChildAXNodesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.getChildAXNodes", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Fetches a particular accessibility node by AXNodeId.
+   * Requires `enable()` to have been called previously.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getChildAXNodes(id: String): GetChildAXNodesReturn {
     val parameter = GetChildAXNodesParameter(id = id)
     return getChildAXNodes(parameter)
@@ -105,12 +127,22 @@ public class Accessibility(
    * `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun queryAXTree(args: QueryAXTreeParameter): QueryAXTreeReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Accessibility.queryAXTree", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Query a DOM node's accessibility subtree for accessible name and role.
+   * This command computes the name and role for all nodes in the subtree, including those that are
+   * ignored for accessibility, and returns those that mactch the specified name and role. If no DOM
+   * node is specified, or the DOM node does not exist, the command returns an error. If neither
+   * `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun queryAXTree(
     nodeId: Int? = null,
     backendNodeId: Int? = null,

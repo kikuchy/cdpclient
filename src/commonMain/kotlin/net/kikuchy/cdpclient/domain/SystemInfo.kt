@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -31,6 +32,7 @@ public class SystemInfo(
    * Returns information about the system.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getInfo(): GetInfoReturn {
     val parameter = null
     val result = client.callCommand("SystemInfo.getInfo", parameter)
@@ -41,6 +43,7 @@ public class SystemInfo(
    * Returns information about all running processes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getProcessInfo(): GetProcessInfoReturn {
     val parameter = null
     val result = client.callCommand("SystemInfo.getProcessInfo", parameter)

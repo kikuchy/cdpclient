@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -29,6 +30,7 @@ public class PerformanceTimeline(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val timelineEventAdded: Flow<TimelineEventAddedParameter> = client
           .events
           .filter {
@@ -47,11 +49,18 @@ public class PerformanceTimeline(
    * See also: timelineEventAdded
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(args: EnableParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("PerformanceTimeline.enable", parameter)
   }
 
+  /**
+   * Previously buffered events would be reported before method returns.
+   * See also: timelineEventAdded
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(eventTypes: String): Unit {
     val parameter = EnableParameter(eventTypes = eventTypes)
     enable(parameter)

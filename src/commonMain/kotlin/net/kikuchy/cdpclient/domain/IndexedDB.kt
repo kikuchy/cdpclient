@@ -10,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -27,11 +28,17 @@ public class IndexedDB(
    * Clears all entries from an object store.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearObjectStore(args: ClearObjectStoreParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IndexedDB.clearObjectStore", parameter)
   }
 
+  /**
+   * Clears all entries from an object store.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearObjectStore(
     securityOrigin: String,
     databaseName: String,
@@ -46,11 +53,17 @@ public class IndexedDB(
    * Deletes a database.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteDatabase(args: DeleteDatabaseParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IndexedDB.deleteDatabase", parameter)
   }
 
+  /**
+   * Deletes a database.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteDatabase(securityOrigin: String, databaseName: String): Unit {
     val parameter = DeleteDatabaseParameter(securityOrigin = securityOrigin,databaseName =
         databaseName)
@@ -61,11 +74,17 @@ public class IndexedDB(
    * Delete a range of entries from an object store
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteObjectStoreEntries(args: DeleteObjectStoreEntriesParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("IndexedDB.deleteObjectStoreEntries", parameter)
   }
 
+  /**
+   * Delete a range of entries from an object store
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteObjectStoreEntries(
     securityOrigin: String,
     databaseName: String,
@@ -81,6 +100,7 @@ public class IndexedDB(
    * Disables events from backend.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("IndexedDB.disable", parameter)
@@ -90,6 +110,7 @@ public class IndexedDB(
    * Enables events from backend.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("IndexedDB.enable", parameter)
@@ -99,12 +120,18 @@ public class IndexedDB(
    * Requests data from object store or index.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestData(args: RequestDataParameter): RequestDataReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.requestData", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests data from object store or index.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestData(
     securityOrigin: String,
     databaseName: String,
@@ -124,12 +151,18 @@ public class IndexedDB(
    * Gets metadata of an object store
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getMetadata(args: GetMetadataParameter): GetMetadataReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.getMetadata", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Gets metadata of an object store
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getMetadata(
     securityOrigin: String,
     databaseName: String,
@@ -144,12 +177,18 @@ public class IndexedDB(
    * Requests database with given name in given frame.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestDatabase(args: RequestDatabaseParameter): RequestDatabaseReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("IndexedDB.requestDatabase", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests database with given name in given frame.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestDatabase(securityOrigin: String, databaseName: String):
       RequestDatabaseReturn {
     val parameter = RequestDatabaseParameter(securityOrigin = securityOrigin,databaseName =
@@ -161,6 +200,7 @@ public class IndexedDB(
    * Requests database names for given security origin.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestDatabaseNames(args: RequestDatabaseNamesParameter):
       RequestDatabaseNamesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -168,6 +208,11 @@ public class IndexedDB(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests database names for given security origin.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestDatabaseNames(securityOrigin: String): RequestDatabaseNamesReturn {
     val parameter = RequestDatabaseNamesParameter(securityOrigin = securityOrigin)
     return requestDatabaseNames(parameter)

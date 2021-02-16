@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -27,11 +28,17 @@ public class CacheStorage(
    * Deletes a cache.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteCache(args: DeleteCacheParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CacheStorage.deleteCache", parameter)
   }
 
+  /**
+   * Deletes a cache.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteCache(cacheId: String): Unit {
     val parameter = DeleteCacheParameter(cacheId = cacheId)
     deleteCache(parameter)
@@ -41,11 +48,17 @@ public class CacheStorage(
    * Deletes a cache entry.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteEntry(args: DeleteEntryParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("CacheStorage.deleteEntry", parameter)
   }
 
+  /**
+   * Deletes a cache entry.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deleteEntry(cacheId: String, request: String): Unit {
     val parameter = DeleteEntryParameter(cacheId = cacheId,request = request)
     deleteEntry(parameter)
@@ -55,12 +68,18 @@ public class CacheStorage(
    * Requests cache names.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestCacheNames(args: RequestCacheNamesParameter): RequestCacheNamesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CacheStorage.requestCacheNames", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests cache names.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestCacheNames(securityOrigin: String): RequestCacheNamesReturn {
     val parameter = RequestCacheNamesParameter(securityOrigin = securityOrigin)
     return requestCacheNames(parameter)
@@ -70,6 +89,7 @@ public class CacheStorage(
    * Fetches cache entry.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestCachedResponse(args: RequestCachedResponseParameter):
       RequestCachedResponseReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -77,6 +97,11 @@ public class CacheStorage(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Fetches cache entry.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestCachedResponse(
     cacheId: String,
     requestURL: String,
@@ -91,12 +116,18 @@ public class CacheStorage(
    * Requests data from cache.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestEntries(args: RequestEntriesParameter): RequestEntriesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("CacheStorage.requestEntries", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Requests data from cache.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestEntries(
     cacheId: String,
     skipCount: Int? = null,

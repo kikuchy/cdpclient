@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -26,6 +27,7 @@ public class ServiceWorker(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val workerErrorReported: Flow<WorkerErrorReportedParameter> = client
           .events
           .filter {
@@ -40,6 +42,7 @@ public class ServiceWorker(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val workerRegistrationUpdated: Flow<WorkerRegistrationUpdatedParameter> = client
           .events
           .filter {
@@ -54,6 +57,7 @@ public class ServiceWorker(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val workerVersionUpdated: Flow<WorkerVersionUpdatedParameter> = client
           .events
           .filter {
@@ -68,11 +72,14 @@ public class ServiceWorker(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deliverPushMessage(args: DeliverPushMessageParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.deliverPushMessage", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun deliverPushMessage(
     origin: String,
     registrationId: String,
@@ -84,17 +91,21 @@ public class ServiceWorker(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("ServiceWorker.disable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchSyncEvent(args: DispatchSyncEventParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.dispatchSyncEvent", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchSyncEvent(
     origin: String,
     registrationId: String,
@@ -107,11 +118,14 @@ public class ServiceWorker(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchPeriodicSyncEvent(args: DispatchPeriodicSyncEventParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.dispatchPeriodicSyncEvent", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun dispatchPeriodicSyncEvent(
     origin: String,
     registrationId: String,
@@ -123,89 +137,112 @@ public class ServiceWorker(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("ServiceWorker.enable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun inspectWorker(args: InspectWorkerParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.inspectWorker", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun inspectWorker(versionId: String): Unit {
     val parameter = InspectWorkerParameter(versionId = versionId)
     inspectWorker(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setForceUpdateOnPageLoad(args: SetForceUpdateOnPageLoadParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.setForceUpdateOnPageLoad", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setForceUpdateOnPageLoad(forceUpdateOnPageLoad: Boolean): Unit {
     val parameter = SetForceUpdateOnPageLoadParameter(forceUpdateOnPageLoad = forceUpdateOnPageLoad)
     setForceUpdateOnPageLoad(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun skipWaiting(args: SkipWaitingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.skipWaiting", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun skipWaiting(scopeURL: String): Unit {
     val parameter = SkipWaitingParameter(scopeURL = scopeURL)
     skipWaiting(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startWorker(args: StartWorkerParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.startWorker", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startWorker(scopeURL: String): Unit {
     val parameter = StartWorkerParameter(scopeURL = scopeURL)
     startWorker(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopAllWorkers(): Unit {
     val parameter = null
     client.callCommand("ServiceWorker.stopAllWorkers", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopWorker(args: StopWorkerParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.stopWorker", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopWorker(versionId: String): Unit {
     val parameter = StopWorkerParameter(versionId = versionId)
     stopWorker(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun unregister(args: UnregisterParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.unregister", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun unregister(scopeURL: String): Unit {
     val parameter = UnregisterParameter(scopeURL = scopeURL)
     unregister(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun updateRegistration(args: UpdateRegistrationParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("ServiceWorker.updateRegistration", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun updateRegistration(scopeURL: String): Unit {
     val parameter = UpdateRegistrationParameter(scopeURL = scopeURL)
     updateRegistration(parameter)

@@ -11,6 +11,7 @@ val SERIALIZABLE = ClassName("kotlinx.serialization", "Serializable")
 val SERIALNAME = ClassName("kotlinx.serialization", "SerialName")
 val JSONELEMENT = ClassName("kotlinx.serialization.json", "JsonElement")
 val EXPERIMENTAL_COROUTINE_API = ClassName("kotlinx.coroutines", "ExperimentalCoroutinesApi")
+val EXPERIMENTAL_SERIALIZATION_API = ClassName("kotlinx.serialization", "ExperimentalSerializationApi")
 
 fun Domain.generateClassFile(domains: List<Domain>): FileSpec {
     val domainClass = TypeSpec.classBuilder(domain).apply {
@@ -210,6 +211,7 @@ fun Domain.TypeOrReference.resolveType(parentDomain: Domain, domains: List<Domai
 fun Domain.Event.generateEventChanel(parentDomain: Domain, domains: List<Domain>): PropertySpec {
     return PropertySpec.builder(name, FLOW.parameterizedBy(parameterTypeName))
         .addAnnotation(EXPERIMENTAL_COROUTINE_API)
+        .addAnnotation(EXPERIMENTAL_SERIALIZATION_API)
         .initializer(
             """
             client
@@ -272,6 +274,7 @@ val Domain.Event.parameterTypeName: TypeName
 fun Domain.Command.generateMethod(parentDomain: Domain, domains: List<Domain>): FunSpec {
     return FunSpec.builder(name)
         .addAnnotation(EXPERIMENTAL_COROUTINE_API)
+        .addAnnotation(EXPERIMENTAL_SERIALIZATION_API)
         .addModifiers(KModifier.SUSPEND).apply {
             description?.let { addKdoc(it) }
             if (deprecated) {
@@ -318,8 +321,11 @@ fun Domain.Command.generateMethod(parentDomain: Domain, domains: List<Domain>): 
 fun Domain.Command.generateParameterExpandedMethod(parentDomain: Domain, domains: List<Domain>): FunSpec? {
     return if (parameters.isNotEmpty()) {
         FunSpec.builder(name)
+            .addAnnotation(EXPERIMENTAL_COROUTINE_API)
+            .addAnnotation(EXPERIMENTAL_SERIALIZATION_API)
             .addModifiers(KModifier.SUSPEND)
             .apply {
+                description?.let { addKdoc(it) }
                 this@generateParameterExpandedMethod.parameters.forEach {
                     addParameter(ParameterSpec.builder(it.name, it.resolveType(parentDomain, domains))
                         .apply {

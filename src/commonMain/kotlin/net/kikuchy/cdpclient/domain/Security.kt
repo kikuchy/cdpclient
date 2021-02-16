@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -30,6 +31,7 @@ public class Security(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val certificateError: Flow<CertificateErrorParameter> = client
           .events
           .filter {
@@ -44,6 +46,7 @@ public class Security(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val visibleSecurityStateChanged: Flow<VisibleSecurityStateChangedParameter> = client
           .events
           .filter {
@@ -58,6 +61,7 @@ public class Security(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val securityStateChanged: Flow<SecurityStateChangedParameter> = client
           .events
           .filter {
@@ -75,6 +79,7 @@ public class Security(
    * Disables tracking security state changes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Security.disable", parameter)
@@ -84,6 +89,7 @@ public class Security(
    * Enables tracking security state changes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Security.enable", parameter)
@@ -93,11 +99,17 @@ public class Security(
    * Enable/disable whether all certificate errors should be ignored.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setIgnoreCertificateErrors(args: SetIgnoreCertificateErrorsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Security.setIgnoreCertificateErrors", parameter)
   }
 
+  /**
+   * Enable/disable whether all certificate errors should be ignored.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setIgnoreCertificateErrors(ignore: Boolean): Unit {
     val parameter = SetIgnoreCertificateErrorsParameter(ignore = ignore)
     setIgnoreCertificateErrors(parameter)
@@ -107,12 +119,18 @@ public class Security(
    * Handles a certificate error that fired a certificateError event.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   @Deprecated(message = "")
   public suspend fun handleCertificateError(args: HandleCertificateErrorParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Security.handleCertificateError", parameter)
   }
 
+  /**
+   * Handles a certificate error that fired a certificateError event.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun handleCertificateError(eventId: Int, action: CertificateErrorAction): Unit {
     val parameter = HandleCertificateErrorParameter(eventId = eventId,action = action)
     handleCertificateError(parameter)
@@ -124,6 +142,7 @@ public class Security(
    * commands.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   @Deprecated(message = "")
   public suspend fun setOverrideCertificateErrors(args: SetOverrideCertificateErrorsParameter):
       Unit {
@@ -131,6 +150,13 @@ public class Security(
     client.callCommand("Security.setOverrideCertificateErrors", parameter)
   }
 
+  /**
+   * Enable/disable overriding certificate errors. If enabled, all certificate error events need to
+   * be handled by the DevTools client and should be answered with `handleCertificateError`
+   * commands.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setOverrideCertificateErrors(`override`: Boolean): Unit {
     val parameter = SetOverrideCertificateErrorsParameter(override = override)
     setOverrideCertificateErrors(parameter)

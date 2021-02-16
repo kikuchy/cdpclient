@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -27,6 +28,7 @@ public class LayerTree(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val layerPainted: Flow<LayerPaintedParameter> = client
           .events
           .filter {
@@ -41,6 +43,7 @@ public class LayerTree(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val layerTreeDidChange: Flow<LayerTreeDidChangeParameter> = client
           .events
           .filter {
@@ -58,6 +61,7 @@ public class LayerTree(
    * Provides the reasons why the given layer was composited.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun compositingReasons(args: CompositingReasonsParameter):
       CompositingReasonsReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -65,6 +69,11 @@ public class LayerTree(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Provides the reasons why the given layer was composited.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun compositingReasons(layerId: String): CompositingReasonsReturn {
     val parameter = CompositingReasonsParameter(layerId = layerId)
     return compositingReasons(parameter)
@@ -74,6 +83,7 @@ public class LayerTree(
    * Disables compositing tree inspection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("LayerTree.disable", parameter)
@@ -83,6 +93,7 @@ public class LayerTree(
    * Enables compositing tree inspection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("LayerTree.enable", parameter)
@@ -92,12 +103,18 @@ public class LayerTree(
    * Returns the snapshot identifier.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun loadSnapshot(args: LoadSnapshotParameter): LoadSnapshotReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.loadSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the snapshot identifier.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun loadSnapshot(tiles: List<PictureTile>): LoadSnapshotReturn {
     val parameter = LoadSnapshotParameter(tiles = tiles)
     return loadSnapshot(parameter)
@@ -107,24 +124,33 @@ public class LayerTree(
    * Returns the layer snapshot identifier.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun makeSnapshot(args: MakeSnapshotParameter): MakeSnapshotReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.makeSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the layer snapshot identifier.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun makeSnapshot(layerId: String): MakeSnapshotReturn {
     val parameter = MakeSnapshotParameter(layerId = layerId)
     return makeSnapshot(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun profileSnapshot(args: ProfileSnapshotParameter): ProfileSnapshotReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.profileSnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun profileSnapshot(
     snapshotId: String,
     minRepeatCount: Int? = null,
@@ -140,11 +166,17 @@ public class LayerTree(
    * Releases layer snapshot captured by the back-end.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseSnapshot(args: ReleaseSnapshotParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("LayerTree.releaseSnapshot", parameter)
   }
 
+  /**
+   * Releases layer snapshot captured by the back-end.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun releaseSnapshot(snapshotId: String): Unit {
     val parameter = ReleaseSnapshotParameter(snapshotId = snapshotId)
     releaseSnapshot(parameter)
@@ -154,12 +186,18 @@ public class LayerTree(
    * Replays the layer snapshot and returns the resulting bitmap.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun replaySnapshot(args: ReplaySnapshotParameter): ReplaySnapshotReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("LayerTree.replaySnapshot", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Replays the layer snapshot and returns the resulting bitmap.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun replaySnapshot(
     snapshotId: String,
     fromStep: Int? = null,
@@ -175,6 +213,7 @@ public class LayerTree(
    * Replays the layer snapshot and returns canvas log.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun snapshotCommandLog(args: SnapshotCommandLogParameter):
       SnapshotCommandLogReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -182,6 +221,11 @@ public class LayerTree(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Replays the layer snapshot and returns canvas log.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun snapshotCommandLog(snapshotId: String): SnapshotCommandLogReturn {
     val parameter = SnapshotCommandLogParameter(snapshotId = snapshotId)
     return snapshotCommandLog(parameter)

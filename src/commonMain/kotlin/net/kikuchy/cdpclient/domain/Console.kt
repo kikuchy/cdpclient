@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,6 +26,7 @@ public class Console(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val messageAdded: Flow<MessageAddedParameter> = client
           .events
           .filter {
@@ -42,6 +44,7 @@ public class Console(
    * Does nothing.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearMessages(): Unit {
     val parameter = null
     client.callCommand("Console.clearMessages", parameter)
@@ -51,6 +54,7 @@ public class Console(
    * Disables console domain, prevents further console messages from being reported to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Console.disable", parameter)
@@ -61,6 +65,7 @@ public class Console(
    * `messageAdded` notification.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Console.enable", parameter)

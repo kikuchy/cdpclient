@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -24,6 +25,7 @@ public class Performance(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val metrics: Flow<MetricsParameter> = client
           .events
           .filter {
@@ -41,6 +43,7 @@ public class Performance(
    * Disable collecting and reporting metrics.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Performance.disable", parameter)
@@ -50,11 +53,17 @@ public class Performance(
    * Enable collecting and reporting metrics.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(args: EnableParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Performance.enable", parameter)
   }
 
+  /**
+   * Enable collecting and reporting metrics.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(timeDomain: String? = null): Unit {
     val parameter = EnableParameter(timeDomain = timeDomain)
     enable(parameter)
@@ -66,12 +75,20 @@ public class Performance(
    * this method while metrics collection is enabled returns an error.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   @Deprecated(message = "")
   public suspend fun setTimeDomain(args: SetTimeDomainParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Performance.setTimeDomain", parameter)
   }
 
+  /**
+   * Sets time domain to use for collecting and reporting duration metrics.
+   * Note that this must be called before enabling metrics collection. Calling
+   * this method while metrics collection is enabled returns an error.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setTimeDomain(timeDomain: String): Unit {
     val parameter = SetTimeDomainParameter(timeDomain = timeDomain)
     setTimeDomain(parameter)
@@ -81,6 +98,7 @@ public class Performance(
    * Retrieve current values of run-time metrics.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getMetrics(): GetMetricsReturn {
     val parameter = null
     val result = client.callCommand("Performance.getMetrics", parameter)

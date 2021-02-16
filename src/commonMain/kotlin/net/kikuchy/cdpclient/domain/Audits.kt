@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -29,6 +30,7 @@ public class Audits(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val issueAdded: Flow<IssueAddedParameter> = client
           .events
           .filter {
@@ -47,6 +49,7 @@ public class Audits(
    * applies to images.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getEncodedResponse(args: GetEncodedResponseParameter):
       GetEncodedResponseReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -54,6 +57,12 @@ public class Audits(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns the response body and size if it were re-encoded with the specified settings. Only
+   * applies to images.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getEncodedResponse(
     requestId: String,
     encoding: String,
@@ -69,6 +78,7 @@ public class Audits(
    * Disables issues domain, prevents further issues from being reported to the client.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Audits.disable", parameter)
@@ -79,6 +89,7 @@ public class Audits(
    * `issueAdded` event.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Audits.enable", parameter)
@@ -89,6 +100,7 @@ public class Audits(
    * using Audits.issueAdded event.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun checkContrast(): Unit {
     val parameter = null
     client.callCommand("Audits.checkContrast", parameter)

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -25,6 +26,7 @@ public class Storage(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val cacheStorageContentUpdated: Flow<CacheStorageContentUpdatedParameter> = client
           .events
           .filter {
@@ -39,6 +41,7 @@ public class Storage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val cacheStorageListUpdated: Flow<CacheStorageListUpdatedParameter> = client
           .events
           .filter {
@@ -53,6 +56,7 @@ public class Storage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val indexedDBContentUpdated: Flow<IndexedDBContentUpdatedParameter> = client
           .events
           .filter {
@@ -67,6 +71,7 @@ public class Storage(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val indexedDBListUpdated: Flow<IndexedDBListUpdatedParameter> = client
           .events
           .filter {
@@ -84,11 +89,17 @@ public class Storage(
    * Clears storage for origin.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearDataForOrigin(args: ClearDataForOriginParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.clearDataForOrigin", parameter)
   }
 
+  /**
+   * Clears storage for origin.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearDataForOrigin(origin: String, storageTypes: String): Unit {
     val parameter = ClearDataForOriginParameter(origin = origin,storageTypes = storageTypes)
     clearDataForOrigin(parameter)
@@ -98,12 +109,18 @@ public class Storage(
    * Returns all browser cookies.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getCookies(args: GetCookiesParameter): GetCookiesReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Storage.getCookies", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns all browser cookies.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getCookies(browserContextId: String? = null): GetCookiesReturn {
     val parameter = GetCookiesParameter(browserContextId = browserContextId)
     return getCookies(parameter)
@@ -113,11 +130,17 @@ public class Storage(
    * Sets given cookies.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setCookies(args: SetCookiesParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.setCookies", parameter)
   }
 
+  /**
+   * Sets given cookies.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setCookies(cookies: List<Network.CookieParam>, browserContextId: String? =
       null): Unit {
     val parameter = SetCookiesParameter(cookies = cookies,browserContextId = browserContextId)
@@ -128,11 +151,17 @@ public class Storage(
    * Clears cookies.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearCookies(args: ClearCookiesParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.clearCookies", parameter)
   }
 
+  /**
+   * Clears cookies.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun clearCookies(browserContextId: String? = null): Unit {
     val parameter = ClearCookiesParameter(browserContextId = browserContextId)
     clearCookies(parameter)
@@ -142,12 +171,18 @@ public class Storage(
    * Returns usage and quota in bytes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getUsageAndQuota(args: GetUsageAndQuotaParameter): GetUsageAndQuotaReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Storage.getUsageAndQuota", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns usage and quota in bytes.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getUsageAndQuota(origin: String): GetUsageAndQuotaReturn {
     val parameter = GetUsageAndQuotaParameter(origin = origin)
     return getUsageAndQuota(parameter)
@@ -157,11 +192,17 @@ public class Storage(
    * Override quota for the specified origin
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun overrideQuotaForOrigin(args: OverrideQuotaForOriginParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.overrideQuotaForOrigin", parameter)
   }
 
+  /**
+   * Override quota for the specified origin
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun overrideQuotaForOrigin(origin: String, quotaSize: Double? = null): Unit {
     val parameter = OverrideQuotaForOriginParameter(origin = origin,quotaSize = quotaSize)
     overrideQuotaForOrigin(parameter)
@@ -171,11 +212,17 @@ public class Storage(
    * Registers origin to be notified when an update occurs to its cache storage list.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun trackCacheStorageForOrigin(args: TrackCacheStorageForOriginParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.trackCacheStorageForOrigin", parameter)
   }
 
+  /**
+   * Registers origin to be notified when an update occurs to its cache storage list.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun trackCacheStorageForOrigin(origin: String): Unit {
     val parameter = TrackCacheStorageForOriginParameter(origin = origin)
     trackCacheStorageForOrigin(parameter)
@@ -185,11 +232,17 @@ public class Storage(
    * Registers origin to be notified when an update occurs to its IndexedDB.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun trackIndexedDBForOrigin(args: TrackIndexedDBForOriginParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.trackIndexedDBForOrigin", parameter)
   }
 
+  /**
+   * Registers origin to be notified when an update occurs to its IndexedDB.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun trackIndexedDBForOrigin(origin: String): Unit {
     val parameter = TrackIndexedDBForOriginParameter(origin = origin)
     trackIndexedDBForOrigin(parameter)
@@ -199,12 +252,18 @@ public class Storage(
    * Unregisters origin from receiving notifications for cache storage.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun untrackCacheStorageForOrigin(args: UntrackCacheStorageForOriginParameter):
       Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.untrackCacheStorageForOrigin", parameter)
   }
 
+  /**
+   * Unregisters origin from receiving notifications for cache storage.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun untrackCacheStorageForOrigin(origin: String): Unit {
     val parameter = UntrackCacheStorageForOriginParameter(origin = origin)
     untrackCacheStorageForOrigin(parameter)
@@ -214,11 +273,17 @@ public class Storage(
    * Unregisters origin from receiving notifications for IndexedDB.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun untrackIndexedDBForOrigin(args: UntrackIndexedDBForOriginParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Storage.untrackIndexedDBForOrigin", parameter)
   }
 
+  /**
+   * Unregisters origin from receiving notifications for IndexedDB.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun untrackIndexedDBForOrigin(origin: String): Unit {
     val parameter = UntrackIndexedDBForOriginParameter(origin = origin)
     untrackIndexedDBForOrigin(parameter)
@@ -229,6 +294,7 @@ public class Storage(
    * current browsing context.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getTrustTokens(): GetTrustTokensReturn {
     val parameter = null
     val result = client.callCommand("Storage.getTrustTokens", parameter)

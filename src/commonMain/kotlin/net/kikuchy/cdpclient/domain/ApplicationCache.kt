@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,6 +26,7 @@ public class ApplicationCache(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val applicationCacheStatusUpdated: Flow<ApplicationCacheStatusUpdatedParameter> = client
           .events
           .filter {
@@ -39,6 +41,7 @@ public class ApplicationCache(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val networkStateUpdated: Flow<NetworkStateUpdatedParameter> = client
           .events
           .filter {
@@ -56,6 +59,7 @@ public class ApplicationCache(
    * Enables application cache domain notifications.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("ApplicationCache.enable", parameter)
@@ -65,6 +69,7 @@ public class ApplicationCache(
    * Returns relevant application cache data for the document in given frame.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getApplicationCacheForFrame(args: GetApplicationCacheForFrameParameter):
       GetApplicationCacheForFrameReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -72,6 +77,11 @@ public class ApplicationCache(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns relevant application cache data for the document in given frame.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getApplicationCacheForFrame(frameId: String):
       GetApplicationCacheForFrameReturn {
     val parameter = GetApplicationCacheForFrameParameter(frameId = frameId)
@@ -83,6 +93,7 @@ public class ApplicationCache(
    * associated with some application cache.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getFramesWithManifests(): GetFramesWithManifestsReturn {
     val parameter = null
     val result = client.callCommand("ApplicationCache.getFramesWithManifests", parameter)
@@ -93,6 +104,7 @@ public class ApplicationCache(
    * Returns manifest URL for document in the given frame.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getManifestForFrame(args: GetManifestForFrameParameter):
       GetManifestForFrameReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -100,6 +112,11 @@ public class ApplicationCache(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Returns manifest URL for document in the given frame.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getManifestForFrame(frameId: String): GetManifestForFrameReturn {
     val parameter = GetManifestForFrameParameter(frameId = frameId)
     return getManifestForFrame(parameter)

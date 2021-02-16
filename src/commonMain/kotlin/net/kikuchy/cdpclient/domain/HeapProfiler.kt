@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,6 +26,7 @@ public class HeapProfiler(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val addHeapSnapshotChunk: Flow<AddHeapSnapshotChunkParameter> = client
           .events
           .filter {
@@ -39,6 +41,7 @@ public class HeapProfiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val heapStatsUpdate: Flow<HeapStatsUpdateParameter> = client
           .events
           .filter {
@@ -53,6 +56,7 @@ public class HeapProfiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val lastSeenObjectId: Flow<LastSeenObjectIdParameter> = client
           .events
           .filter {
@@ -67,6 +71,7 @@ public class HeapProfiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val reportHeapSnapshotProgress: Flow<ReportHeapSnapshotProgressParameter> = client
           .events
           .filter {
@@ -81,6 +86,7 @@ public class HeapProfiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val resetProfiles: Flow<Unit> = client
           .events
           .filter {
@@ -100,47 +106,62 @@ public class HeapProfiler(
    * $x functions).
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun addInspectedHeapObject(args: AddInspectedHeapObjectParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.addInspectedHeapObject", parameter)
   }
 
+  /**
+   * Enables console to refer to the node with given id via $x (see Command Line API for more
+   * details
+   * $x functions).
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun addInspectedHeapObject(heapObjectId: String): Unit {
     val parameter = AddInspectedHeapObjectParameter(heapObjectId = heapObjectId)
     addInspectedHeapObject(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun collectGarbage(): Unit {
     val parameter = null
     client.callCommand("HeapProfiler.collectGarbage", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("HeapProfiler.disable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("HeapProfiler.enable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getHeapObjectId(args: GetHeapObjectIdParameter): GetHeapObjectIdReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("HeapProfiler.getHeapObjectId", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getHeapObjectId(objectId: String): GetHeapObjectIdReturn {
     val parameter = GetHeapObjectIdParameter(objectId = objectId)
     return getHeapObjectId(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getObjectByHeapObjectId(args: GetObjectByHeapObjectIdParameter):
       GetObjectByHeapObjectIdReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -148,6 +169,8 @@ public class HeapProfiler(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getObjectByHeapObjectId(objectId: String, objectGroup: String? = null):
       GetObjectByHeapObjectIdReturn {
     val parameter = GetObjectByHeapObjectIdParameter(objectId = objectId,objectGroup = objectGroup)
@@ -155,6 +178,7 @@ public class HeapProfiler(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getSamplingProfile(): GetSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("HeapProfiler.getSamplingProfile", parameter)
@@ -162,28 +186,35 @@ public class HeapProfiler(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startSampling(args: StartSamplingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.startSampling", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startSampling(samplingInterval: Double? = null): Unit {
     val parameter = StartSamplingParameter(samplingInterval = samplingInterval)
     startSampling(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startTrackingHeapObjects(args: StartTrackingHeapObjectsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.startTrackingHeapObjects", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startTrackingHeapObjects(trackAllocations: Boolean? = null): Unit {
     val parameter = StartTrackingHeapObjectsParameter(trackAllocations = trackAllocations)
     startTrackingHeapObjects(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopSampling(): StopSamplingReturn {
     val parameter = null
     val result = client.callCommand("HeapProfiler.stopSampling", parameter)
@@ -191,11 +222,14 @@ public class HeapProfiler(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopTrackingHeapObjects(args: StopTrackingHeapObjectsParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.stopTrackingHeapObjects", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopTrackingHeapObjects(reportProgress: Boolean? = null,
       treatGlobalObjectsAsRoots: Boolean? = null): Unit {
     val parameter = StopTrackingHeapObjectsParameter(reportProgress =
@@ -204,11 +238,14 @@ public class HeapProfiler(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun takeHeapSnapshot(args: TakeHeapSnapshotParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("HeapProfiler.takeHeapSnapshot", parameter)
   }
 
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun takeHeapSnapshot(reportProgress: Boolean? = null,
       treatGlobalObjectsAsRoots: Boolean? = null): Unit {
     val parameter = TakeHeapSnapshotParameter(reportProgress =

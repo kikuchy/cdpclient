@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -26,6 +27,7 @@ public class Tracing(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val bufferUsage: Flow<BufferUsageParameter> = client
           .events
           .filter {
@@ -40,6 +42,7 @@ public class Tracing(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val dataCollected: Flow<DataCollectedParameter> = client
           .events
           .filter {
@@ -54,6 +57,7 @@ public class Tracing(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val tracingComplete: Flow<TracingCompleteParameter> = client
           .events
           .filter {
@@ -71,6 +75,7 @@ public class Tracing(
    * Stop trace events collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun end(): Unit {
     val parameter = null
     client.callCommand("Tracing.end", parameter)
@@ -80,6 +85,7 @@ public class Tracing(
    * Gets supported tracing categories.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getCategories(): GetCategoriesReturn {
     val parameter = null
     val result = client.callCommand("Tracing.getCategories", parameter)
@@ -90,11 +96,17 @@ public class Tracing(
    * Record a clock sync marker in the trace.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun recordClockSyncMarker(args: RecordClockSyncMarkerParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tracing.recordClockSyncMarker", parameter)
   }
 
+  /**
+   * Record a clock sync marker in the trace.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun recordClockSyncMarker(syncId: String): Unit {
     val parameter = RecordClockSyncMarkerParameter(syncId = syncId)
     recordClockSyncMarker(parameter)
@@ -104,12 +116,18 @@ public class Tracing(
    * Request a global memory dump.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestMemoryDump(args: RequestMemoryDumpParameter): RequestMemoryDumpReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     val result = client.callCommand("Tracing.requestMemoryDump", parameter)
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Request a global memory dump.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun requestMemoryDump(deterministic: Boolean? = null,
       levelOfDetail: MemoryDumpLevelOfDetail? = null): RequestMemoryDumpReturn {
     val parameter = RequestMemoryDumpParameter(deterministic = deterministic,levelOfDetail =
@@ -121,11 +139,17 @@ public class Tracing(
    * Start trace events collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun start(args: StartParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Tracing.start", parameter)
   }
 
+  /**
+   * Start trace events collection.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun start(
     categories: String? = null,
     options: String? = null,

@@ -10,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -25,6 +26,7 @@ public class Memory(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getDOMCounters(): GetDOMCountersReturn {
     val parameter = null
     val result = client.callCommand("Memory.getDOMCounters", parameter)
@@ -32,6 +34,7 @@ public class Memory(
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun prepareForLeakDetection(): Unit {
     val parameter = null
     client.callCommand("Memory.prepareForLeakDetection", parameter)
@@ -41,6 +44,7 @@ public class Memory(
    * Simulate OomIntervention by purging V8 memory.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun forciblyPurgeJavaScriptMemory(): Unit {
     val parameter = null
     client.callCommand("Memory.forciblyPurgeJavaScriptMemory", parameter)
@@ -50,6 +54,7 @@ public class Memory(
    * Enable/disable suppressing memory pressure notifications in all processes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend
       fun setPressureNotificationsSuppressed(args: SetPressureNotificationsSuppressedParameter):
       Unit {
@@ -57,6 +62,11 @@ public class Memory(
     client.callCommand("Memory.setPressureNotificationsSuppressed", parameter)
   }
 
+  /**
+   * Enable/disable suppressing memory pressure notifications in all processes.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setPressureNotificationsSuppressed(suppressed: Boolean): Unit {
     val parameter = SetPressureNotificationsSuppressedParameter(suppressed = suppressed)
     setPressureNotificationsSuppressed(parameter)
@@ -66,12 +76,18 @@ public class Memory(
    * Simulate a memory pressure notification in all processes.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun simulatePressureNotification(args: SimulatePressureNotificationParameter):
       Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Memory.simulatePressureNotification", parameter)
   }
 
+  /**
+   * Simulate a memory pressure notification in all processes.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun simulatePressureNotification(level: PressureLevel): Unit {
     val parameter = SimulatePressureNotificationParameter(level = level)
     simulatePressureNotification(parameter)
@@ -81,11 +97,17 @@ public class Memory(
    * Start collecting native memory profile.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startSampling(args: StartSamplingParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Memory.startSampling", parameter)
   }
 
+  /**
+   * Start collecting native memory profile.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startSampling(samplingInterval: Int? = null, suppressRandomness: Boolean? =
       null): Unit {
     val parameter = StartSamplingParameter(samplingInterval = samplingInterval,suppressRandomness =
@@ -97,6 +119,7 @@ public class Memory(
    * Stop collecting native memory profile.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopSampling(): Unit {
     val parameter = null
     client.callCommand("Memory.stopSampling", parameter)
@@ -107,6 +130,7 @@ public class Memory(
    * collected since renderer process startup.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getAllTimeSamplingProfile(): GetAllTimeSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("Memory.getAllTimeSamplingProfile", parameter)
@@ -118,6 +142,7 @@ public class Memory(
    * collected since browser process startup.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getBrowserSamplingProfile(): GetBrowserSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("Memory.getBrowserSamplingProfile", parameter)
@@ -129,6 +154,7 @@ public class Memory(
    * `startSampling` call.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getSamplingProfile(): GetSamplingProfileReturn {
     val parameter = null
     val result = client.callCommand("Memory.getSamplingProfile", parameter)

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,6 +26,7 @@ public class Profiler(
   private val client: CDPClient
 ) : Domain {
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val consoleProfileFinished: Flow<ConsoleProfileFinishedParameter> = client
           .events
           .filter {
@@ -39,6 +41,7 @@ public class Profiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val consoleProfileStarted: Flow<ConsoleProfileStartedParameter> = client
           .events
           .filter {
@@ -53,6 +56,7 @@ public class Profiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public val preciseCoverageDeltaUpdate: Flow<PreciseCoverageDeltaUpdateParameter> = client
           .events
           .filter {
@@ -67,12 +71,14 @@ public class Profiler(
           }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disable(): Unit {
     val parameter = null
     client.callCommand("Profiler.disable", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enable(): Unit {
     val parameter = null
     client.callCommand("Profiler.enable", parameter)
@@ -83,6 +89,7 @@ public class Profiler(
    * garbage collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getBestEffortCoverage(): GetBestEffortCoverageReturn {
     val parameter = null
     val result = client.callCommand("Profiler.getBestEffortCoverage", parameter)
@@ -93,17 +100,24 @@ public class Profiler(
    * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setSamplingInterval(args: SetSamplingIntervalParameter): Unit {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
     client.callCommand("Profiler.setSamplingInterval", parameter)
   }
 
+  /**
+   * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun setSamplingInterval(interval: Int): Unit {
     val parameter = SetSamplingIntervalParameter(interval = interval)
     setSamplingInterval(parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun start(): Unit {
     val parameter = null
     client.callCommand("Profiler.start", parameter)
@@ -116,6 +130,7 @@ public class Profiler(
    * counters.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startPreciseCoverage(args: StartPreciseCoverageParameter):
       StartPreciseCoverageReturn {
     val parameter = Json { encodeDefaults = false }.encodeToJsonElement(args)
@@ -123,6 +138,14 @@ public class Profiler(
     return result!!.let { Json.decodeFromJsonElement(it) }
   }
 
+  /**
+   * Enable precise code coverage. Coverage data for JavaScript executed before enabling precise
+   * code
+   * coverage may be incomplete. Enabling prevents running optimized code and resets execution
+   * counters.
+   */
+  @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startPreciseCoverage(
     callCount: Boolean? = null,
     detailed: Boolean? = null,
@@ -137,12 +160,14 @@ public class Profiler(
    * Enable type profile.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun startTypeProfile(): Unit {
     val parameter = null
     client.callCommand("Profiler.startTypeProfile", parameter)
   }
 
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stop(): StopReturn {
     val parameter = null
     val result = client.callCommand("Profiler.stop", parameter)
@@ -155,6 +180,7 @@ public class Profiler(
    * executing optimized code.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopPreciseCoverage(): Unit {
     val parameter = null
     client.callCommand("Profiler.stopPreciseCoverage", parameter)
@@ -164,6 +190,7 @@ public class Profiler(
    * Disable type profile. Disabling releases type profile data collected so far.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun stopTypeProfile(): Unit {
     val parameter = null
     client.callCommand("Profiler.stopTypeProfile", parameter)
@@ -174,6 +201,7 @@ public class Profiler(
    * coverage needs to have started.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun takePreciseCoverage(): TakePreciseCoverageReturn {
     val parameter = null
     val result = client.callCommand("Profiler.takePreciseCoverage", parameter)
@@ -184,6 +212,7 @@ public class Profiler(
    * Collect type profile.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun takeTypeProfile(): TakeTypeProfileReturn {
     val parameter = null
     val result = client.callCommand("Profiler.takeTypeProfile", parameter)
@@ -194,6 +223,7 @@ public class Profiler(
    * Enable counters collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enableCounters(): Unit {
     val parameter = null
     client.callCommand("Profiler.enableCounters", parameter)
@@ -203,6 +233,7 @@ public class Profiler(
    * Disable counters collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disableCounters(): Unit {
     val parameter = null
     client.callCommand("Profiler.disableCounters", parameter)
@@ -212,6 +243,7 @@ public class Profiler(
    * Retrieve counters.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getCounters(): GetCountersReturn {
     val parameter = null
     val result = client.callCommand("Profiler.getCounters", parameter)
@@ -222,6 +254,7 @@ public class Profiler(
    * Enable run time call stats collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun enableRuntimeCallStats(): Unit {
     val parameter = null
     client.callCommand("Profiler.enableRuntimeCallStats", parameter)
@@ -231,6 +264,7 @@ public class Profiler(
    * Disable run time call stats collection.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun disableRuntimeCallStats(): Unit {
     val parameter = null
     client.callCommand("Profiler.disableRuntimeCallStats", parameter)
@@ -240,6 +274,7 @@ public class Profiler(
    * Retrieve run time call stats.
    */
   @ExperimentalCoroutinesApi
+  @ExperimentalSerializationApi
   public suspend fun getRuntimeCallStats(): GetRuntimeCallStatsReturn {
     val parameter = null
     val result = client.callCommand("Profiler.getRuntimeCallStats", parameter)
