@@ -179,7 +179,7 @@ public class Animation(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun seekAnimations(animations: String, currentTime: Double): Unit {
-    val parameter = SeekAnimationsParameter(animations = animations,currentTime = currentTime)
+    val parameter = SeekAnimationsParameter(animations = animations, currentTime = currentTime)
     seekAnimations(parameter)
   }
 
@@ -199,7 +199,7 @@ public class Animation(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setPaused(animations: String, paused: Boolean): Unit {
-    val parameter = SetPausedParameter(animations = animations,paused = paused)
+    val parameter = SetPausedParameter(animations = animations, paused = paused)
     setPaused(parameter)
   }
 
@@ -243,7 +243,8 @@ public class Animation(
     duration: Double,
     delay: Double
   ): Unit {
-    val parameter = SetTimingParameter(animationId = animationId,duration = duration,delay = delay)
+    val parameter = SetTimingParameter(animationId = animationId, duration = duration, delay =
+        delay)
     setTiming(parameter)
   }
 

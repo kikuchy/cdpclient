@@ -171,7 +171,7 @@ public class Target(
   @ExperimentalSerializationApi
   public suspend fun attachToTarget(targetId: String, flatten: Boolean? = null):
       AttachToTargetReturn {
-    val parameter = AttachToTargetParameter(targetId = targetId,flatten = flatten)
+    val parameter = AttachToTargetParameter(targetId = targetId, flatten = flatten)
     return attachToTarget(parameter)
   }
 
@@ -239,7 +239,7 @@ public class Target(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun exposeDevToolsProtocol(targetId: String, bindingName: String? = null): Unit {
-    val parameter = ExposeDevToolsProtocolParameter(targetId = targetId,bindingName = bindingName)
+    val parameter = ExposeDevToolsProtocolParameter(targetId = targetId, bindingName = bindingName)
     exposeDevToolsProtocol(parameter)
   }
 
@@ -267,8 +267,8 @@ public class Target(
     proxyServer: String? = null,
     proxyBypassList: String? = null
   ): CreateBrowserContextReturn {
-    val parameter = CreateBrowserContextParameter(disposeOnDetach = disposeOnDetach,proxyServer =
-        proxyServer,proxyBypassList = proxyBypassList)
+    val parameter = CreateBrowserContextParameter(disposeOnDetach = disposeOnDetach, proxyServer =
+        proxyServer, proxyBypassList = proxyBypassList)
     return createBrowserContext(parameter)
   }
 
@@ -308,9 +308,9 @@ public class Target(
     newWindow: Boolean? = null,
     background: Boolean? = null
   ): CreateTargetReturn {
-    val parameter = CreateTargetParameter(url = url,width = width,height = height,browserContextId =
-        browserContextId,enableBeginFrameControl = enableBeginFrameControl,newWindow =
-        newWindow,background = background)
+    val parameter = CreateTargetParameter(url = url, width = width, height = height,
+        browserContextId = browserContextId, enableBeginFrameControl = enableBeginFrameControl,
+        newWindow = newWindow, background = background)
     return createTarget(parameter)
   }
 
@@ -330,7 +330,7 @@ public class Target(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun detachFromTarget(sessionId: String? = null, targetId: String? = null): Unit {
-    val parameter = DetachFromTargetParameter(sessionId = sessionId,targetId = targetId)
+    val parameter = DetachFromTargetParameter(sessionId = sessionId, targetId = targetId)
     detachFromTarget(parameter)
   }
 
@@ -408,13 +408,14 @@ public class Target(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun sendMessageToTarget(
     message: String,
     sessionId: String? = null,
     targetId: String? = null
   ): Unit {
-    val parameter = SendMessageToTargetParameter(message = message,sessionId = sessionId,targetId =
-        targetId)
+    val parameter = SendMessageToTargetParameter(message = message, sessionId = sessionId, targetId
+        = targetId)
     sendMessageToTarget(parameter)
   }
 
@@ -442,8 +443,8 @@ public class Target(
     waitForDebuggerOnStart: Boolean,
     flatten: Boolean? = null
   ): Unit {
-    val parameter = SetAutoAttachParameter(autoAttach = autoAttach,waitForDebuggerOnStart =
-        waitForDebuggerOnStart,flatten = flatten)
+    val parameter = SetAutoAttachParameter(autoAttach = autoAttach, waitForDebuggerOnStart =
+        waitForDebuggerOnStart, flatten = flatten)
     setAutoAttach(parameter)
   }
 

@@ -101,7 +101,7 @@ public class Storage(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun clearDataForOrigin(origin: String, storageTypes: String): Unit {
-    val parameter = ClearDataForOriginParameter(origin = origin,storageTypes = storageTypes)
+    val parameter = ClearDataForOriginParameter(origin = origin, storageTypes = storageTypes)
     clearDataForOrigin(parameter)
   }
 
@@ -143,7 +143,7 @@ public class Storage(
   @ExperimentalSerializationApi
   public suspend fun setCookies(cookies: List<Network.CookieParam>, browserContextId: String? =
       null): Unit {
-    val parameter = SetCookiesParameter(cookies = cookies,browserContextId = browserContextId)
+    val parameter = SetCookiesParameter(cookies = cookies, browserContextId = browserContextId)
     setCookies(parameter)
   }
 
@@ -204,7 +204,7 @@ public class Storage(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun overrideQuotaForOrigin(origin: String, quotaSize: Double? = null): Unit {
-    val parameter = OverrideQuotaForOriginParameter(origin = origin,quotaSize = quotaSize)
+    val parameter = OverrideQuotaForOriginParameter(origin = origin, quotaSize = quotaSize)
     overrideQuotaForOrigin(parameter)
   }
 

@@ -151,8 +151,8 @@ public class Profiler(
     detailed: Boolean? = null,
     allowTriggeredUpdates: Boolean? = null
   ): StartPreciseCoverageReturn {
-    val parameter = StartPreciseCoverageParameter(callCount = callCount,detailed =
-        detailed,allowTriggeredUpdates = allowTriggeredUpdates)
+    val parameter = StartPreciseCoverageParameter(callCount = callCount, detailed = detailed,
+        allowTriggeredUpdates = allowTriggeredUpdates)
     return startPreciseCoverage(parameter)
   }
 

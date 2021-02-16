@@ -70,8 +70,8 @@ public class Accessibility(
     objectId: String? = null,
     fetchRelatives: Boolean? = null
   ): GetPartialAXTreeReturn {
-    val parameter = GetPartialAXTreeParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId
-        = objectId,fetchRelatives = fetchRelatives)
+    val parameter = GetPartialAXTreeParameter(nodeId = nodeId, backendNodeId = backendNodeId,
+        objectId = objectId, fetchRelatives = fetchRelatives)
     return getPartialAXTree(parameter)
   }
 
@@ -150,8 +150,8 @@ public class Accessibility(
     accessibleName: String? = null,
     role: String? = null
   ): QueryAXTreeReturn {
-    val parameter = QueryAXTreeParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId =
-        objectId,accessibleName = accessibleName,role = role)
+    val parameter = QueryAXTreeParameter(nodeId = nodeId, backendNodeId = backendNodeId, objectId =
+        objectId, accessibleName = accessibleName, role = role)
     return queryAXTree(parameter)
   }
 

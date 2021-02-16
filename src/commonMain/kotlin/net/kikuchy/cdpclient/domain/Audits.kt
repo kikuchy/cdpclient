@@ -69,8 +69,8 @@ public class Audits(
     quality: Double? = null,
     sizeOnly: Boolean? = null
   ): GetEncodedResponseReturn {
-    val parameter = GetEncodedResponseParameter(requestId = requestId,encoding = encoding,quality =
-        quality,sizeOnly = sizeOnly)
+    val parameter = GetEncodedResponseParameter(requestId = requestId, encoding = encoding, quality
+        = quality, sizeOnly = sizeOnly)
     return getEncodedResponse(parameter)
   }
 

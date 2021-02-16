@@ -110,7 +110,7 @@ public class Memory(
   @ExperimentalSerializationApi
   public suspend fun startSampling(samplingInterval: Int? = null, suppressRandomness: Boolean? =
       null): Unit {
-    val parameter = StartSamplingParameter(samplingInterval = samplingInterval,suppressRandomness =
+    val parameter = StartSamplingParameter(samplingInterval = samplingInterval, suppressRandomness =
         suppressRandomness)
     startSampling(parameter)
   }

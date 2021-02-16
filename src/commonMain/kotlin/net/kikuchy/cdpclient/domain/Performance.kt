@@ -89,6 +89,7 @@ public class Performance(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setTimeDomain(timeDomain: String): Unit {
     val parameter = SetTimeDomainParameter(timeDomain = timeDomain)
     setTimeDomain(parameter)

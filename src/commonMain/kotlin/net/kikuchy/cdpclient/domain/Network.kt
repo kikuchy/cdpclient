@@ -461,6 +461,7 @@ public class Network(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun continueInterceptedRequest(
     interceptionId: String,
     errorReason: ErrorReason? = null,
@@ -471,9 +472,9 @@ public class Network(
     headers: Map<String, JsonElement>? = null,
     authChallengeResponse: AuthChallengeResponse? = null
   ): Unit {
-    val parameter = ContinueInterceptedRequestParameter(interceptionId = interceptionId,errorReason
-        = errorReason,rawResponse = rawResponse,url = url,method = method,postData =
-        postData,headers = headers,authChallengeResponse = authChallengeResponse)
+    val parameter = ContinueInterceptedRequestParameter(interceptionId = interceptionId, errorReason
+        = errorReason, rawResponse = rawResponse, url = url, method = method, postData = postData,
+        headers = headers, authChallengeResponse = authChallengeResponse)
     continueInterceptedRequest(parameter)
   }
 
@@ -498,7 +499,7 @@ public class Network(
     domain: String? = null,
     path: String? = null
   ): Unit {
-    val parameter = DeleteCookiesParameter(name = name,url = url,domain = domain,path = path)
+    val parameter = DeleteCookiesParameter(name = name, url = url, domain = domain, path = path)
     deleteCookies(parameter)
   }
 
@@ -534,9 +535,9 @@ public class Network(
     uploadThroughput: Double,
     connectionType: ConnectionType? = null
   ): Unit {
-    val parameter = EmulateNetworkConditionsParameter(offline = offline,latency =
-        latency,downloadThroughput = downloadThroughput,uploadThroughput =
-        uploadThroughput,connectionType = connectionType)
+    val parameter = EmulateNetworkConditionsParameter(offline = offline, latency = latency,
+        downloadThroughput = downloadThroughput, uploadThroughput = uploadThroughput, connectionType
+        = connectionType)
     emulateNetworkConditions(parameter)
   }
 
@@ -560,8 +561,8 @@ public class Network(
     maxResourceBufferSize: Int? = null,
     maxPostDataSize: Int? = null
   ): Unit {
-    val parameter = EnableParameter(maxTotalBufferSize = maxTotalBufferSize,maxResourceBufferSize =
-        maxResourceBufferSize,maxPostDataSize = maxPostDataSize)
+    val parameter = EnableParameter(maxTotalBufferSize = maxTotalBufferSize, maxResourceBufferSize =
+        maxResourceBufferSize, maxPostDataSize = maxPostDataSize)
     enable(parameter)
   }
 
@@ -769,8 +770,8 @@ public class Network(
     caseSensitive: Boolean? = null,
     isRegex: Boolean? = null
   ): SearchInResponseBodyReturn {
-    val parameter = SearchInResponseBodyParameter(requestId = requestId,query = query,caseSensitive
-        = caseSensitive,isRegex = isRegex)
+    val parameter = SearchInResponseBodyParameter(requestId = requestId, query = query,
+        caseSensitive = caseSensitive, isRegex = isRegex)
     return searchInResponseBody(parameter)
   }
 
@@ -862,9 +863,9 @@ public class Network(
     expires: Double? = null,
     priority: CookiePriority? = null
   ): SetCookieReturn {
-    val parameter = SetCookieParameter(name = name,value = value,url = url,domain = domain,path =
-        path,secure = secure,httpOnly = httpOnly,sameSite = sameSite,expires = expires,priority =
-        priority)
+    val parameter = SetCookieParameter(name = name, value = value, url = url, domain = domain, path
+        = path, secure = secure, httpOnly = httpOnly, sameSite = sameSite, expires = expires,
+        priority = priority)
     return setCookie(parameter)
   }
 
@@ -904,7 +905,7 @@ public class Network(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setDataSizeLimitsForTest(maxTotalSize: Int, maxResourceSize: Int): Unit {
-    val parameter = SetDataSizeLimitsForTestParameter(maxTotalSize = maxTotalSize,maxResourceSize =
+    val parameter = SetDataSizeLimitsForTestParameter(maxTotalSize = maxTotalSize, maxResourceSize =
         maxResourceSize)
     setDataSizeLimitsForTest(parameter)
   }
@@ -967,6 +968,7 @@ public class Network(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setRequestInterception(patterns: List<RequestPattern>): Unit {
     val parameter = SetRequestInterceptionParameter(patterns = patterns)
     setRequestInterception(parameter)
@@ -993,8 +995,8 @@ public class Network(
     platform: String? = null,
     userAgentMetadata: Emulation.UserAgentMetadata? = null
   ): Unit {
-    val parameter = SetUserAgentOverrideParameter(userAgent = userAgent,acceptLanguage =
-        acceptLanguage,platform = platform,userAgentMetadata = userAgentMetadata)
+    val parameter = SetUserAgentOverrideParameter(userAgent = userAgent, acceptLanguage =
+        acceptLanguage, platform = platform, userAgentMetadata = userAgentMetadata)
     setUserAgentOverride(parameter)
   }
 
@@ -1043,7 +1045,7 @@ public class Network(
     url: String,
     options: LoadNetworkResourceOptions
   ): LoadNetworkResourceReturn {
-    val parameter = LoadNetworkResourceParameter(frameId = frameId,url = url,options = options)
+    val parameter = LoadNetworkResourceParameter(frameId = frameId, url = url, options = options)
     return loadNetworkResource(parameter)
   }
 

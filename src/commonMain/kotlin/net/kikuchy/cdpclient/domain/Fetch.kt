@@ -87,7 +87,7 @@ public class Fetch(
   @ExperimentalSerializationApi
   public suspend fun enable(patterns: List<RequestPattern>? = null, handleAuthRequests: Boolean? =
       null): Unit {
-    val parameter = EnableParameter(patterns = patterns,handleAuthRequests = handleAuthRequests)
+    val parameter = EnableParameter(patterns = patterns, handleAuthRequests = handleAuthRequests)
     enable(parameter)
   }
 
@@ -107,7 +107,7 @@ public class Fetch(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun failRequest(requestId: String, errorReason: Network.ErrorReason): Unit {
-    val parameter = FailRequestParameter(requestId = requestId,errorReason = errorReason)
+    val parameter = FailRequestParameter(requestId = requestId, errorReason = errorReason)
     failRequest(parameter)
   }
 
@@ -134,9 +134,9 @@ public class Fetch(
     body: String? = null,
     responsePhrase: String? = null
   ): Unit {
-    val parameter = FulfillRequestParameter(requestId = requestId,responseCode =
-        responseCode,responseHeaders = responseHeaders,binaryResponseHeaders =
-        binaryResponseHeaders,body = body,responsePhrase = responsePhrase)
+    val parameter = FulfillRequestParameter(requestId = requestId, responseCode = responseCode,
+        responseHeaders = responseHeaders, binaryResponseHeaders = binaryResponseHeaders, body =
+        body, responsePhrase = responsePhrase)
     fulfillRequest(parameter)
   }
 
@@ -162,8 +162,8 @@ public class Fetch(
     postData: String? = null,
     headers: List<HeaderEntry>? = null
   ): Unit {
-    val parameter = ContinueRequestParameter(requestId = requestId,url = url,method =
-        method,postData = postData,headers = headers)
+    val parameter = ContinueRequestParameter(requestId = requestId, url = url, method = method,
+        postData = postData, headers = headers)
     continueRequest(parameter)
   }
 
@@ -184,7 +184,7 @@ public class Fetch(
   @ExperimentalSerializationApi
   public suspend fun continueWithAuth(requestId: String,
       authChallengeResponse: AuthChallengeResponse): Unit {
-    val parameter = ContinueWithAuthParameter(requestId = requestId,authChallengeResponse =
+    val parameter = ContinueWithAuthParameter(requestId = requestId, authChallengeResponse =
         authChallengeResponse)
     continueWithAuth(parameter)
   }

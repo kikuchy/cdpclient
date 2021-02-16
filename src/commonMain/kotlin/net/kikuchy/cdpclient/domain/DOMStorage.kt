@@ -147,7 +147,7 @@ public class DOMStorage(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun removeDOMStorageItem(storageId: StorageId, key: String): Unit {
-    val parameter = RemoveDOMStorageItemParameter(storageId = storageId,key = key)
+    val parameter = RemoveDOMStorageItemParameter(storageId = storageId, key = key)
     removeDOMStorageItem(parameter)
   }
 
@@ -165,7 +165,7 @@ public class DOMStorage(
     key: String,
     value: String
   ): Unit {
-    val parameter = SetDOMStorageItemParameter(storageId = storageId,key = key,value = value)
+    val parameter = SetDOMStorageItemParameter(storageId = storageId, key = key, value = value)
     setDOMStorageItem(parameter)
   }
 

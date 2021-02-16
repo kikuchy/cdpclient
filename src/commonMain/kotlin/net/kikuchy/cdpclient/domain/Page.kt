@@ -424,6 +424,7 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun addScriptToEvaluateOnLoad(scriptSource: String):
       AddScriptToEvaluateOnLoadReturn {
     val parameter = AddScriptToEvaluateOnLoadParameter(scriptSource = scriptSource)
@@ -450,7 +451,8 @@ public class Page(
   @ExperimentalSerializationApi
   public suspend fun addScriptToEvaluateOnNewDocument(source: String, worldName: String? = null):
       AddScriptToEvaluateOnNewDocumentReturn {
-    val parameter = AddScriptToEvaluateOnNewDocumentParameter(source = source,worldName = worldName)
+    val parameter = AddScriptToEvaluateOnNewDocumentParameter(source = source, worldName =
+        worldName)
     return addScriptToEvaluateOnNewDocument(parameter)
   }
 
@@ -487,8 +489,8 @@ public class Page(
     fromSurface: Boolean? = null,
     captureBeyondViewport: Boolean? = null
   ): CaptureScreenshotReturn {
-    val parameter = CaptureScreenshotParameter(format = format,quality = quality,clip =
-        clip,fromSurface = fromSurface,captureBeyondViewport = captureBeyondViewport)
+    val parameter = CaptureScreenshotParameter(format = format, quality = quality, clip = clip,
+        fromSurface = fromSurface, captureBeyondViewport = captureBeyondViewport)
     return captureScreenshot(parameter)
   }
 
@@ -570,8 +572,8 @@ public class Page(
     worldName: String? = null,
     grantUniveralAccess: Boolean? = null
   ): CreateIsolatedWorldReturn {
-    val parameter = CreateIsolatedWorldParameter(frameId = frameId,worldName =
-        worldName,grantUniveralAccess = grantUniveralAccess)
+    val parameter = CreateIsolatedWorldParameter(frameId = frameId, worldName = worldName,
+        grantUniveralAccess = grantUniveralAccess)
     return createIsolatedWorld(parameter)
   }
 
@@ -591,8 +593,9 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun deleteCookie(cookieName: String, url: String): Unit {
-    val parameter = DeleteCookieParameter(cookieName = cookieName,url = url)
+    val parameter = DeleteCookieParameter(cookieName = cookieName, url = url)
     deleteCookie(parameter)
   }
 
@@ -714,7 +717,7 @@ public class Page(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun getResourceContent(frameId: String, url: String): GetResourceContentReturn {
-    val parameter = GetResourceContentParameter(frameId = frameId,url = url)
+    val parameter = GetResourceContentParameter(frameId = frameId, url = url)
     return getResourceContent(parameter)
   }
 
@@ -745,7 +748,7 @@ public class Page(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun handleJavaScriptDialog(accept: Boolean, promptText: String? = null): Unit {
-    val parameter = HandleJavaScriptDialogParameter(accept = accept,promptText = promptText)
+    val parameter = HandleJavaScriptDialogParameter(accept = accept, promptText = promptText)
     handleJavaScriptDialog(parameter)
   }
 
@@ -772,8 +775,8 @@ public class Page(
     frameId: String? = null,
     referrerPolicy: ReferrerPolicy? = null
   ): NavigateReturn {
-    val parameter = NavigateParameter(url = url,referrer = referrer,transitionType =
-        transitionType,frameId = frameId,referrerPolicy = referrerPolicy)
+    val parameter = NavigateParameter(url = url, referrer = referrer, transitionType =
+        transitionType, frameId = frameId, referrerPolicy = referrerPolicy)
     return navigate(parameter)
   }
 
@@ -831,13 +834,13 @@ public class Page(
     preferCSSPageSize: Boolean? = null,
     transferMode: String? = null
   ): PrintToPDFReturn {
-    val parameter = PrintToPDFParameter(landscape = landscape,displayHeaderFooter =
-        displayHeaderFooter,printBackground = printBackground,scale = scale,paperWidth =
-        paperWidth,paperHeight = paperHeight,marginTop = marginTop,marginBottom =
-        marginBottom,marginLeft = marginLeft,marginRight = marginRight,pageRanges =
-        pageRanges,ignoreInvalidPageRanges = ignoreInvalidPageRanges,headerTemplate =
-        headerTemplate,footerTemplate = footerTemplate,preferCSSPageSize =
-        preferCSSPageSize,transferMode = transferMode)
+    val parameter = PrintToPDFParameter(landscape = landscape, displayHeaderFooter =
+        displayHeaderFooter, printBackground = printBackground, scale = scale, paperWidth =
+        paperWidth, paperHeight = paperHeight, marginTop = marginTop, marginBottom = marginBottom,
+        marginLeft = marginLeft, marginRight = marginRight, pageRanges = pageRanges,
+        ignoreInvalidPageRanges = ignoreInvalidPageRanges, headerTemplate = headerTemplate,
+        footerTemplate = footerTemplate, preferCSSPageSize = preferCSSPageSize, transferMode =
+        transferMode)
     return printToPDF(parameter)
   }
 
@@ -858,7 +861,7 @@ public class Page(
   @ExperimentalSerializationApi
   public suspend fun reload(ignoreCache: Boolean? = null, scriptToEvaluateOnLoad: String? = null):
       Unit {
-    val parameter = ReloadParameter(ignoreCache = ignoreCache,scriptToEvaluateOnLoad =
+    val parameter = ReloadParameter(ignoreCache = ignoreCache, scriptToEvaluateOnLoad =
         scriptToEvaluateOnLoad)
     reload(parameter)
   }
@@ -880,6 +883,7 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun removeScriptToEvaluateOnLoad(identifier: String): Unit {
     val parameter = RemoveScriptToEvaluateOnLoadParameter(identifier = identifier)
     removeScriptToEvaluateOnLoad(parameter)
@@ -950,8 +954,8 @@ public class Page(
     caseSensitive: Boolean? = null,
     isRegex: Boolean? = null
   ): SearchInResourceReturn {
-    val parameter = SearchInResourceParameter(frameId = frameId,url = url,query =
-        query,caseSensitive = caseSensitive,isRegex = isRegex)
+    val parameter = SearchInResourceParameter(frameId = frameId, url = url, query = query,
+        caseSensitive = caseSensitive, isRegex = isRegex)
     return searchInResource(parameter)
   }
 
@@ -1015,6 +1019,7 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setDeviceMetricsOverride(
     width: Int,
     height: Int,
@@ -1029,11 +1034,11 @@ public class Page(
     screenOrientation: Emulation.ScreenOrientation? = null,
     viewport: Viewport? = null
   ): Unit {
-    val parameter = SetDeviceMetricsOverrideParameter(width = width,height =
-        height,deviceScaleFactor = deviceScaleFactor,mobile = mobile,scale = scale,screenWidth =
-        screenWidth,screenHeight = screenHeight,positionX = positionX,positionY =
-        positionY,dontSetVisibleSize = dontSetVisibleSize,screenOrientation =
-        screenOrientation,viewport = viewport)
+    val parameter = SetDeviceMetricsOverrideParameter(width = width, height = height,
+        deviceScaleFactor = deviceScaleFactor, mobile = mobile, scale = scale, screenWidth =
+        screenWidth, screenHeight = screenHeight, positionX = positionX, positionY = positionY,
+        dontSetVisibleSize = dontSetVisibleSize, screenOrientation = screenOrientation, viewport =
+        viewport)
     setDeviceMetricsOverride(parameter)
   }
 
@@ -1054,12 +1059,13 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setDeviceOrientationOverride(
     alpha: Double,
     beta: Double,
     gamma: Double
   ): Unit {
-    val parameter = SetDeviceOrientationOverrideParameter(alpha = alpha,beta = beta,gamma = gamma)
+    val parameter = SetDeviceOrientationOverrideParameter(alpha = alpha, beta = beta, gamma = gamma)
     setDeviceOrientationOverride(parameter)
   }
 
@@ -1119,7 +1125,7 @@ public class Page(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setDocumentContent(frameId: String, html: String): Unit {
-    val parameter = SetDocumentContentParameter(frameId = frameId,html = html)
+    val parameter = SetDocumentContentParameter(frameId = frameId, html = html)
     setDocumentContent(parameter)
   }
 
@@ -1139,8 +1145,9 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setDownloadBehavior(behavior: String, downloadPath: String? = null): Unit {
-    val parameter = SetDownloadBehaviorParameter(behavior = behavior,downloadPath = downloadPath)
+    val parameter = SetDownloadBehaviorParameter(behavior = behavior, downloadPath = downloadPath)
     setDownloadBehavior(parameter)
   }
 
@@ -1162,13 +1169,14 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setGeolocationOverride(
     latitude: Double? = null,
     longitude: Double? = null,
     accuracy: Double? = null
   ): Unit {
-    val parameter = SetGeolocationOverrideParameter(latitude = latitude,longitude =
-        longitude,accuracy = accuracy)
+    val parameter = SetGeolocationOverrideParameter(latitude = latitude, longitude = longitude,
+        accuracy = accuracy)
     setGeolocationOverride(parameter)
   }
 
@@ -1208,9 +1216,10 @@ public class Page(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setTouchEmulationEnabled(enabled: Boolean, configuration: String? = null):
       Unit {
-    val parameter = SetTouchEmulationEnabledParameter(enabled = enabled,configuration =
+    val parameter = SetTouchEmulationEnabledParameter(enabled = enabled, configuration =
         configuration)
     setTouchEmulationEnabled(parameter)
   }
@@ -1237,8 +1246,8 @@ public class Page(
     maxHeight: Int? = null,
     everyNthFrame: Int? = null
   ): Unit {
-    val parameter = StartScreencastParameter(format = format,quality = quality,maxWidth =
-        maxWidth,maxHeight = maxHeight,everyNthFrame = everyNthFrame)
+    val parameter = StartScreencastParameter(format = format, quality = quality, maxWidth =
+        maxWidth, maxHeight = maxHeight, everyNthFrame = everyNthFrame)
     startScreencast(parameter)
   }
 
@@ -1344,7 +1353,7 @@ public class Page(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun addCompilationCache(url: String, `data`: String): Unit {
-    val parameter = AddCompilationCacheParameter(url = url,data = data)
+    val parameter = AddCompilationCacheParameter(url = url, data = data)
     addCompilationCache(parameter)
   }
 
@@ -1374,7 +1383,7 @@ public class Page(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun generateTestReport(message: String, group: String? = null): Unit {
-    val parameter = GenerateTestReportParameter(message = message,group = group)
+    val parameter = GenerateTestReportParameter(message = message, group = group)
     generateTestReport(parameter)
   }
 

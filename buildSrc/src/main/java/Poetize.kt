@@ -29,32 +29,22 @@ fun Domain.generateClassFile(domains: List<Domain>): FileSpec {
 
         description?.let { addKdoc(it) }
         types.forEach {
-            it.generateTypeClass(this@generateClassFile, domains)?.let {
-                addType(it)
-            }
+            it.generateTypeClass(this@generateClassFile, domains)?.let(::addType)
         }
         events.forEach {
-            // TODO: イベントの実装どうするか
+            // TODO: イベントの戻り値がUnitのケースが大丈夫か確認したい
             addProperty(it.generateEventChanel(this@generateClassFile, domains))
-            it.generateEventParameter(this@generateClassFile, domains)?.let {
-                addType(it)
-            }
+            it.generateEventParameter(this@generateClassFile, domains)?.let(::addType)
         }
         commands.forEach {
             addFunction(it.generateMethod(this@generateClassFile, domains))
-            it.generateParameterExpandedMethod(this@generateClassFile, domains)?.let {
-                addFunction(it)
-            }
-            it.generateParameterClass(this@generateClassFile, domains)?.let {
-                addType(it)
-            }
-            it.generateReturnClass(this@generateClassFile, domains)?.let {
-                addType(it)
-            }
+            it.generateParameterExpandedMethod(this@generateClassFile, domains)?.let(::addFunction)
+            it.generateParameterClass(this@generateClassFile, domains)?.let(::addType)
+            it.generateReturnClass(this@generateClassFile, domains)?.let(::addType)
         }
     }
         .build()
-    val file = FileSpec.builder(PACKAGE_NAME, domain)
+    return FileSpec.builder(PACKAGE_NAME, domain)
         .addImport("kotlinx.serialization.json", "decodeFromJsonElement", "encodeToJsonElement")
         .addImport("kotlinx.coroutines.flow", "filter", "filterNotNull", "map")
         .addProperty(
@@ -67,10 +57,8 @@ fun Domain.generateClassFile(domains: List<Domain>): FileSpec {
                 )
                 .build()
         )
-        .addType(
-            domainClass
-        ).build()
-    return file
+        .addType(domainClass)
+        .build()
 }
 
 fun Domain.Type.generateTypeClass(parentDomain: Domain, domains: List<Domain>): TypeSpec? {
@@ -101,7 +89,6 @@ fun Domain.Type.generateTypeClass(parentDomain: Domain, domains: List<Domain>): 
                 description?.let { addKdoc(it) }
                 addAnnotation(SERIALIZABLE)
                 enum.forEach {
-                    // TODO: SerialName
                     addEnumConstant(
                         it.toCapitalCase(), TypeSpec.anonymousClassBuilder()
                             .addAnnotation(
@@ -251,7 +238,7 @@ fun Domain.Event.generateEventParameter(parentDomain: Domain, domains: List<Doma
                 addProperty(
                     PropertySpec.builder(it.name, it.resolveType(parentDomain, domains))
                         .initializer(it.name)
-                        .apply { it.description?.let { addKdoc(it) } }
+                        .apply { it.description?.let { desc -> addKdoc(desc) } }
                         .build()
                 )
             }
@@ -326,6 +313,13 @@ fun Domain.Command.generateParameterExpandedMethod(parentDomain: Domain, domains
             .addModifiers(KModifier.SUSPEND)
             .apply {
                 description?.let { addKdoc(it) }
+                if (deprecated) {
+                    addAnnotation(
+                        AnnotationSpec.builder(Deprecated::class)
+                            .addMember("message = %S", "")
+                            .build()
+                    )
+                }
                 this@generateParameterExpandedMethod.parameters.forEach {
                     addParameter(ParameterSpec.builder(it.name, it.resolveType(parentDomain, domains))
                         .apply {
@@ -337,9 +331,9 @@ fun Domain.Command.generateParameterExpandedMethod(parentDomain: Domain, domains
                 }
                 addCode(CodeBlock.builder()
                     .apply {
-                        val paramList = this@generateParameterExpandedMethod.parameters.map {
+                        val paramList = this@generateParameterExpandedMethod.parameters.joinToString(", ") {
                             "${it.name} = ${it.name}"
-                        }.joinToString(",")
+                        }
                         addStatement(
                             "val parameter = %T($paramList)",
                             this@generateParameterExpandedMethod.parameterTypeName
@@ -388,7 +382,7 @@ fun Domain.Command.generateParameterClass(parentDomain: Domain, domains: List<Do
                 parameters.forEach {
                     addProperty(PropertySpec.builder(it.name, it.resolveType(parentDomain, domains))
                         .apply {
-                            it.description?.let { addKdoc(it) }
+                            it.description?.let { desc -> addKdoc(desc) }
                         }
                         .initializer(it.name)
                         .build())
@@ -421,7 +415,7 @@ fun Domain.Command.generateReturnClass(parentDomain: Domain, domains: List<Domai
                 returns.forEach {
                     addProperty(PropertySpec.builder(it.name, it.resolveType(parentDomain, domains))
                         .apply {
-                            it.description?.let { addKdoc(it.escapePercentage()) }
+                            it.description?.let { desc -> addKdoc(desc.escapePercentage()) }
                         }
                         .initializer(it.name)
                         .build())

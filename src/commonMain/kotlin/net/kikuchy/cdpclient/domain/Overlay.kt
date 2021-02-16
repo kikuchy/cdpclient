@@ -135,9 +135,9 @@ public class Overlay(
     colorFormat: ColorFormat? = null,
     showAccessibilityInfo: Boolean? = null
   ): GetHighlightObjectForTestReturn {
-    val parameter = GetHighlightObjectForTestParameter(nodeId = nodeId,includeDistance =
-        includeDistance,includeStyle = includeStyle,colorFormat = colorFormat,showAccessibilityInfo
-        = showAccessibilityInfo)
+    val parameter = GetHighlightObjectForTestParameter(nodeId = nodeId, includeDistance =
+        includeDistance, includeStyle = includeStyle, colorFormat = colorFormat,
+        showAccessibilityInfo = showAccessibilityInfo)
     return getHighlightObjectForTest(parameter)
   }
 
@@ -218,8 +218,8 @@ public class Overlay(
     contentColor: DOM.RGBA? = null,
     contentOutlineColor: DOM.RGBA? = null
   ): Unit {
-    val parameter = HighlightFrameParameter(frameId = frameId,contentColor =
-        contentColor,contentOutlineColor = contentOutlineColor)
+    val parameter = HighlightFrameParameter(frameId = frameId, contentColor = contentColor,
+        contentOutlineColor = contentOutlineColor)
     highlightFrame(parameter)
   }
 
@@ -247,8 +247,8 @@ public class Overlay(
     objectId: String? = null,
     selector: String? = null
   ): Unit {
-    val parameter = HighlightNodeParameter(highlightConfig = highlightConfig,nodeId =
-        nodeId,backendNodeId = backendNodeId,objectId = objectId,selector = selector)
+    val parameter = HighlightNodeParameter(highlightConfig = highlightConfig, nodeId = nodeId,
+        backendNodeId = backendNodeId, objectId = objectId, selector = selector)
     highlightNode(parameter)
   }
 
@@ -272,7 +272,7 @@ public class Overlay(
     color: DOM.RGBA? = null,
     outlineColor: DOM.RGBA? = null
   ): Unit {
-    val parameter = HighlightQuadParameter(quad = quad,color = color,outlineColor = outlineColor)
+    val parameter = HighlightQuadParameter(quad = quad, color = color, outlineColor = outlineColor)
     highlightQuad(parameter)
   }
 
@@ -299,8 +299,8 @@ public class Overlay(
     color: DOM.RGBA? = null,
     outlineColor: DOM.RGBA? = null
   ): Unit {
-    val parameter = HighlightRectParameter(x = x,y = y,width = width,height = height,color =
-        color,outlineColor = outlineColor)
+    val parameter = HighlightRectParameter(x = x, y = y, width = width, height = height, color =
+        color, outlineColor = outlineColor)
     highlightRect(parameter)
   }
 
@@ -327,8 +327,8 @@ public class Overlay(
     backendNodeId: Int? = null,
     objectId: String? = null
   ): Unit {
-    val parameter = HighlightSourceOrderParameter(sourceOrderConfig = sourceOrderConfig,nodeId =
-        nodeId,backendNodeId = backendNodeId,objectId = objectId)
+    val parameter = HighlightSourceOrderParameter(sourceOrderConfig = sourceOrderConfig, nodeId =
+        nodeId, backendNodeId = backendNodeId, objectId = objectId)
     highlightSourceOrder(parameter)
   }
 
@@ -351,7 +351,7 @@ public class Overlay(
   @ExperimentalSerializationApi
   public suspend fun setInspectMode(mode: InspectMode, highlightConfig: HighlightConfig? = null):
       Unit {
-    val parameter = SetInspectModeParameter(mode = mode,highlightConfig = highlightConfig)
+    val parameter = SetInspectModeParameter(mode = mode, highlightConfig = highlightConfig)
     setInspectMode(parameter)
   }
 

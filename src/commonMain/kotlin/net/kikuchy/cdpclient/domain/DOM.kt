@@ -294,8 +294,8 @@ public class DOM(
     targetNodeId: Int,
     insertBeforeNodeId: Int? = null
   ): CopyToReturn {
-    val parameter = CopyToParameter(nodeId = nodeId,targetNodeId = targetNodeId,insertBeforeNodeId =
-        insertBeforeNodeId)
+    val parameter = CopyToParameter(nodeId = nodeId, targetNodeId = targetNodeId, insertBeforeNodeId
+        = insertBeforeNodeId)
     return copyTo(parameter)
   }
 
@@ -324,8 +324,8 @@ public class DOM(
     depth: Int? = null,
     pierce: Boolean? = null
   ): DescribeNodeReturn {
-    val parameter = DescribeNodeParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId =
-        objectId,depth = depth,pierce = pierce)
+    val parameter = DescribeNodeParameter(nodeId = nodeId, backendNodeId = backendNodeId, objectId =
+        objectId, depth = depth, pierce = pierce)
     return describeNode(parameter)
   }
 
@@ -354,8 +354,8 @@ public class DOM(
     objectId: String? = null,
     rect: Rect? = null
   ): Unit {
-    val parameter = ScrollIntoViewIfNeededParameter(nodeId = nodeId,backendNodeId =
-        backendNodeId,objectId = objectId,rect = rect)
+    val parameter = ScrollIntoViewIfNeededParameter(nodeId = nodeId, backendNodeId = backendNodeId,
+        objectId = objectId, rect = rect)
     scrollIntoViewIfNeeded(parameter)
   }
 
@@ -421,7 +421,7 @@ public class DOM(
     backendNodeId: Int? = null,
     objectId: String? = null
   ): Unit {
-    val parameter = FocusParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId =
+    val parameter = FocusParameter(nodeId = nodeId, backendNodeId = backendNodeId, objectId =
         objectId)
     focus(parameter)
   }
@@ -468,7 +468,7 @@ public class DOM(
     backendNodeId: Int? = null,
     objectId: String? = null
   ): GetBoxModelReturn {
-    val parameter = GetBoxModelParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId =
+    val parameter = GetBoxModelParameter(nodeId = nodeId, backendNodeId = backendNodeId, objectId =
         objectId)
     return getBoxModel(parameter)
   }
@@ -496,8 +496,8 @@ public class DOM(
     backendNodeId: Int? = null,
     objectId: String? = null
   ): GetContentQuadsReturn {
-    val parameter = GetContentQuadsParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId
-        = objectId)
+    val parameter = GetContentQuadsParameter(nodeId = nodeId, backendNodeId = backendNodeId,
+        objectId = objectId)
     return getContentQuads(parameter)
   }
 
@@ -518,7 +518,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun getDocument(depth: Int? = null, pierce: Boolean? = null): GetDocumentReturn {
-    val parameter = GetDocumentParameter(depth = depth,pierce = pierce)
+    val parameter = GetDocumentParameter(depth = depth, pierce = pierce)
     return getDocument(parameter)
   }
 
@@ -544,9 +544,10 @@ public class DOM(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun getFlattenedDocument(depth: Int? = null, pierce: Boolean? = null):
       GetFlattenedDocumentReturn {
-    val parameter = GetFlattenedDocumentParameter(depth = depth,pierce = pierce)
+    val parameter = GetFlattenedDocumentParameter(depth = depth, pierce = pierce)
     return getFlattenedDocument(parameter)
   }
 
@@ -572,8 +573,8 @@ public class DOM(
     computedStyles: List<CSSComputedStyleProperty>,
     pierce: Boolean? = null
   ): GetNodesForSubtreeByStyleReturn {
-    val parameter = GetNodesForSubtreeByStyleParameter(nodeId = nodeId,computedStyles =
-        computedStyles,pierce = pierce)
+    val parameter = GetNodesForSubtreeByStyleParameter(nodeId = nodeId, computedStyles =
+        computedStyles, pierce = pierce)
     return getNodesForSubtreeByStyle(parameter)
   }
 
@@ -602,8 +603,8 @@ public class DOM(
     includeUserAgentShadowDOM: Boolean? = null,
     ignorePointerEventsNone: Boolean? = null
   ): GetNodeForLocationReturn {
-    val parameter = GetNodeForLocationParameter(x = x,y = y,includeUserAgentShadowDOM =
-        includeUserAgentShadowDOM,ignorePointerEventsNone = ignorePointerEventsNone)
+    val parameter = GetNodeForLocationParameter(x = x, y = y, includeUserAgentShadowDOM =
+        includeUserAgentShadowDOM, ignorePointerEventsNone = ignorePointerEventsNone)
     return getNodeForLocation(parameter)
   }
 
@@ -628,7 +629,7 @@ public class DOM(
     backendNodeId: Int? = null,
     objectId: String? = null
   ): GetOuterHTMLReturn {
-    val parameter = GetOuterHTMLParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectId =
+    val parameter = GetOuterHTMLParameter(nodeId = nodeId, backendNodeId = backendNodeId, objectId =
         objectId)
     return getOuterHTML(parameter)
   }
@@ -678,7 +679,7 @@ public class DOM(
     fromIndex: Int,
     toIndex: Int
   ): GetSearchResultsReturn {
-    val parameter = GetSearchResultsParameter(searchId = searchId,fromIndex = fromIndex,toIndex =
+    val parameter = GetSearchResultsParameter(searchId = searchId, fromIndex = fromIndex, toIndex =
         toIndex)
     return getSearchResults(parameter)
   }
@@ -744,8 +745,8 @@ public class DOM(
     targetNodeId: Int,
     insertBeforeNodeId: Int? = null
   ): MoveToReturn {
-    val parameter = MoveToParameter(nodeId = nodeId,targetNodeId = targetNodeId,insertBeforeNodeId =
-        insertBeforeNodeId)
+    val parameter = MoveToParameter(nodeId = nodeId, targetNodeId = targetNodeId, insertBeforeNodeId
+        = insertBeforeNodeId)
     return moveTo(parameter)
   }
 
@@ -769,7 +770,7 @@ public class DOM(
   @ExperimentalSerializationApi
   public suspend fun performSearch(query: String, includeUserAgentShadowDOM: Boolean? = null):
       PerformSearchReturn {
-    val parameter = PerformSearchParameter(query = query,includeUserAgentShadowDOM =
+    val parameter = PerformSearchParameter(query = query, includeUserAgentShadowDOM =
         includeUserAgentShadowDOM)
     return performSearch(parameter)
   }
@@ -837,7 +838,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun querySelector(nodeId: Int, selector: String): QuerySelectorReturn {
-    val parameter = QuerySelectorParameter(nodeId = nodeId,selector = selector)
+    val parameter = QuerySelectorParameter(nodeId = nodeId, selector = selector)
     return querySelector(parameter)
   }
 
@@ -858,7 +859,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun querySelectorAll(nodeId: Int, selector: String): QuerySelectorAllReturn {
-    val parameter = QuerySelectorAllParameter(nodeId = nodeId,selector = selector)
+    val parameter = QuerySelectorAllParameter(nodeId = nodeId, selector = selector)
     return querySelectorAll(parameter)
   }
 
@@ -888,7 +889,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun removeAttribute(nodeId: Int, name: String): Unit {
-    val parameter = RemoveAttributeParameter(nodeId = nodeId,name = name)
+    val parameter = RemoveAttributeParameter(nodeId = nodeId, name = name)
     removeAttribute(parameter)
   }
 
@@ -938,7 +939,7 @@ public class DOM(
     depth: Int? = null,
     pierce: Boolean? = null
   ): Unit {
-    val parameter = RequestChildNodesParameter(nodeId = nodeId,depth = depth,pierce = pierce)
+    val parameter = RequestChildNodesParameter(nodeId = nodeId, depth = depth, pierce = pierce)
     requestChildNodes(parameter)
   }
 
@@ -989,8 +990,8 @@ public class DOM(
     objectGroup: String? = null,
     executionContextId: Int? = null
   ): ResolveNodeReturn {
-    val parameter = ResolveNodeParameter(nodeId = nodeId,backendNodeId = backendNodeId,objectGroup =
-        objectGroup,executionContextId = executionContextId)
+    val parameter = ResolveNodeParameter(nodeId = nodeId, backendNodeId = backendNodeId, objectGroup
+        = objectGroup, executionContextId = executionContextId)
     return resolveNode(parameter)
   }
 
@@ -1014,7 +1015,7 @@ public class DOM(
     name: String,
     value: String
   ): Unit {
-    val parameter = SetAttributeValueParameter(nodeId = nodeId,name = name,value = value)
+    val parameter = SetAttributeValueParameter(nodeId = nodeId, name = name, value = value)
     setAttributeValue(parameter)
   }
 
@@ -1040,7 +1041,7 @@ public class DOM(
     text: String,
     name: String? = null
   ): Unit {
-    val parameter = SetAttributesAsTextParameter(nodeId = nodeId,text = text,name = name)
+    val parameter = SetAttributesAsTextParameter(nodeId = nodeId, text = text, name = name)
     setAttributesAsText(parameter)
   }
 
@@ -1065,8 +1066,8 @@ public class DOM(
     backendNodeId: Int? = null,
     objectId: String? = null
   ): Unit {
-    val parameter = SetFileInputFilesParameter(files = files,nodeId = nodeId,backendNodeId =
-        backendNodeId,objectId = objectId)
+    val parameter = SetFileInputFilesParameter(files = files, nodeId = nodeId, backendNodeId =
+        backendNodeId, objectId = objectId)
     setFileInputFiles(parameter)
   }
 
@@ -1180,7 +1181,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setNodeName(nodeId: Int, name: String): SetNodeNameReturn {
-    val parameter = SetNodeNameParameter(nodeId = nodeId,name = name)
+    val parameter = SetNodeNameParameter(nodeId = nodeId, name = name)
     return setNodeName(parameter)
   }
 
@@ -1200,7 +1201,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setNodeValue(nodeId: Int, value: String): Unit {
-    val parameter = SetNodeValueParameter(nodeId = nodeId,value = value)
+    val parameter = SetNodeValueParameter(nodeId = nodeId, value = value)
     setNodeValue(parameter)
   }
 
@@ -1220,7 +1221,7 @@ public class DOM(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setOuterHTML(nodeId: Int, outerHTML: String): Unit {
-    val parameter = SetOuterHTMLParameter(nodeId = nodeId,outerHTML = outerHTML)
+    val parameter = SetOuterHTMLParameter(nodeId = nodeId, outerHTML = outerHTML)
     setOuterHTML(parameter)
   }
 

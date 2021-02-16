@@ -60,7 +60,7 @@ public class CacheStorage(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun deleteEntry(cacheId: String, request: String): Unit {
-    val parameter = DeleteEntryParameter(cacheId = cacheId,request = request)
+    val parameter = DeleteEntryParameter(cacheId = cacheId, request = request)
     deleteEntry(parameter)
   }
 
@@ -107,8 +107,8 @@ public class CacheStorage(
     requestURL: String,
     requestHeaders: List<Header>
   ): RequestCachedResponseReturn {
-    val parameter = RequestCachedResponseParameter(cacheId = cacheId,requestURL =
-        requestURL,requestHeaders = requestHeaders)
+    val parameter = RequestCachedResponseParameter(cacheId = cacheId, requestURL = requestURL,
+        requestHeaders = requestHeaders)
     return requestCachedResponse(parameter)
   }
 
@@ -134,8 +134,8 @@ public class CacheStorage(
     pageSize: Int? = null,
     pathFilter: String? = null
   ): RequestEntriesReturn {
-    val parameter = RequestEntriesParameter(cacheId = cacheId,skipCount = skipCount,pageSize =
-        pageSize,pathFilter = pathFilter)
+    val parameter = RequestEntriesParameter(cacheId = cacheId, skipCount = skipCount, pageSize =
+        pageSize, pathFilter = pathFilter)
     return requestEntries(parameter)
   }
 

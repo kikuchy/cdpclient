@@ -130,7 +130,7 @@ public class Tracing(
   @ExperimentalSerializationApi
   public suspend fun requestMemoryDump(deterministic: Boolean? = null,
       levelOfDetail: MemoryDumpLevelOfDetail? = null): RequestMemoryDumpReturn {
-    val parameter = RequestMemoryDumpParameter(deterministic = deterministic,levelOfDetail =
+    val parameter = RequestMemoryDumpParameter(deterministic = deterministic, levelOfDetail =
         levelOfDetail)
     return requestMemoryDump(parameter)
   }
@@ -160,10 +160,10 @@ public class Tracing(
     traceConfig: TraceConfig? = null,
     perfettoConfig: String? = null
   ): Unit {
-    val parameter = StartParameter(categories = categories,options =
-        options,bufferUsageReportingInterval = bufferUsageReportingInterval,transferMode =
-        transferMode,streamFormat = streamFormat,streamCompression = streamCompression,traceConfig =
-        traceConfig,perfettoConfig = perfettoConfig)
+    val parameter = StartParameter(categories = categories, options = options,
+        bufferUsageReportingInterval = bufferUsageReportingInterval, transferMode = transferMode,
+        streamFormat = streamFormat, streamCompression = streamCompression, traceConfig =
+        traceConfig, perfettoConfig = perfettoConfig)
     start(parameter)
   }
 

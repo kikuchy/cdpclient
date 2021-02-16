@@ -184,11 +184,11 @@ public class Emulation(
     viewport: Page.Viewport? = null,
     displayFeature: DisplayFeature? = null
   ): Unit {
-    val parameter = SetDeviceMetricsOverrideParameter(width = width,height =
-        height,deviceScaleFactor = deviceScaleFactor,mobile = mobile,scale = scale,screenWidth =
-        screenWidth,screenHeight = screenHeight,positionX = positionX,positionY =
-        positionY,dontSetVisibleSize = dontSetVisibleSize,screenOrientation =
-        screenOrientation,viewport = viewport,displayFeature = displayFeature)
+    val parameter = SetDeviceMetricsOverrideParameter(width = width, height = height,
+        deviceScaleFactor = deviceScaleFactor, mobile = mobile, scale = scale, screenWidth =
+        screenWidth, screenHeight = screenHeight, positionX = positionX, positionY = positionY,
+        dontSetVisibleSize = dontSetVisibleSize, screenOrientation = screenOrientation, viewport =
+        viewport, displayFeature = displayFeature)
     setDeviceMetricsOverride(parameter)
   }
 
@@ -231,7 +231,7 @@ public class Emulation(
   @ExperimentalSerializationApi
   public suspend fun setEmitTouchEventsForMouse(enabled: Boolean, configuration: String? = null):
       Unit {
-    val parameter = SetEmitTouchEventsForMouseParameter(enabled = enabled,configuration =
+    val parameter = SetEmitTouchEventsForMouseParameter(enabled = enabled, configuration =
         configuration)
     setEmitTouchEventsForMouse(parameter)
   }
@@ -253,7 +253,7 @@ public class Emulation(
   @ExperimentalSerializationApi
   public suspend fun setEmulatedMedia(media: String? = null, features: List<MediaFeature>? = null):
       Unit {
-    val parameter = SetEmulatedMediaParameter(media = media,features = features)
+    val parameter = SetEmulatedMediaParameter(media = media, features = features)
     setEmulatedMedia(parameter)
   }
 
@@ -299,8 +299,8 @@ public class Emulation(
     longitude: Double? = null,
     accuracy: Double? = null
   ): Unit {
-    val parameter = SetGeolocationOverrideParameter(latitude = latitude,longitude =
-        longitude,accuracy = accuracy)
+    val parameter = SetGeolocationOverrideParameter(latitude = latitude, longitude = longitude,
+        accuracy = accuracy)
     setGeolocationOverride(parameter)
   }
 
@@ -320,7 +320,7 @@ public class Emulation(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setIdleOverride(isUserActive: Boolean, isScreenUnlocked: Boolean): Unit {
-    val parameter = SetIdleOverrideParameter(isUserActive = isUserActive,isScreenUnlocked =
+    val parameter = SetIdleOverrideParameter(isUserActive = isUserActive, isScreenUnlocked =
         isScreenUnlocked)
     setIdleOverride(parameter)
   }
@@ -351,6 +351,7 @@ public class Emulation(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setNavigatorOverrides(platform: String): Unit {
     val parameter = SetNavigatorOverridesParameter(platform = platform)
     setNavigatorOverrides(parameter)
@@ -412,7 +413,7 @@ public class Emulation(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setTouchEmulationEnabled(enabled: Boolean, maxTouchPoints: Int? = null): Unit {
-    val parameter = SetTouchEmulationEnabledParameter(enabled = enabled,maxTouchPoints =
+    val parameter = SetTouchEmulationEnabledParameter(enabled = enabled, maxTouchPoints =
         maxTouchPoints)
     setTouchEmulationEnabled(parameter)
   }
@@ -445,10 +446,9 @@ public class Emulation(
     waitForNavigation: Boolean? = null,
     initialVirtualTime: Double? = null
   ): SetVirtualTimePolicyReturn {
-    val parameter = SetVirtualTimePolicyParameter(policy = policy,budget =
-        budget,maxVirtualTimeTaskStarvationCount =
-        maxVirtualTimeTaskStarvationCount,waitForNavigation = waitForNavigation,initialVirtualTime =
-        initialVirtualTime)
+    val parameter = SetVirtualTimePolicyParameter(policy = policy, budget = budget,
+        maxVirtualTimeTaskStarvationCount = maxVirtualTimeTaskStarvationCount, waitForNavigation =
+        waitForNavigation, initialVirtualTime = initialVirtualTime)
     return setVirtualTimePolicy(parameter)
   }
 
@@ -512,8 +512,9 @@ public class Emulation(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setVisibleSize(width: Int, height: Int): Unit {
-    val parameter = SetVisibleSizeParameter(width = width,height = height)
+    val parameter = SetVisibleSizeParameter(width = width, height = height)
     setVisibleSize(parameter)
   }
 
@@ -552,8 +553,8 @@ public class Emulation(
     platform: String? = null,
     userAgentMetadata: UserAgentMetadata? = null
   ): Unit {
-    val parameter = SetUserAgentOverrideParameter(userAgent = userAgent,acceptLanguage =
-        acceptLanguage,platform = platform,userAgentMetadata = userAgentMetadata)
+    val parameter = SetUserAgentOverrideParameter(userAgent = userAgent, acceptLanguage =
+        acceptLanguage, platform = platform, userAgentMetadata = userAgentMetadata)
     setUserAgentOverride(parameter)
   }
 

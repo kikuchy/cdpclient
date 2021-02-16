@@ -72,8 +72,8 @@ public class HeadlessExperimental(
     noDisplayUpdates: Boolean? = null,
     screenshot: ScreenshotParams? = null
   ): BeginFrameReturn {
-    val parameter = BeginFrameParameter(frameTimeTicks = frameTimeTicks,interval =
-        interval,noDisplayUpdates = noDisplayUpdates,screenshot = screenshot)
+    val parameter = BeginFrameParameter(frameTimeTicks = frameTimeTicks, interval = interval,
+        noDisplayUpdates = noDisplayUpdates, screenshot = screenshot)
     return beginFrame(parameter)
   }
 

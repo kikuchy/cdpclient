@@ -157,8 +157,8 @@ public class LayerTree(
     minDuration: Double? = null,
     clipRect: DOM.Rect? = null
   ): ProfileSnapshotReturn {
-    val parameter = ProfileSnapshotParameter(snapshotId = snapshotId,minRepeatCount =
-        minRepeatCount,minDuration = minDuration,clipRect = clipRect)
+    val parameter = ProfileSnapshotParameter(snapshotId = snapshotId, minRepeatCount =
+        minRepeatCount, minDuration = minDuration, clipRect = clipRect)
     return profileSnapshot(parameter)
   }
 
@@ -204,8 +204,8 @@ public class LayerTree(
     toStep: Int? = null,
     scale: Double? = null
   ): ReplaySnapshotReturn {
-    val parameter = ReplaySnapshotParameter(snapshotId = snapshotId,fromStep = fromStep,toStep =
-        toStep,scale = scale)
+    val parameter = ReplaySnapshotParameter(snapshotId = snapshotId, fromStep = fromStep, toStep =
+        toStep, scale = scale)
     return replaySnapshot(parameter)
   }
 

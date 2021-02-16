@@ -49,7 +49,7 @@ public class DOMDebugger(
     depth: Int? = null,
     pierce: Boolean? = null
   ): GetEventListenersReturn {
-    val parameter = GetEventListenersParameter(objectId = objectId,depth = depth,pierce = pierce)
+    val parameter = GetEventListenersParameter(objectId = objectId, depth = depth, pierce = pierce)
     return getEventListeners(parameter)
   }
 
@@ -69,7 +69,7 @@ public class DOMDebugger(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun removeDOMBreakpoint(nodeId: Int, type: DOMBreakpointType): Unit {
-    val parameter = RemoveDOMBreakpointParameter(nodeId = nodeId,type = type)
+    val parameter = RemoveDOMBreakpointParameter(nodeId = nodeId, type = type)
     removeDOMBreakpoint(parameter)
   }
 
@@ -91,7 +91,7 @@ public class DOMDebugger(
   @ExperimentalSerializationApi
   public suspend fun removeEventListenerBreakpoint(eventName: String, targetName: String? = null):
       Unit {
-    val parameter = RemoveEventListenerBreakpointParameter(eventName = eventName,targetName =
+    val parameter = RemoveEventListenerBreakpointParameter(eventName = eventName, targetName =
         targetName)
     removeEventListenerBreakpoint(parameter)
   }
@@ -173,7 +173,7 @@ public class DOMDebugger(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setDOMBreakpoint(nodeId: Int, type: DOMBreakpointType): Unit {
-    val parameter = SetDOMBreakpointParameter(nodeId = nodeId,type = type)
+    val parameter = SetDOMBreakpointParameter(nodeId = nodeId, type = type)
     setDOMBreakpoint(parameter)
   }
 
@@ -194,7 +194,7 @@ public class DOMDebugger(
   @ExperimentalSerializationApi
   public suspend fun setEventListenerBreakpoint(eventName: String, targetName: String? = null):
       Unit {
-    val parameter = SetEventListenerBreakpointParameter(eventName = eventName,targetName =
+    val parameter = SetEventListenerBreakpointParameter(eventName = eventName, targetName =
         targetName)
     setEventListenerBreakpoint(parameter)
   }

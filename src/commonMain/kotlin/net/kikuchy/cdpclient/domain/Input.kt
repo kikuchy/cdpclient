@@ -57,11 +57,11 @@ public class Input(
     location: Int? = null,
     commands: String? = null
   ): Unit {
-    val parameter = DispatchKeyEventParameter(type = type,modifiers = modifiers,timestamp =
-        timestamp,text = text,unmodifiedText = unmodifiedText,keyIdentifier = keyIdentifier,code =
-        code,key = key,windowsVirtualKeyCode = windowsVirtualKeyCode,nativeVirtualKeyCode =
-        nativeVirtualKeyCode,autoRepeat = autoRepeat,isKeypad = isKeypad,isSystemKey =
-        isSystemKey,location = location,commands = commands)
+    val parameter = DispatchKeyEventParameter(type = type, modifiers = modifiers, timestamp =
+        timestamp, text = text, unmodifiedText = unmodifiedText, keyIdentifier = keyIdentifier, code
+        = code, key = key, windowsVirtualKeyCode = windowsVirtualKeyCode, nativeVirtualKeyCode =
+        nativeVirtualKeyCode, autoRepeat = autoRepeat, isKeypad = isKeypad, isSystemKey =
+        isSystemKey, location = location, commands = commands)
     dispatchKeyEvent(parameter)
   }
 
@@ -120,10 +120,10 @@ public class Input(
     deltaY: Double? = null,
     pointerType: String? = null
   ): Unit {
-    val parameter = DispatchMouseEventParameter(type = type,x = x,y = y,modifiers =
-        modifiers,timestamp = timestamp,button = button,buttons = buttons,clickCount =
-        clickCount,force = force,tangentialPressure = tangentialPressure,tiltX = tiltX,tiltY =
-        tiltY,twist = twist,deltaX = deltaX,deltaY = deltaY,pointerType = pointerType)
+    val parameter = DispatchMouseEventParameter(type = type, x = x, y = y, modifiers = modifiers,
+        timestamp = timestamp, button = button, buttons = buttons, clickCount = clickCount, force =
+        force, tangentialPressure = tangentialPressure, tiltX = tiltX, tiltY = tiltY, twist = twist,
+        deltaX = deltaX, deltaY = deltaY, pointerType = pointerType)
     dispatchMouseEvent(parameter)
   }
 
@@ -148,8 +148,8 @@ public class Input(
     modifiers: Int? = null,
     timestamp: Double? = null
   ): Unit {
-    val parameter = DispatchTouchEventParameter(type = type,touchPoints = touchPoints,modifiers =
-        modifiers,timestamp = timestamp)
+    val parameter = DispatchTouchEventParameter(type = type, touchPoints = touchPoints, modifiers =
+        modifiers, timestamp = timestamp)
     dispatchTouchEvent(parameter)
   }
 
@@ -179,9 +179,9 @@ public class Input(
     modifiers: Int? = null,
     clickCount: Int? = null
   ): Unit {
-    val parameter = EmulateTouchFromMouseEventParameter(type = type,x = x,y = y,button =
-        button,timestamp = timestamp,deltaX = deltaX,deltaY = deltaY,modifiers =
-        modifiers,clickCount = clickCount)
+    val parameter = EmulateTouchFromMouseEventParameter(type = type, x = x, y = y, button = button,
+        timestamp = timestamp, deltaX = deltaX, deltaY = deltaY, modifiers = modifiers, clickCount =
+        clickCount)
     emulateTouchFromMouseEvent(parameter)
   }
 
@@ -227,8 +227,8 @@ public class Input(
     relativeSpeed: Int? = null,
     gestureSourceType: GestureSourceType? = null
   ): Unit {
-    val parameter = SynthesizePinchGestureParameter(x = x,y = y,scaleFactor =
-        scaleFactor,relativeSpeed = relativeSpeed,gestureSourceType = gestureSourceType)
+    val parameter = SynthesizePinchGestureParameter(x = x, y = y, scaleFactor = scaleFactor,
+        relativeSpeed = relativeSpeed, gestureSourceType = gestureSourceType)
     synthesizePinchGesture(parameter)
   }
 
@@ -261,10 +261,10 @@ public class Input(
     repeatDelayMs: Int? = null,
     interactionMarkerName: String? = null
   ): Unit {
-    val parameter = SynthesizeScrollGestureParameter(x = x,y = y,xDistance = xDistance,yDistance =
-        yDistance,xOverscroll = xOverscroll,yOverscroll = yOverscroll,preventFling =
-        preventFling,speed = speed,gestureSourceType = gestureSourceType,repeatCount =
-        repeatCount,repeatDelayMs = repeatDelayMs,interactionMarkerName = interactionMarkerName)
+    val parameter = SynthesizeScrollGestureParameter(x = x, y = y, xDistance = xDistance, yDistance
+        = yDistance, xOverscroll = xOverscroll, yOverscroll = yOverscroll, preventFling =
+        preventFling, speed = speed, gestureSourceType = gestureSourceType, repeatCount =
+        repeatCount, repeatDelayMs = repeatDelayMs, interactionMarkerName = interactionMarkerName)
     synthesizeScrollGesture(parameter)
   }
 
@@ -290,8 +290,8 @@ public class Input(
     tapCount: Int? = null,
     gestureSourceType: GestureSourceType? = null
   ): Unit {
-    val parameter = SynthesizeTapGestureParameter(x = x,y = y,duration = duration,tapCount =
-        tapCount,gestureSourceType = gestureSourceType)
+    val parameter = SynthesizeTapGestureParameter(x = x, y = y, duration = duration, tapCount =
+        tapCount, gestureSourceType = gestureSourceType)
     synthesizeTapGesture(parameter)
   }
 

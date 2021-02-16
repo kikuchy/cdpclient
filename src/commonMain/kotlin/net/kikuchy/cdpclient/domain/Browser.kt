@@ -48,8 +48,8 @@ public class Browser(
     origin: String? = null,
     browserContextId: String? = null
   ): Unit {
-    val parameter = SetPermissionParameter(permission = permission,setting = setting,origin =
-        origin,browserContextId = browserContextId)
+    val parameter = SetPermissionParameter(permission = permission, setting = setting, origin =
+        origin, browserContextId = browserContextId)
     setPermission(parameter)
   }
 
@@ -73,8 +73,8 @@ public class Browser(
     origin: String? = null,
     browserContextId: String? = null
   ): Unit {
-    val parameter = GrantPermissionsParameter(permissions = permissions,origin =
-        origin,browserContextId = browserContextId)
+    val parameter = GrantPermissionsParameter(permissions = permissions, origin = origin,
+        browserContextId = browserContextId)
     grantPermissions(parameter)
   }
 
@@ -118,8 +118,8 @@ public class Browser(
     browserContextId: String? = null,
     downloadPath: String? = null
   ): Unit {
-    val parameter = SetDownloadBehaviorParameter(behavior = behavior,browserContextId =
-        browserContextId,downloadPath = downloadPath)
+    val parameter = SetDownloadBehaviorParameter(behavior = behavior, browserContextId =
+        browserContextId, downloadPath = downloadPath)
     setDownloadBehavior(parameter)
   }
 
@@ -194,7 +194,7 @@ public class Browser(
   @ExperimentalSerializationApi
   public suspend fun getHistograms(query: String? = null, delta: Boolean? = null):
       GetHistogramsReturn {
-    val parameter = GetHistogramsParameter(query = query,delta = delta)
+    val parameter = GetHistogramsParameter(query = query, delta = delta)
     return getHistograms(parameter)
   }
 
@@ -215,7 +215,7 @@ public class Browser(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun getHistogram(name: String, delta: Boolean? = null): GetHistogramReturn {
-    val parameter = GetHistogramParameter(name = name,delta = delta)
+    val parameter = GetHistogramParameter(name = name, delta = delta)
     return getHistogram(parameter)
   }
 
@@ -278,7 +278,7 @@ public class Browser(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setWindowBounds(windowId: Int, bounds: Bounds): Unit {
-    val parameter = SetWindowBoundsParameter(windowId = windowId,bounds = bounds)
+    val parameter = SetWindowBoundsParameter(windowId = windowId, bounds = bounds)
     setWindowBounds(parameter)
   }
 
@@ -298,7 +298,7 @@ public class Browser(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setDockTile(badgeLabel: String? = null, image: String? = null): Unit {
-    val parameter = SetDockTileParameter(badgeLabel = badgeLabel,image = image)
+    val parameter = SetDockTileParameter(badgeLabel = badgeLabel, image = image)
     setDockTile(parameter)
   }
 

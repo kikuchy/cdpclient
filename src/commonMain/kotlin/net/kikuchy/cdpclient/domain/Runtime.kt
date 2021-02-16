@@ -175,8 +175,8 @@ public class Runtime(
     returnByValue: Boolean? = null,
     generatePreview: Boolean? = null
   ): AwaitPromiseReturn {
-    val parameter = AwaitPromiseParameter(promiseObjectId = promiseObjectId,returnByValue =
-        returnByValue,generatePreview = generatePreview)
+    val parameter = AwaitPromiseParameter(promiseObjectId = promiseObjectId, returnByValue =
+        returnByValue, generatePreview = generatePreview)
     return awaitPromise(parameter)
   }
 
@@ -210,10 +210,10 @@ public class Runtime(
     executionContextId: Int? = null,
     objectGroup: String? = null
   ): CallFunctionOnReturn {
-    val parameter = CallFunctionOnParameter(functionDeclaration = functionDeclaration,objectId =
-        objectId,arguments = arguments,silent = silent,returnByValue = returnByValue,generatePreview
-        = generatePreview,userGesture = userGesture,awaitPromise = awaitPromise,executionContextId =
-        executionContextId,objectGroup = objectGroup)
+    val parameter = CallFunctionOnParameter(functionDeclaration = functionDeclaration, objectId =
+        objectId, arguments = arguments, silent = silent, returnByValue = returnByValue,
+        generatePreview = generatePreview, userGesture = userGesture, awaitPromise = awaitPromise,
+        executionContextId = executionContextId, objectGroup = objectGroup)
     return callFunctionOn(parameter)
   }
 
@@ -239,8 +239,8 @@ public class Runtime(
     persistScript: Boolean,
     executionContextId: Int? = null
   ): CompileScriptReturn {
-    val parameter = CompileScriptParameter(expression = expression,sourceURL =
-        sourceURL,persistScript = persistScript,executionContextId = executionContextId)
+    val parameter = CompileScriptParameter(expression = expression, sourceURL = sourceURL,
+        persistScript = persistScript, executionContextId = executionContextId)
     return compileScript(parameter)
   }
 
@@ -308,11 +308,11 @@ public class Runtime(
     replMode: Boolean? = null,
     allowUnsafeEvalBlockedByCSP: Boolean? = null
   ): EvaluateReturn {
-    val parameter = EvaluateParameter(expression = expression,objectGroup =
-        objectGroup,includeCommandLineAPI = includeCommandLineAPI,silent = silent,contextId =
-        contextId,returnByValue = returnByValue,generatePreview = generatePreview,userGesture =
-        userGesture,awaitPromise = awaitPromise,throwOnSideEffect = throwOnSideEffect,timeout =
-        timeout,disableBreaks = disableBreaks,replMode = replMode,allowUnsafeEvalBlockedByCSP =
+    val parameter = EvaluateParameter(expression = expression, objectGroup = objectGroup,
+        includeCommandLineAPI = includeCommandLineAPI, silent = silent, contextId = contextId,
+        returnByValue = returnByValue, generatePreview = generatePreview, userGesture = userGesture,
+        awaitPromise = awaitPromise, throwOnSideEffect = throwOnSideEffect, timeout = timeout,
+        disableBreaks = disableBreaks, replMode = replMode, allowUnsafeEvalBlockedByCSP =
         allowUnsafeEvalBlockedByCSP)
     return evaluate(parameter)
   }
@@ -364,9 +364,8 @@ public class Runtime(
     accessorPropertiesOnly: Boolean? = null,
     generatePreview: Boolean? = null
   ): GetPropertiesReturn {
-    val parameter = GetPropertiesParameter(objectId = objectId,ownProperties =
-        ownProperties,accessorPropertiesOnly = accessorPropertiesOnly,generatePreview =
-        generatePreview)
+    val parameter = GetPropertiesParameter(objectId = objectId, ownProperties = ownProperties,
+        accessorPropertiesOnly = accessorPropertiesOnly, generatePreview = generatePreview)
     return getProperties(parameter)
   }
 
@@ -405,7 +404,7 @@ public class Runtime(
   @ExperimentalSerializationApi
   public suspend fun queryObjects(prototypeObjectId: String, objectGroup: String? = null):
       QueryObjectsReturn {
-    val parameter = QueryObjectsParameter(prototypeObjectId = prototypeObjectId,objectGroup =
+    val parameter = QueryObjectsParameter(prototypeObjectId = prototypeObjectId, objectGroup =
         objectGroup)
     return queryObjects(parameter)
   }
@@ -486,10 +485,10 @@ public class Runtime(
     generatePreview: Boolean? = null,
     awaitPromise: Boolean? = null
   ): RunScriptReturn {
-    val parameter = RunScriptParameter(scriptId = scriptId,executionContextId =
-        executionContextId,objectGroup = objectGroup,silent = silent,includeCommandLineAPI =
-        includeCommandLineAPI,returnByValue = returnByValue,generatePreview =
-        generatePreview,awaitPromise = awaitPromise)
+    val parameter = RunScriptParameter(scriptId = scriptId, executionContextId = executionContextId,
+        objectGroup = objectGroup, silent = silent, includeCommandLineAPI = includeCommandLineAPI,
+        returnByValue = returnByValue, generatePreview = generatePreview, awaitPromise =
+        awaitPromise)
     return runScript(parameter)
   }
 
@@ -584,7 +583,7 @@ public class Runtime(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun addBinding(name: String, executionContextId: Int? = null): Unit {
-    val parameter = AddBindingParameter(name = name,executionContextId = executionContextId)
+    val parameter = AddBindingParameter(name = name, executionContextId = executionContextId)
     addBinding(parameter)
   }
 

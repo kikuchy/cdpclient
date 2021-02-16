@@ -108,7 +108,7 @@ public class WebAuthn(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun addCredential(authenticatorId: String, credential: Credential): Unit {
-    val parameter = AddCredentialParameter(authenticatorId = authenticatorId,credential =
+    val parameter = AddCredentialParameter(authenticatorId = authenticatorId, credential =
         credential)
     addCredential(parameter)
   }
@@ -133,7 +133,7 @@ public class WebAuthn(
   @ExperimentalSerializationApi
   public suspend fun getCredential(authenticatorId: String, credentialId: String):
       GetCredentialReturn {
-    val parameter = GetCredentialParameter(authenticatorId = authenticatorId,credentialId =
+    val parameter = GetCredentialParameter(authenticatorId = authenticatorId, credentialId =
         credentialId)
     return getCredential(parameter)
   }
@@ -175,7 +175,7 @@ public class WebAuthn(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun removeCredential(authenticatorId: String, credentialId: String): Unit {
-    val parameter = RemoveCredentialParameter(authenticatorId = authenticatorId,credentialId =
+    val parameter = RemoveCredentialParameter(authenticatorId = authenticatorId, credentialId =
         credentialId)
     removeCredential(parameter)
   }
@@ -218,7 +218,7 @@ public class WebAuthn(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setUserVerified(authenticatorId: String, isUserVerified: Boolean): Unit {
-    val parameter = SetUserVerifiedParameter(authenticatorId = authenticatorId,isUserVerified =
+    val parameter = SetUserVerifiedParameter(authenticatorId = authenticatorId, isUserVerified =
         isUserVerified)
     setUserVerified(parameter)
   }
@@ -245,8 +245,8 @@ public class WebAuthn(
   @ExperimentalSerializationApi
   public suspend fun setAutomaticPresenceSimulation(authenticatorId: String, enabled: Boolean):
       Unit {
-    val parameter = SetAutomaticPresenceSimulationParameter(authenticatorId =
-        authenticatorId,enabled = enabled)
+    val parameter = SetAutomaticPresenceSimulationParameter(authenticatorId = authenticatorId,
+        enabled = enabled)
     setAutomaticPresenceSimulation(parameter)
   }
 

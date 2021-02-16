@@ -114,7 +114,7 @@ public class BackgroundService(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setRecording(shouldRecord: Boolean, service: ServiceName): Unit {
-    val parameter = SetRecordingParameter(shouldRecord = shouldRecord,service = service)
+    val parameter = SetRecordingParameter(shouldRecord = shouldRecord, service = service)
     setRecording(parameter)
   }
 

@@ -71,15 +71,16 @@ public class DOMSnapshot(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun getSnapshot(
     computedStyleWhitelist: String,
     includeEventListeners: Boolean? = null,
     includePaintOrder: Boolean? = null,
     includeUserAgentShadowTree: Boolean? = null
   ): GetSnapshotReturn {
-    val parameter = GetSnapshotParameter(computedStyleWhitelist =
-        computedStyleWhitelist,includeEventListeners = includeEventListeners,includePaintOrder =
-        includePaintOrder,includeUserAgentShadowTree = includeUserAgentShadowTree)
+    val parameter = GetSnapshotParameter(computedStyleWhitelist = computedStyleWhitelist,
+        includeEventListeners = includeEventListeners, includePaintOrder = includePaintOrder,
+        includeUserAgentShadowTree = includeUserAgentShadowTree)
     return getSnapshot(parameter)
   }
 
@@ -110,8 +111,8 @@ public class DOMSnapshot(
     includePaintOrder: Boolean? = null,
     includeDOMRects: Boolean? = null
   ): CaptureSnapshotReturn {
-    val parameter = CaptureSnapshotParameter(computedStyles = computedStyles,includePaintOrder =
-        includePaintOrder,includeDOMRects = includeDOMRects)
+    val parameter = CaptureSnapshotParameter(computedStyles = computedStyles, includePaintOrder =
+        includePaintOrder, includeDOMRects = includeDOMRects)
     return captureSnapshot(parameter)
   }
 

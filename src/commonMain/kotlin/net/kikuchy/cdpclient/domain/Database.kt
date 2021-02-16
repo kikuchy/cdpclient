@@ -69,7 +69,7 @@ public class Database(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun executeSQL(databaseId: String, query: String): ExecuteSQLReturn {
-    val parameter = ExecuteSQLParameter(databaseId = databaseId,query = query)
+    val parameter = ExecuteSQLParameter(databaseId = databaseId, query = query)
     return executeSQL(parameter)
   }
 

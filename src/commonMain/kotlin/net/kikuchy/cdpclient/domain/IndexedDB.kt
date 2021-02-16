@@ -44,8 +44,8 @@ public class IndexedDB(
     databaseName: String,
     objectStoreName: String
   ): Unit {
-    val parameter = ClearObjectStoreParameter(securityOrigin = securityOrigin,databaseName =
-        databaseName,objectStoreName = objectStoreName)
+    val parameter = ClearObjectStoreParameter(securityOrigin = securityOrigin, databaseName =
+        databaseName, objectStoreName = objectStoreName)
     clearObjectStore(parameter)
   }
 
@@ -65,7 +65,7 @@ public class IndexedDB(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun deleteDatabase(securityOrigin: String, databaseName: String): Unit {
-    val parameter = DeleteDatabaseParameter(securityOrigin = securityOrigin,databaseName =
+    val parameter = DeleteDatabaseParameter(securityOrigin = securityOrigin, databaseName =
         databaseName)
     deleteDatabase(parameter)
   }
@@ -91,8 +91,8 @@ public class IndexedDB(
     objectStoreName: String,
     keyRange: KeyRange
   ): Unit {
-    val parameter = DeleteObjectStoreEntriesParameter(securityOrigin = securityOrigin,databaseName =
-        databaseName,objectStoreName = objectStoreName,keyRange = keyRange)
+    val parameter = DeleteObjectStoreEntriesParameter(securityOrigin = securityOrigin, databaseName
+        = databaseName, objectStoreName = objectStoreName, keyRange = keyRange)
     deleteObjectStoreEntries(parameter)
   }
 
@@ -141,9 +141,9 @@ public class IndexedDB(
     pageSize: Int,
     keyRange: KeyRange? = null
   ): RequestDataReturn {
-    val parameter = RequestDataParameter(securityOrigin = securityOrigin,databaseName =
-        databaseName,objectStoreName = objectStoreName,indexName = indexName,skipCount =
-        skipCount,pageSize = pageSize,keyRange = keyRange)
+    val parameter = RequestDataParameter(securityOrigin = securityOrigin, databaseName =
+        databaseName, objectStoreName = objectStoreName, indexName = indexName, skipCount =
+        skipCount, pageSize = pageSize, keyRange = keyRange)
     return requestData(parameter)
   }
 
@@ -168,8 +168,8 @@ public class IndexedDB(
     databaseName: String,
     objectStoreName: String
   ): GetMetadataReturn {
-    val parameter = GetMetadataParameter(securityOrigin = securityOrigin,databaseName =
-        databaseName,objectStoreName = objectStoreName)
+    val parameter = GetMetadataParameter(securityOrigin = securityOrigin, databaseName =
+        databaseName, objectStoreName = objectStoreName)
     return getMetadata(parameter)
   }
 
@@ -191,7 +191,7 @@ public class IndexedDB(
   @ExperimentalSerializationApi
   public suspend fun requestDatabase(securityOrigin: String, databaseName: String):
       RequestDatabaseReturn {
-    val parameter = RequestDatabaseParameter(securityOrigin = securityOrigin,databaseName =
+    val parameter = RequestDatabaseParameter(securityOrigin = securityOrigin, databaseName =
         databaseName)
     return requestDatabase(parameter)
   }

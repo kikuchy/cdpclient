@@ -66,7 +66,7 @@ public class IO(
     offset: Int? = null,
     size: Int? = null
   ): ReadReturn {
-    val parameter = ReadParameter(handle = handle,offset = offset,size = size)
+    val parameter = ReadParameter(handle = handle, offset = offset, size = size)
     return read(parameter)
   }
 

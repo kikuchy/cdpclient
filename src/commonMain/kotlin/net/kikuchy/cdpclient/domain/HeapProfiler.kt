@@ -173,7 +173,7 @@ public class HeapProfiler(
   @ExperimentalSerializationApi
   public suspend fun getObjectByHeapObjectId(objectId: String, objectGroup: String? = null):
       GetObjectByHeapObjectIdReturn {
-    val parameter = GetObjectByHeapObjectIdParameter(objectId = objectId,objectGroup = objectGroup)
+    val parameter = GetObjectByHeapObjectIdParameter(objectId = objectId, objectGroup = objectGroup)
     return getObjectByHeapObjectId(parameter)
   }
 
@@ -232,8 +232,8 @@ public class HeapProfiler(
   @ExperimentalSerializationApi
   public suspend fun stopTrackingHeapObjects(reportProgress: Boolean? = null,
       treatGlobalObjectsAsRoots: Boolean? = null): Unit {
-    val parameter = StopTrackingHeapObjectsParameter(reportProgress =
-        reportProgress,treatGlobalObjectsAsRoots = treatGlobalObjectsAsRoots)
+    val parameter = StopTrackingHeapObjectsParameter(reportProgress = reportProgress,
+        treatGlobalObjectsAsRoots = treatGlobalObjectsAsRoots)
     stopTrackingHeapObjects(parameter)
   }
 
@@ -248,8 +248,8 @@ public class HeapProfiler(
   @ExperimentalSerializationApi
   public suspend fun takeHeapSnapshot(reportProgress: Boolean? = null,
       treatGlobalObjectsAsRoots: Boolean? = null): Unit {
-    val parameter = TakeHeapSnapshotParameter(reportProgress =
-        reportProgress,treatGlobalObjectsAsRoots = treatGlobalObjectsAsRoots)
+    val parameter = TakeHeapSnapshotParameter(reportProgress = reportProgress,
+        treatGlobalObjectsAsRoots = treatGlobalObjectsAsRoots)
     takeHeapSnapshot(parameter)
   }
 

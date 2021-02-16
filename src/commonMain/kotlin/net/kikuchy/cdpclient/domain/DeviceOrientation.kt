@@ -51,7 +51,7 @@ public class DeviceOrientation(
     beta: Double,
     gamma: Double
   ): Unit {
-    val parameter = SetDeviceOrientationOverrideParameter(alpha = alpha,beta = beta,gamma = gamma)
+    val parameter = SetDeviceOrientationOverrideParameter(alpha = alpha, beta = beta, gamma = gamma)
     setDeviceOrientationOverride(parameter)
   }
 

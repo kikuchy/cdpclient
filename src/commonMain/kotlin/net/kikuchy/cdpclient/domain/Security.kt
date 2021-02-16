@@ -131,8 +131,9 @@ public class Security(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun handleCertificateError(eventId: Int, action: CertificateErrorAction): Unit {
-    val parameter = HandleCertificateErrorParameter(eventId = eventId,action = action)
+    val parameter = HandleCertificateErrorParameter(eventId = eventId, action = action)
     handleCertificateError(parameter)
   }
 
@@ -157,6 +158,7 @@ public class Security(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun setOverrideCertificateErrors(`override`: Boolean): Unit {
     val parameter = SetOverrideCertificateErrorsParameter(override = override)
     setOverrideCertificateErrors(parameter)

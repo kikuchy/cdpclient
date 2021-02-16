@@ -125,7 +125,7 @@ public class Debugger(
   @ExperimentalSerializationApi
   public suspend fun continueToLocation(location: Location, targetCallFrames: String? = null):
       Unit {
-    val parameter = ContinueToLocationParameter(location = location,targetCallFrames =
+    val parameter = ContinueToLocationParameter(location = location, targetCallFrames =
         targetCallFrames)
     continueToLocation(parameter)
   }
@@ -191,10 +191,10 @@ public class Debugger(
     throwOnSideEffect: Boolean? = null,
     timeout: Double? = null
   ): EvaluateOnCallFrameReturn {
-    val parameter = EvaluateOnCallFrameParameter(callFrameId = callFrameId,expression =
-        expression,objectGroup = objectGroup,includeCommandLineAPI = includeCommandLineAPI,silent =
-        silent,returnByValue = returnByValue,generatePreview = generatePreview,throwOnSideEffect =
-        throwOnSideEffect,timeout = timeout)
+    val parameter = EvaluateOnCallFrameParameter(callFrameId = callFrameId, expression = expression,
+        objectGroup = objectGroup, includeCommandLineAPI = includeCommandLineAPI, silent = silent,
+        returnByValue = returnByValue, generatePreview = generatePreview, throwOnSideEffect =
+        throwOnSideEffect, timeout = timeout)
     return evaluateOnCallFrame(parameter)
   }
 
@@ -220,8 +220,8 @@ public class Debugger(
     evaluator: String,
     timeout: Double? = null
   ): ExecuteWasmEvaluatorReturn {
-    val parameter = ExecuteWasmEvaluatorParameter(callFrameId = callFrameId,evaluator =
-        evaluator,timeout = timeout)
+    val parameter = ExecuteWasmEvaluatorParameter(callFrameId = callFrameId, evaluator = evaluator,
+        timeout = timeout)
     return executeWasmEvaluator(parameter)
   }
 
@@ -249,7 +249,7 @@ public class Debugger(
     end: Location? = null,
     restrictToFunction: Boolean? = null
   ): GetPossibleBreakpointsReturn {
-    val parameter = GetPossibleBreakpointsParameter(start = start,end = end,restrictToFunction =
+    val parameter = GetPossibleBreakpointsParameter(start = start, end = end, restrictToFunction =
         restrictToFunction)
     return getPossibleBreakpoints(parameter)
   }
@@ -292,6 +292,7 @@ public class Debugger(
    */
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun getWasmBytecode(scriptId: String): GetWasmBytecodeReturn {
     val parameter = GetWasmBytecodeParameter(scriptId = scriptId)
     return getWasmBytecode(parameter)
@@ -338,6 +339,7 @@ public class Debugger(
 
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
+  @Deprecated(message = "")
   public suspend fun pauseOnAsyncCall(parentStackTraceId: Runtime.StackTraceId): Unit {
     val parameter = PauseOnAsyncCallParameter(parentStackTraceId = parentStackTraceId)
     pauseOnAsyncCall(parameter)
@@ -426,8 +428,8 @@ public class Debugger(
     caseSensitive: Boolean? = null,
     isRegex: Boolean? = null
   ): SearchInContentReturn {
-    val parameter = SearchInContentParameter(scriptId = scriptId,query = query,caseSensitive =
-        caseSensitive,isRegex = isRegex)
+    val parameter = SearchInContentParameter(scriptId = scriptId, query = query, caseSensitive =
+        caseSensitive, isRegex = isRegex)
     return searchInContent(parameter)
   }
 
@@ -497,7 +499,7 @@ public class Debugger(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun setBlackboxedRanges(scriptId: String, positions: List<ScriptPosition>): Unit {
-    val parameter = SetBlackboxedRangesParameter(scriptId = scriptId,positions = positions)
+    val parameter = SetBlackboxedRangesParameter(scriptId = scriptId, positions = positions)
     setBlackboxedRanges(parameter)
   }
 
@@ -519,7 +521,7 @@ public class Debugger(
   @ExperimentalSerializationApi
   public suspend fun setBreakpoint(location: Location, condition: String? = null):
       SetBreakpointReturn {
-    val parameter = SetBreakpointParameter(location = location,condition = condition)
+    val parameter = SetBreakpointParameter(location = location, condition = condition)
     return setBreakpoint(parameter)
   }
 
@@ -577,8 +579,8 @@ public class Debugger(
     columnNumber: Int? = null,
     condition: String? = null
   ): SetBreakpointByUrlReturn {
-    val parameter = SetBreakpointByUrlParameter(lineNumber = lineNumber,url = url,urlRegex =
-        urlRegex,scriptHash = scriptHash,columnNumber = columnNumber,condition = condition)
+    val parameter = SetBreakpointByUrlParameter(lineNumber = lineNumber, url = url, urlRegex =
+        urlRegex, scriptHash = scriptHash, columnNumber = columnNumber, condition = condition)
     return setBreakpointByUrl(parameter)
   }
 
@@ -605,7 +607,7 @@ public class Debugger(
   @ExperimentalSerializationApi
   public suspend fun setBreakpointOnFunctionCall(objectId: String, condition: String? = null):
       SetBreakpointOnFunctionCallReturn {
-    val parameter = SetBreakpointOnFunctionCallParameter(objectId = objectId,condition = condition)
+    val parameter = SetBreakpointOnFunctionCallParameter(objectId = objectId, condition = condition)
     return setBreakpointOnFunctionCall(parameter)
   }
 
@@ -692,8 +694,8 @@ public class Debugger(
     scriptSource: String,
     dryRun: Boolean? = null
   ): SetScriptSourceReturn {
-    val parameter = SetScriptSourceParameter(scriptId = scriptId,scriptSource = scriptSource,dryRun
-        = dryRun)
+    val parameter = SetScriptSourceParameter(scriptId = scriptId, scriptSource = scriptSource,
+        dryRun = dryRun)
     return setScriptSource(parameter)
   }
 
@@ -740,8 +742,8 @@ public class Debugger(
     newValue: Runtime.CallArgument,
     callFrameId: String
   ): Unit {
-    val parameter = SetVariableValueParameter(scopeNumber = scopeNumber,variableName =
-        variableName,newValue = newValue,callFrameId = callFrameId)
+    val parameter = SetVariableValueParameter(scopeNumber = scopeNumber, variableName =
+        variableName, newValue = newValue, callFrameId = callFrameId)
     setVariableValue(parameter)
   }
 
@@ -762,7 +764,7 @@ public class Debugger(
   @ExperimentalSerializationApi
   public suspend fun stepInto(breakOnAsyncCall: Boolean? = null, skipList: List<LocationRange>? =
       null): Unit {
-    val parameter = StepIntoParameter(breakOnAsyncCall = breakOnAsyncCall,skipList = skipList)
+    val parameter = StepIntoParameter(breakOnAsyncCall = breakOnAsyncCall, skipList = skipList)
     stepInto(parameter)
   }
 

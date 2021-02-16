@@ -85,8 +85,8 @@ public class ServiceWorker(
     registrationId: String,
     `data`: String
   ): Unit {
-    val parameter = DeliverPushMessageParameter(origin = origin,registrationId = registrationId,data
-        = data)
+    val parameter = DeliverPushMessageParameter(origin = origin, registrationId = registrationId,
+        data = data)
     deliverPushMessage(parameter)
   }
 
@@ -112,8 +112,8 @@ public class ServiceWorker(
     tag: String,
     lastChance: Boolean
   ): Unit {
-    val parameter = DispatchSyncEventParameter(origin = origin,registrationId = registrationId,tag =
-        tag,lastChance = lastChance)
+    val parameter = DispatchSyncEventParameter(origin = origin, registrationId = registrationId, tag
+        = tag, lastChance = lastChance)
     dispatchSyncEvent(parameter)
   }
 
@@ -131,8 +131,8 @@ public class ServiceWorker(
     registrationId: String,
     tag: String
   ): Unit {
-    val parameter = DispatchPeriodicSyncEventParameter(origin = origin,registrationId =
-        registrationId,tag = tag)
+    val parameter = DispatchPeriodicSyncEventParameter(origin = origin, registrationId =
+        registrationId, tag = tag)
     dispatchPeriodicSyncEvent(parameter)
   }
 

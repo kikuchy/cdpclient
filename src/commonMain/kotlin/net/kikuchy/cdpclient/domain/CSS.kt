@@ -132,7 +132,7 @@ public class CSS(
     ruleText: String,
     location: SourceRange
   ): AddRuleReturn {
-    val parameter = AddRuleParameter(styleSheetId = styleSheetId,ruleText = ruleText,location =
+    val parameter = AddRuleParameter(styleSheetId = styleSheetId, ruleText = ruleText, location =
         location)
     return addRule(parameter)
   }
@@ -220,7 +220,7 @@ public class CSS(
   @ExperimentalCoroutinesApi
   @ExperimentalSerializationApi
   public suspend fun forcePseudoState(nodeId: Int, forcedPseudoClasses: String): Unit {
-    val parameter = ForcePseudoStateParameter(nodeId = nodeId,forcedPseudoClasses =
+    val parameter = ForcePseudoStateParameter(nodeId = nodeId, forcedPseudoClasses =
         forcedPseudoClasses)
     forcePseudoState(parameter)
   }
@@ -432,8 +432,8 @@ public class CSS(
     propertyName: String,
     value: String
   ): Unit {
-    val parameter = SetEffectivePropertyValueForNodeParameter(nodeId = nodeId,propertyName =
-        propertyName,value = value)
+    val parameter = SetEffectivePropertyValueForNodeParameter(nodeId = nodeId, propertyName =
+        propertyName, value = value)
     setEffectivePropertyValueForNode(parameter)
   }
 
@@ -458,7 +458,7 @@ public class CSS(
     range: SourceRange,
     keyText: String
   ): SetKeyframeKeyReturn {
-    val parameter = SetKeyframeKeyParameter(styleSheetId = styleSheetId,range = range,keyText =
+    val parameter = SetKeyframeKeyParameter(styleSheetId = styleSheetId, range = range, keyText =
         keyText)
     return setKeyframeKey(parameter)
   }
@@ -484,7 +484,7 @@ public class CSS(
     range: SourceRange,
     text: String
   ): SetMediaTextReturn {
-    val parameter = SetMediaTextParameter(styleSheetId = styleSheetId,range = range,text = text)
+    val parameter = SetMediaTextParameter(styleSheetId = styleSheetId, range = range, text = text)
     return setMediaText(parameter)
   }
 
@@ -509,7 +509,7 @@ public class CSS(
     range: SourceRange,
     selector: String
   ): SetRuleSelectorReturn {
-    val parameter = SetRuleSelectorParameter(styleSheetId = styleSheetId,range = range,selector =
+    val parameter = SetRuleSelectorParameter(styleSheetId = styleSheetId, range = range, selector =
         selector)
     return setRuleSelector(parameter)
   }
@@ -532,7 +532,7 @@ public class CSS(
   @ExperimentalSerializationApi
   public suspend fun setStyleSheetText(styleSheetId: String, text: String):
       SetStyleSheetTextReturn {
-    val parameter = SetStyleSheetTextParameter(styleSheetId = styleSheetId,text = text)
+    val parameter = SetStyleSheetTextParameter(styleSheetId = styleSheetId, text = text)
     return setStyleSheetText(parameter)
   }
 
