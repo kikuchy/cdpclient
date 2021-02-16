@@ -1,9 +1,7 @@
 plugins {
-    kotlin("multiplatform") version "1.4.30"
-    kotlin("plugin.serialization") version "1.4.10"
+    kotlin("multiplatform")
+    application
 }
-
-apply(from = "script/generate.gradle.kts")
 
 group = "net.kikuchy"
 version = "1.0-SNAPSHOT"
@@ -15,7 +13,14 @@ repositories {
 }
 
 kotlin {
+    /* Targets configuration omitted. 
+    *  To find out how to configure the targets, please follow the link:
+    *  https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets */
     jvm {
+        withJava()
+        application {
+            mainClassName = "net.kikuchy.MainKt"
+        }
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
@@ -25,12 +30,7 @@ kotlin {
     }
     js(IR) {
         nodejs {
-            testTask {
-                useKarma {
-                    useChromeHeadless()
-                    webpackConfig.cssSupport.enabled = true
-                }
-            }
+            binaries.executable()
         }
     }
     val hostOs = System.getProperty("os.name")
@@ -40,16 +40,17 @@ kotlin {
         hostOs == "Linux" -> linuxX64("native")
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+    }.apply {
+        binaries {
+            executable()
+        }
     }
 
-    
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-websockets:$ktor_version")
+                implementation(kotlin("stdlib-common"))
+                implementation(parent!!)
             }
         }
         val commonTest by getting {
@@ -58,28 +59,25 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val jvmMain by getting {
-            dependencies {
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-            }
-        }
         val jsMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-client-js:$ktor_version")
             }
         }
-        val jsTest by getting {
+        val jvmMain by getting {
             dependencies {
-                implementation(kotlin("test-js"))
+                implementation("io.ktor:ktor-client-okhttp:$ktor_version")
             }
         }
         val nativeMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2-native-mt") {
+                    version {
+                        strictly("1.4.2-native-mt")
+                    }
+                }
+                implementation("io.ktor:ktor-client-curl:$ktor_version")
             }
         }
-        val nativeTest by getting
     }
 }
