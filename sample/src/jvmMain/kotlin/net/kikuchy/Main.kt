@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import net.kikuchy.cdpclient.CDPClient
+import net.kikuchy.cdpclient.domain.Page
+import net.kikuchy.cdpclient.domain.page
 import net.kikuchy.cdpclient.domain.target
 
 
@@ -17,8 +19,8 @@ fun main() {
     runBlocking {
         CDPClient.use("localhost", 9222, "devtools/browser/59119c99-872c-458c-aa2d-91cf1f797f82") {
             val job = async {
-                this@use.target.targetCreated.collect {
-                    println(it)
+                this@use.target.targetCreated.collect { (targetInfo) ->
+                    println(targetInfo)
                 }
             }
             target.setDiscoverTargets(true)

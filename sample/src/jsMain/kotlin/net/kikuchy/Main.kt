@@ -2,15 +2,24 @@ package net.kikuchy
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
 import net.kikuchy.cdpclient.CDPClient
 import net.kikuchy.cdpclient.domain.target
 
+@ExperimentalSerializationApi
 @ExperimentalCoroutinesApi
 fun main() {
     GlobalScope.launch {
         CDPClient.use("localhost", 9222, "devtools/browser/59119c99-872c-458c-aa2d-91cf1f797f82") {
+            val job = async {
+                this@use.target.targetCreated.collect { (targetInfo) ->
+                    println(targetInfo)
+                }
+            }
+            target.setDiscoverTargets(true)
             val (targetID) = target.createTarget("http://example.com", width = 800, height = 800)
             println(targetID)
             val (targetID2) = target.createTarget("https://www.google.com")
@@ -20,6 +29,7 @@ fun main() {
             target.targetCreated.collect { (targetInfo) ->
                 println(targetInfo)
             }
+            job.cancel()
         }
     }
 }

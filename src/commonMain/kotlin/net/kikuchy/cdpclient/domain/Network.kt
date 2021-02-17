@@ -861,11 +861,15 @@ public class Network(
     httpOnly: Boolean? = null,
     sameSite: CookieSameSite? = null,
     expires: Double? = null,
-    priority: CookiePriority? = null
+    priority: CookiePriority? = null,
+    sameParty: Boolean? = null,
+    sourceScheme: CookieSourceScheme? = null,
+    sourcePort: Int? = null
   ): SetCookieReturn {
     val parameter = SetCookieParameter(name = name, value = value, url = url, domain = domain, path
         = path, secure = secure, httpOnly = httpOnly, sameSite = sameSite, expires = expires,
-        priority = priority)
+        priority = priority, sameParty = sameParty, sourceScheme = sourceScheme, sourcePort =
+        sourcePort)
     return setCookie(parameter)
   }
 
@@ -1176,6 +1180,21 @@ public class Network(
     MEDIUM,
     @SerialName("High")
     HIGH,
+  }
+
+  /**
+   * Represents the source scheme of the origin that originally set the cookie.
+   * A value of "Unset" allows protocol clients to emulate legacy cookie scope for the scheme.
+   * This is a temporary ability and it will be removed in the future.
+   */
+  @Serializable
+  public enum class CookieSourceScheme {
+    @SerialName("Unset")
+    UNSET,
+    @SerialName("NonSecure")
+    NONSECURE,
+    @SerialName("Secure")
+    SECURE,
   }
 
   /**
@@ -1864,7 +1883,18 @@ public class Network(
     /**
      * True if cookie is SameParty.
      */
-    public val sameParty: Boolean
+    public val sameParty: Boolean,
+    /**
+     * Cookie source scheme type.
+     */
+    public val sourceScheme: CookieSourceScheme,
+    /**
+     * Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.
+     * An unspecified port value allows protocol clients to emulate legacy cookie scope for the
+     * port.
+     * This is a temporary ability and it will be removed in the future.
+     */
+    public val sourcePort: Int
   )
 
   /**
@@ -1993,7 +2023,7 @@ public class Network(
     public val value: String,
     /**
      * The request-URI to associate with the setting of the cookie. This value can affect the
-     * default domain and path values of the created cookie.
+     * default domain, path, source port, and source scheme values of the created cookie.
      */
     public val url: String? = null,
     /**
@@ -2023,7 +2053,22 @@ public class Network(
     /**
      * Cookie Priority.
      */
-    public val priority: CookiePriority? = null
+    public val priority: CookiePriority? = null,
+    /**
+     * True if cookie is SameParty.
+     */
+    public val sameParty: Boolean? = null,
+    /**
+     * Cookie source scheme type.
+     */
+    public val sourceScheme: CookieSourceScheme? = null,
+    /**
+     * Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.
+     * An unspecified port value allows protocol clients to emulate legacy cookie scope for the
+     * port.
+     * This is a temporary ability and it will be removed in the future.
+     */
+    public val sourcePort: Int? = null
   )
 
   /**
@@ -3197,7 +3242,7 @@ public class Network(
     public val value: String,
     /**
      * The request-URI to associate with the setting of the cookie. This value can affect the
-     * default domain and path values of the created cookie.
+     * default domain, path, source port, and source scheme values of the created cookie.
      */
     public val url: String? = null,
     /**
@@ -3227,7 +3272,22 @@ public class Network(
     /**
      * Cookie Priority type.
      */
-    public val priority: CookiePriority? = null
+    public val priority: CookiePriority? = null,
+    /**
+     * True if cookie is SameParty.
+     */
+    public val sameParty: Boolean? = null,
+    /**
+     * Cookie source scheme type.
+     */
+    public val sourceScheme: CookieSourceScheme? = null,
+    /**
+     * Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.
+     * An unspecified port value allows protocol clients to emulate legacy cookie scope for the
+     * port.
+     * This is a temporary ability and it will be removed in the future.
+     */
+    public val sourcePort: Int? = null
   )
 
   @Serializable

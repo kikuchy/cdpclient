@@ -20,7 +20,7 @@ import kotlin.reflect.KClass
 /**
  * Thin wrapper of Chrome DevTools Protocol.
  */
-class CDPClient(private val wsSession: ClientWebSocketSession, externalCoroutineScope: CoroutineScope = GlobalScope) {
+class CDPClient(private val wsSession: ClientWebSocketSession, messageListeningScope: CoroutineScope = GlobalScope) {
     companion object {
         /**
          * Open [block] with [CDPClient].
@@ -33,7 +33,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession, externalCoroutine
             host: String,
             port: Int,
             path: String,
-            externalCoroutineScope: CoroutineScope = GlobalScope,
+            messageListeningScope: CoroutineScope = GlobalScope,
             block: suspend CDPClient.() -> Unit,
         ) {
             HttpClient {
@@ -46,7 +46,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession, externalCoroutine
                     this.path(path)
                 }
             }) {
-                val client = CDPClient(this, externalCoroutineScope)
+                val client = CDPClient(this, messageListeningScope)
                 client.block()
                 client.close()
             }
@@ -55,7 +55,7 @@ class CDPClient(private val wsSession: ClientWebSocketSession, externalCoroutine
 
     @ExperimentalCoroutinesApi
     @ExperimentalSerializationApi
-    private val socketSubscription: Job = externalCoroutineScope.launch {
+    private val socketSubscription: Job = messageListeningScope.launch {
         for (frame in wsSession.incoming) {
             val received: Message = when (frame) {
                 is Frame.Text -> Json.decodeFromString(frame.readText())
@@ -100,70 +100,14 @@ class CDPClient(private val wsSession: ClientWebSocketSession, externalCoroutine
         return result.result
     }
 
+    /**
+     * End the session between the browser.
+     *
+     * It' wont close WebSocket session. Please close that manually.
+     */
     @ExperimentalCoroutinesApi
     @ExperimentalSerializationApi
     fun close() {
         socketSubscription.cancel()
     }
-
-    @Serializable
-    private class Request(val id: Int, val method: String, val params: JsonElement?)
-
-    @ExperimentalSerializationApi
-    @Serializable(with = MessageSerializer::class)
-    sealed class Message {
-        @Serializable
-        class Response(
-            val id: Int,
-            val result: JsonElement? = null,
-            val error: ResponseError? = null,
-        ) : Message()
-
-        @Serializable
-        class Event(
-            val method: String,
-            val params: JsonElement?
-        ) : Message()
-    }
-
-    @ExperimentalSerializationApi
-    @Serializer(forClass = Message::class)
-    private object MessageSerializer : KSerializer<Message> {
-        override fun deserialize(decoder: Decoder): Message {
-            require(decoder is JsonDecoder)
-            val element = decoder.decodeJsonElement()
-            require(element is JsonObject)
-            return if (element.containsKey("id")) {
-                val r: Message.Response = Json.decodeFromJsonElement(element)
-                r
-            } else {
-                val e: Message.Event = Json.decodeFromJsonElement(element)
-                e
-            }
-        }
-
-        override val descriptor: SerialDescriptor
-            get() = TODO("Not yet implemented")
-
-        override fun serialize(encoder: Encoder, value: Message) {
-            TODO("Not yet implemented")
-        }
-    }
-
-    @Serializable
-    class ResponseError(
-        val code: Int,
-        val message: String,
-        val data: String?
-    ) {
-        fun throwAsException() {
-            throw CDPErrorException(code, message, data)
-        }
-    }
-
-    class CDPErrorException(
-        val code: Int,
-        val originalMessage: String,
-        val data: String?
-    ) : Exception("Error while calling a command: $originalMessage${data?.let { "($it)" } ?: ""} (code: $code)")
 }

@@ -12,10 +12,11 @@ fun main() {
     runBlocking {
         CDPClient.use("localhost", 9222, "devtools/browser/59119c99-872c-458c-aa2d-91cf1f797f82") {
             val job = async {
-                this@use.target.targetCreated.collect {
-                    println(it)
+                this@use.target.targetCreated.collect { (targetInfo) ->
+                    println(targetInfo)
                 }
             }
+            target.setDiscoverTargets(true)
             val (targetID) = target.createTarget("http://example.com", width = 800, height = 800)
             println(targetID)
             val (targetID2) = target.createTarget("https://www.google.com")
